@@ -170,7 +170,8 @@ Permission to send limited marketing information about future rideouts.
 ### Username password and roles
 <pre>Users must have unique usernames and passwords.
 Login determines which roles the user is assigned. 
-User roles should be included in the Session object for use by pages and ReST interface to determine valid requests</pre>
+User roles should be included in the Session object for use by pages and ReST interface 
+to determine valid requests</pre>
 
 #### password md5 hash and salt
 <pre>Passwords must be saved encrypted using a MD5 hash and Salt in the database</pre>
