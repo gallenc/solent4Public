@@ -5,7 +5,7 @@ This repository mostly contains example work and ongoing development in support 
 COM400 software systems development.
 
 # Maven
-To build any of these projects you will need maven installed
+To build any of these projects you will need [Apache maven](https://maven.apache.org/) installed.
 
 University PCs do not have maven by default so a work around is to run the script as described in 
 [maven-setup](../master/maven-setup)
