@@ -14,12 +14,20 @@
     <name>MotorCycleRidePlanner-dao-jpa</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8    </project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
     <dependencies>
 
@@ -31,12 +39,53 @@
         </dependency>
 
         <!-- Eclipselink JPA implementation -->
+        <!-- <dependency> -->
+        <!-- <groupId>org.eclipse.persistence</groupId> -->
+        <!-- <artifactId>eclipselink</artifactId> -->
+        <!-- <version>2.7.4</version> -->
+        <!-- </dependency> -->
+
+        <!-- This allows slf4j logging and you need to set the following persistence property -->
+        <!-- <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.slf4j.SLF4JLogger"/> -->
+        <!-- see https://marschall.github.io/2017/10/07/eclipselink-slfj4.html -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.extension</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+
+        <!-- <dependency> -->
+        <!-- <groupId>org.eclipse.persistence</groupId> -->
+        <!-- <artifactId>eclipselink</artifactId> -->
+        <!-- <version>2.5.2</version> -->
+        <!-- </dependency> -->
+        <!-- <dependency> -->
+        <!-- <groupId>org.eclipse.persistence</groupId> -->
+        <!-- <artifactId>javax.persistence</artifactId> -->
+        <!-- <version>2.2.1</version> -->
+        <!-- </dependency> -->
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
+        <!-- See https://stackoverflow.com/q/45870753 -->
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
-            <!-- <version>2.7.4</version> -->
-            <version>2.5.2</version>
+            <version>2.7.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>javax.persistence</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+
+        <!-- derby database -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>

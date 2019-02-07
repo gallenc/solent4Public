@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.solent.jpa.test.Employee;
 
 public class TestMain {
-	private static final String PERSISTENCE_UNIT_NAME = "motorcycle-persistence";
+	private static final String PERSISTENCE_UNIT_NAME = "motorcyclePersistence";
 	private static EntityManagerFactory factory;
 	
 	@Test
