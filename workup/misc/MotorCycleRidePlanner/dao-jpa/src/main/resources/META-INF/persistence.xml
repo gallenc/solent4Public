@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0"
+    xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="motorcycle-persistence" transaction-type="RESOURCE_LOCAL">
+        <class>org.solent.jpa.test.Employee</class>
+        <properties>
+
+            <!-- MySQL database -->
+            <!-- <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" /> -->
+            <!-- <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/jpadb" /> -->
+            <!-- <property name="javax.persistence.jdbc.user" value="root" /> -->
+            <!-- <property name="javax.persistence.jdbc.password" value="mukesh" /> -->
+
+            <!-- Derby java database -->
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:testD;create=true" />
+            <property name="javax.persistence.jdbc.user" value="je" />
+            <property name="javax.persistence.jdbc.password" value="je" />
+
+            <!-- EclipseLink should create the database schema automatically -->
+            <property name="eclipselink.ddl-generation" value="create-tables" />
+            <!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables" /> -->
+
+            <!-- <property name="eclipselink.ddl-generation.output-mode" value="database" /> -->
+            <property name="eclipselink.ddl-generation.output-mode" value="both" />
+
+<!--             <property name="eclipselink.application-location" value="./target" /> -->
+            <!-- <property name="eclipselink.logging.level" value="SEVERE" /> -->
+
+        </properties>
+        
+    </persistence-unit>
+</persistence>
+
+
+<!-- <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/persistence" -->
+<!-- xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0"> -->
+<!-- <persistence-unit name="persistenceUnit" transaction-type="RESOURCE_LOCAL"> -->
+<!-- <class>example.domain.Family</class> -->
+<!-- <class>example.domain.Person</class> -->
+<!-- <properties> -->
+<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables" /> -->
+<!-- <property name="eclipselink.application-location" value="./target" /> -->
+<!-- <property name="eclipselink.logging.level" value="SEVERE" /> -->
+<!-- <property name="eclipselink.ddl-generation.output-mode" value="both" /> -->
+<!-- <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" /> -->
+<!-- <property name="javax.persistence.jdbc.url" value="jdbc:derby:testD;create=true" /> -->
+<!-- <property name="javax.persistence.jdbc.user" value="je" /> -->
+<!-- <property name="javax.persistence.jdbc.password" value="je" /> -->
+<!-- </properties> -->
+<!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+<!-- </persistence-unit> -->
+<!-- </persistence> -->
