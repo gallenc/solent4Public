@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="informationModel">
+  <ClassDiagramComponents>
+    <Class name="User" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="676.0" yPosition="60.0">
+      <Fields>
+        <Field name="role" type="Role" visibility="private"/>
+        <Field name="userName" type="String" visibility="private"/>
+        <Field name="passWordHash" type="String" visibility="private"/>
+        <Field name="passwordSalt" type="String" visibility="private"/>
+        <Field name="surname" type="String" visibility="private"/>
+        <Field name="firstname" type="String" visibility="private"/>
+        <Field name="address" type="Address" visibility="private"/>
+        <Field name="emergencyContact" type="User" visibility="private"/>
+        <Field name="untitledField" type="Object" visibility="private"/>
+        <Field name="insurance" type="Insurance" visibility="private"/>
+        <Field name="medicalMd" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Enum name="Role" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="958.0" yPosition="60.0">
+      <Literals>
+        <Literal name="ANONYMOUS"/>
+        <Literal name="RIDER"/>
+        <Literal name="RIDELEADER"/>
+        <Literal name="ADMIN"/>
+      </Literals>
+    </Enum>
+    <Class name="Address" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="970.0" yPosition="311.0">
+      <Fields>
+        <Field name="number" type="String" visibility="private"/>
+        <Field name="addressLine1" type="String" visibility="private"/>
+        <Field name="addressLine2" type="String" visibility="private"/>
+        <Field name="County" type="String" visibility="private"/>
+        <Field name="Country" type="String" visibility="private"/>
+        <Field name="postcode" type="String" visibility="private"/>
+        <Field name="latitude" type="double" visibility="private"/>
+        <Field name="longitude" type="double" visibility="private"/>
+        <Field name="telephone" type="String" visibility="private"/>
+        <Field name="mobile" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Rideout" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="357.0" yPosition="149.0">
+      <Fields>
+        <Field name="riders" type="List&lt;User&gt;" visibility="private"/>
+        <Field name="rideLeader" type="User" visibility="private"/>
+        <Field name="descriptionMd" type="String" visibility="private"/>
+        <Field name="maxRiders" type="Integer" visibility="private"/>
+        <Field name="waitlist" type="List&lt;user&gt;" visibility="private"/>
+        <Field name="rideoutstate" type="RideoutState" visibility="private"/>
+        <Field name="rideoutDays" type="List&lt;RideoutDay&gt;" visibility="private"/>
+        <Field name="title" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="RideoutDay" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="60.0" yPosition="220.0">
+      <Fields>
+        <Field name="itinearyItems" type="List&lt;ItinearyItems&gt;" visibility="private"/>
+        <Field name="descriptionMd" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ItinearyItem" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="54.0" yPosition="421.0">
+      <Fields>
+        <Field name="startTime" type="String" visibility="private"/>
+        <Field name="endTime" type="String" visibility="private"/>
+        <Field name="descriptionMd" type="String" visibility="private"/>
+        <Field name="bookingReference" type="String" visibility="private"/>
+        <Field name="address" type="Address" visibility="private"/>
+        <Field name="distance" type="Double" visibility="private"/>
+        <Field name="gisRoute" type="String" visibility="private"/>
+        <Field name="ItinearyItemType" type="Object" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Enum name="RideoutState" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="60.0" yPosition="36.0">
+      <Literals>
+        <Literal name="PLANNING"/>
+        <Literal name="PUBLISHED"/>
+        <Literal name="INPROGRESS"/>
+        <Literal name="FINISHED"/>
+        <Literal name="CANCELLED"/>
+      </Literals>
+    </Enum>
+    <Class name="Insurance" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="710.0" yPosition="478.0">
+      <Fields>
+        <Field name="expirydate" type="Date" visibility="private"/>
+        <Field name="insuranceNo" type="String" visibility="private"/>
+        <Field name="seenByStaff" type="booean" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Enum name="ItinearyItemType" package="org.solent.com600.example.journeyplanner" visibility="public" xPosition="344.0" yPosition="464.0">
+      <Literals>
+        <Literal name="STOP"/>
+        <Literal name="JOURNEY"/>
+        <Literal name="ACCOMODATION"/>
+        <Literal name="FERRY"/>
+      </Literals>
+    </Enum>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="userHasAddress" source="org.solent.com600.example.journeyplanner.User" target="org.solent.com600.example.journeyplanner.Address" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="hasinsurance" source="org.solent.com600.example.journeyplanner.User" target="org.solent.com600.example.journeyplanner.Insurance" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="hasRiders" source="org.solent.com600.example.journeyplanner.Rideout" target="org.solent.com600.example.journeyplanner.User" sourceCardinality="0..*" targetCardinality="0..*"/>
+    <UseRelation name="hasitinearyItem" source="org.solent.com600.example.journeyplanner.RideoutDay" target="org.solent.com600.example.journeyplanner.ItinearyItem" sourceCardinality="1..1" targetCardinality="1..*"/>
+    <UseRelation name="hasRideLeader" source="org.solent.com600.example.journeyplanner.Rideout" target="org.solent.com600.example.journeyplanner.User" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="userHasRole" source="org.solent.com600.example.journeyplanner.User" target="org.solent.com600.example.journeyplanner.Role" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="ItemHasType" source="org.solent.com600.example.journeyplanner.ItinearyItem" target="org.solent.com600.example.journeyplanner.ItinearyItemType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="rideoutHasDays" source="org.solent.com600.example.journeyplanner.Rideout" target="org.solent.com600.example.journeyplanner.RideoutDay" sourceCardinality="1..1" targetCardinality="1..*"/>
+    <HasRelation name="rideoutHasState" source="org.solent.com600.example.journeyplanner.Rideout" target="org.solent.com600.example.journeyplanner.RideoutState" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
