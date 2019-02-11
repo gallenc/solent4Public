@@ -14,7 +14,8 @@ public class Employee {
     private String department;
  
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -40,7 +41,8 @@ public class Employee {
         this.department = department;
     }
     public String toString() {
-        return "Employee [name=" + name + ", email=" + email + " , department="
+        return "Employee [ id="+id
+                + " name=" + name + ", email=" + email + " , department="
                 + department + "]";
     }
 }

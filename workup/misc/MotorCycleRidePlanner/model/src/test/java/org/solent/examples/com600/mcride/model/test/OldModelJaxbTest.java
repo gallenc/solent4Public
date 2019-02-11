@@ -32,7 +32,7 @@ import org.solent.examples.com600.mcride.model.ReplyMessage;
  *
  * @author gallenc
  */
-public class ModelJaxbTest {
+public class OldModelJaxbTest {
 
     @Test
     public void testJaxb() {

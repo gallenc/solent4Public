@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="ReplyMessage">
+  <ClassDiagramComponents>
+    <Class name="SysUser" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="1065.0" yPosition="869.0">
+      <Fields>
+        <Field name="role" type="Role" visibility="private"/>
+        <Field name="userName" type="String" visibility="private"/>
+        <Field name="passWordHash" type="String" visibility="private"/>
+        <Field name="passwordSalt" type="String" visibility="private"/>
+        <Field name="surname" type="String" visibility="private"/>
+        <Field name="firstname" type="String" visibility="private"/>
+        <Field name="address" type="Address" visibility="private"/>
+        <Field name="emergencyContact" type="SysUser" visibility="private"/>
+        <Field name="insurance" type="Insurance" visibility="private"/>
+        <Field name="medicalMd" type="String" visibility="private"/>
+        <Field name="password" type="String" visibility="private"/>
+        <Field name="id" type="Long" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Address" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="1345.0" yPosition="945.0">
+      <Fields>
+        <Field name="number" type="String" visibility="private"/>
+        <Field name="addressLine1" type="String" visibility="private"/>
+        <Field name="addressLine2" type="String" visibility="private"/>
+        <Field name="County" type="String" visibility="private"/>
+        <Field name="Country" type="String" visibility="private"/>
+        <Field name="postcode" type="String" visibility="private"/>
+        <Field name="latitude" type="double" visibility="private"/>
+        <Field name="longitude" type="double" visibility="private"/>
+        <Field name="telephone" type="String" visibility="private"/>
+        <Field name="mobile" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Insurance" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="710.0" yPosition="902.0">
+      <Fields>
+        <Field name="expirydate" type="Date" visibility="private"/>
+        <Field name="insuranceNo" type="String" visibility="private"/>
+        <Field name="seenByStaff" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ReplyMessage" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="22.0" yPosition="208.0">
+      <Fields>
+        <Field name="code" type="Integer" visibility="private"/>
+        <Field name="debugMessage" type="String" visibility="private"/>
+        <Field name="data" type="ReplyData" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ReplyData" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="22.0" yPosition="436.0">
+      <Fields>
+        <Field name="userList" type="List&lt;SysUser&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Interface name="ServiceFacade" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="609.0" yPosition="364.0">
+      <Methods>
+        <Method name="create" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="sysUser"/>
+          <Argument type="SysUser" name="actingSysUser"/>
+        </Method>
+        <Method name="delete" returnType="Integer" visibility="public">
+          <Argument type="Integer" name="id"/>
+          <Argument type="SysUser" name="actingSysUser"/>
+        </Method>
+        <Method name="retrieve" returnType="Integer" visibility="public">
+          <Argument type="Integer" name="id"/>
+          <Argument type="SysUser" name="actingSysUser"/>
+        </Method>
+        <Method name="retrieveAll" returnType="List&lt;SysUser&gt;" visibility="public"/>
+        <Method name="retrieveMatching" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="template"/>
+          <Argument type="SysUser" name="actingSysUser"/>
+        </Method>
+        <Method name="update" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="sysUser"/>
+          <Argument type="SysUser" name="actingSysUser"/>
+        </Method>
+        <Method name="deleteAll" returnType="void" visibility="public">
+          <Argument type="SysUser" name="actingSysUser"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="SysUserDAO" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="748.0" yPosition="620.0">
+      <Methods>
+        <Method name="create" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="sysUser"/>
+        </Method>
+        <Method name="delete" returnType="Integer" visibility="public">
+          <Argument type="Integer" name="id"/>
+        </Method>
+        <Method name="retrieve" returnType="Integer" visibility="public">
+          <Argument type="Integer" name="id"/>
+        </Method>
+        <Method name="retrieveAll" returnType="List&lt;SysUser&gt;" visibility="public"/>
+        <Method name="retrieveMatching" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="template"/>
+        </Method>
+        <Method name="updateEntity" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="entity"/>
+        </Method>
+        <Method name="deleteAll" returnType="void" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="RestInterface" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="246.0" yPosition="19.0">
+      <Methods>
+        <Method name="retrieveMatchingSysUsers" returnType="SysUser" visibility="public">
+          <Argument type="SysUser" name="tempate"/>
+        </Method>
+        <Method name="retrieveSysUser" returnType="Integer" visibility="public">
+          <Argument type="Integer" name="id"/>
+        </Method>
+        <Method name="untitledMethod" returnType="void" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="ServiceFactory" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="657.0" yPosition="148.0">
+      <Methods>
+        <Method name="getServiceFacade" returnType="ServiceFacade" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="WebUiJsp_do_not_generate" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="881.0" yPosition="19.0">
+      <Methods/>
+    </Interface>
+    <Enum name="Role" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="748.0" yPosition="1103.0">
+      <Literals>
+        <Literal name="ANONYMOUS"/>
+        <Literal name="RIDER"/>
+        <Literal name="RIDELEADER"/>
+        <Literal name="ADMIN"/>
+      </Literals>
+    </Enum>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="hasReplyData" source="org.solent.com600.example.journeyplanner.model.ReplyMessage" target="org.solent.com600.example.journeyplanner.model.ReplyData" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="JSPsUseServiceFacade" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="RestUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="serviceFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="RestUsesServiceFacade" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="sysUserHasInsurance" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Insurance" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="sysUserHasRole" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="SysUserDAOusesSysUser" source="org.solent.com600.example.journeyplanner.model.SysUserDAO" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="sysUserHasAddress" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="JSPsUseServiceFactory" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="RestInterfaceUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

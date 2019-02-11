@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0"
-    xmlns="http://java.sun.com/xml/ns/persistence">
+             xmlns="http://java.sun.com/xml/ns/persistence">
 
 
     <!-- Define persistence unit -->
     <persistence-unit name="motorcyclePersistence" transaction-type="RESOURCE_LOCAL">
 
-<!--         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+        <!--         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
         
         <!-- options for finding JPA annotated classes -->
         <!-- scans model classes in local jar -->
@@ -19,6 +19,13 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0"
 
         <!-- explicitly list classes from model -->
         <class>org.solent.jpa.test.Employee</class>
+        
+        <class>org.solent.com600.example.journeyplanner.model.Address</class>
+        <class>org.solent.com600.example.journeyplanner.model.Insurance</class>
+        <class>org.solent.com600.example.journeyplanner.model.SysUser</class>
+        <class>org.solent.com600.example.journeyplanner.model.Role</class>
+
+
 
         <properties>
 

@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
+
 /**
  * Simple example entity with 3 fields
  *
@@ -12,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+
 public class Entity {
 
     private Integer id;
@@ -62,31 +65,6 @@ public class Entity {
                 + ", field_C=" + field_C + '}';
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Entity other = (Entity) obj;
-        if (!Objects.equals(this.field_A, other.field_A)) {
-            return false;
-        }
-        if (!Objects.equals(this.field_B, other.field_B)) {
-            return false;
-        }
-        if (!Objects.equals(this.field_C, other.field_C)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
+
 
 }
