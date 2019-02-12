@@ -6,6 +6,8 @@ import javax.persistence.Persistence;
 import org.solent.com600.example.journeyplanner.model.SysUserDAO;
 
 public class DAOFactory {
+    
+    // TODO FACTORY MAY WANT TO CLOSE ENTITY MANAGER AT END OF SESSION
 
     private static final String PERSISTENCE_UNIT_NAME = "motorcyclePersistence";
     private static EntityManagerFactory factory;

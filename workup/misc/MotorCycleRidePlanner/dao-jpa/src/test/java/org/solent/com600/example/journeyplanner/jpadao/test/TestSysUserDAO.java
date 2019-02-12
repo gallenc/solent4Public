@@ -14,9 +14,9 @@ import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import org.solent.com600.example.journeyplanner.model.SysUserDAO;
 
-public class TestUserDAO {
+public class TestSysUserDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TestUserDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TestSysUserDAO.class);
 
     @Test
     public void testDAOFactory() {
