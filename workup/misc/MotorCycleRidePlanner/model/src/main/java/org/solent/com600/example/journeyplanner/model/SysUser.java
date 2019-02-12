@@ -1,5 +1,8 @@
 package org.solent.com600.example.journeyplanner.model;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +36,17 @@ public class SysUser {
 
     private Address address;
 
-    private SysUser emergencyContact;
-
     private Insurance insurance;
 
     private String medicalMd;
+
+    private String emergencyContactFirstName;
+
+    private String emergencyContactSurname;
+
+    private String emergencyContactRelationship;
+
+    private Address emergencyContactAddress;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +66,8 @@ public class SysUser {
         this.role = role;
     }
 
+    // all usernames are unique
+    @Column(unique = true)
     public String getUserName() {
         return userName;
     }
@@ -106,14 +117,6 @@ public class SysUser {
         this.address = address;
     }
 
-    public SysUser getEmergencyContact() {
-        return emergencyContact;
-    }
-
-    public void setEmergencyContact(SysUser emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
     @Embedded
     public Insurance getInsurance() {
         return insurance;
@@ -139,11 +142,56 @@ public class SysUser {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "SysUser{" + "Id=" + Id + ", role=" + role + ", userName=" + userName + ", passWordHash=" + passWordHash + ", passwordSalt=" + passwordSalt + ", password=" + password + ", surname=" + surname + ", firstname=" + firstname + ", address=" + address + ", emergencyContact=" + emergencyContact + ", insurance=" + insurance + ", medicalMd=" + medicalMd + '}';
+    public String getEmergencyContactFirstName() {
+        return emergencyContactFirstName;
     }
 
+    public void setEmergencyContactFirstName(String emergencyContactFirstName) {
+        this.emergencyContactFirstName = emergencyContactFirstName;
+    }
 
+    public String getEmergencyContactSurname() {
+        return emergencyContactSurname;
+    }
+
+    public void setEmergencyContactSurname(String emergencyContactSurname) {
+        this.emergencyContactSurname = emergencyContactSurname;
+    }
+
+    public String getEmergencyContactRelationship() {
+        return emergencyContactRelationship;
+    }
+
+    public void setEmergencyContactRelationship(String emergencyContactRelationship) {
+        this.emergencyContactRelationship = emergencyContactRelationship;
+    }
+
+    // note this is done because we need table column names to be unique
+    // if we had an address table this would be avoided
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "number", column = @Column(name = "emgcyNumber")),
+        @AttributeOverride(name = "addressLine1", column = @Column(name = "emgcyAddressLine1")),
+        @AttributeOverride(name = "addressLine2", column = @Column(name = "emgcyAddressLine2")),
+        @AttributeOverride(name = "County", column = @Column(name = "emgcyCounty")),
+        @AttributeOverride(name = "Country", column = @Column(name = "emgcyCountry")),
+        @AttributeOverride(name = "postcode", column = @Column(name = "emgcyPostcode")),
+        @AttributeOverride(name = "latitude", column = @Column(name = "emgcyLatitude")),
+        @AttributeOverride(name = "longitude", column = @Column(name = "emgcyLongditude")),
+        @AttributeOverride(name = "telephone", column = @Column(name = "emgcyTelephone")),
+        @AttributeOverride(name = "mobile", column = @Column(name = "emgcyMobile"))
+    })
+    public Address getEmergencyContactAddress() {
+        return emergencyContactAddress;
+    }
+
+    public void setEmergencyContactAddress(Address emergencyContactAddress) {
+        this.emergencyContactAddress = emergencyContactAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "SysUser{" + "Id=" + Id + ", role=" + role + ", userName=" + userName + ", passWordHash=" + passWordHash + ", passwordSalt=" + passwordSalt + ", password=" + password + ", surname=" + surname + ", firstname=" + firstname + ", address=" + address + ", insurance=" + insurance + ", medicalMd=" + medicalMd + ", emergencyContactFirstName=" + emergencyContactFirstName + ", emergencyContactSurname=" + emergencyContactSurname + ", emergencyContactRelationship=" + emergencyContactRelationship + ", emergencyContactAddress=" + emergencyContactAddress + '}';
+    }
 
 }

@@ -6,13 +6,15 @@ public interface SysUserDAO {
 
     public SysUser create(SysUser user);
 
-    public Integer delete(Integer id);
+    public void delete(Long id);
 
-    public Integer retrieve(Integer id);
+    public SysUser retrieve(Long id);
+    
+    public SysUser retrieveByUserName(String username);
 
     public List<SysUser> retrieveAll();
 
-    public SysUser retrieveMatching(SysUser template);
+    public List<SysUser> retrieveLikeMatching(String surname, String firstname);
 
     public SysUser update(SysUser entity);
 

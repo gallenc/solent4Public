@@ -34,7 +34,6 @@ import org.solent.com600.example.journeyplanner.model.Insurance;
 import org.solent.com600.example.journeyplanner.model.ReplyData;
 import org.solent.com600.example.journeyplanner.model.ReplyMessage;
 
-
 /**
  *
  * @author gallenc
@@ -64,7 +63,7 @@ public class ModelJaxbTest {
             ReplyMessage replyMessage1 = new ReplyMessage();
             replyMessage1.setCode(200);
             replyMessage1.setDebugMessage("debug message 1");
-            
+
             ReplyData replyData = new ReplyData();
             replyMessage1.setData(replyData);
 
@@ -72,7 +71,7 @@ public class ModelJaxbTest {
 
             SysUser sysUser = new SysUser();
             userList.add(sysUser);
-            
+
             Address address = new Address();
             address.setNumber("6");
             address.setAddressLine1("Plane Avenue");
@@ -83,17 +82,22 @@ public class ModelJaxbTest {
             address.setLatitude(0);
             address.setLongitude(0);
             address.setMobile("0777444555444");
-       
+
             sysUser.setAddress(address);
             sysUser.setFirstname("John");
             sysUser.setSurname("Doe");
-      
+
+            sysUser.setEmergencyContactAddress(address);
+            sysUser.setEmergencyContactFirstName("June");
+            sysUser.setEmergencyContactSurname("Whitfield");
+            sysUser.setEmergencyContactRelationship("Sister");
+
             Insurance insurance = new Insurance();
             insurance.setExpirydate(new Date());
             insurance.setInsuranceNo("12345467");
             insurance.setSeenByStaff(true);
             sysUser.setInsurance(insurance);
-            
+
             sysUser.setPassWordHash("XXX");
             sysUser.setPasswordSalt("YYY");
             sysUser.setPassword("ZZZ");

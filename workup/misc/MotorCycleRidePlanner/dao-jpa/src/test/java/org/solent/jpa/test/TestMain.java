@@ -13,7 +13,7 @@ public class TestMain {
 	private static final String PERSISTENCE_UNIT_NAME = "motorcyclePersistence";
 	private static EntityManagerFactory factory;
 	
-	@Test
+	//@Test
 	public void testjpa() {
 		startJpa();
 	}

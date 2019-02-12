@@ -37,7 +37,9 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0"
 
             <!-- Derby java database -->
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:tmp/motorcycledb;create=true" />
+            
+            <!-- target/tmp places database in target directory so gets removed on every run -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:target/tmp/motorcycledb;create=true" />
             <property name="javax.persistence.jdbc.user" value="je" />
             <property name="javax.persistence.jdbc.password" value="je" />
 
