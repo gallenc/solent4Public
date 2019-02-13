@@ -29,8 +29,14 @@
             <artifactId>MotorCycleRidePlanner-dao-jaxb</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.solent.examples.com600.mcride</groupId>
+            <artifactId>MotorCycleRidePlanner-dao-jpa</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
-         <!-- SLF4J used to provide logging in classes -->
+        
+        <!-- SLF4J used to provide logging in classes -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

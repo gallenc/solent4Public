@@ -105,12 +105,12 @@ public class TestSysUserDAO {
 
 // utility methods
     public void testCreateSysUsersDatabase() {
-        SysUserDAO userDAO = DAOFactory.getSysUserDAO();
-        assertNotNull(userDAO);
+        SysUserDAO sysUserDAO = DAOFactory.getSysUserDAO();
+        assertNotNull(sysUserDAO);
 
         // empty database before test
-        userDAO.deleteAll();
-        List<SysUser> emptyList = userDAO.retrieveAll();
+        sysUserDAO.deleteAll();
+        List<SysUser> emptyList = sysUserDAO.retrieveAll();
         assertTrue(emptyList.isEmpty());
 
         //Create 10 unique users
@@ -153,7 +153,9 @@ public class TestSysUserDAO {
             sysUser.setRole(Role.RIDER);
             sysUser.setMedicalMd("#test Markdown");
 
-            userDAO.create(sysUser);
+            SysUser newSysUser = sysUserDAO.create(sysUser);
+            assertNotNull(newSysUser);
+            assertNotNull(newSysUser.getId());
 
         }
 

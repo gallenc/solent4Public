@@ -32,8 +32,9 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
     public SysUser create(SysUser user) {
         entityManager.getTransaction().begin();
         entityManager.persist(user);
+        // entityManager.flush() could be used
         entityManager.getTransaction().commit();
-        return null;
+        return user;
     }
 
     @Override

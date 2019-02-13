@@ -27,15 +27,23 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.solent.examples.com600.mcride"  additivity="false" level="trace">
+        <Logger name="org.solent.com600.example.journeyplanner.jpadao"  additivity="false" level="DEBUG">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="appLog"/>
         </Logger>
-        <Logger name="transaction-log"  additivity="false" level="trace">
+        <Logger name="eclipselink.logging.connection"  additivity="false" level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="appLog"/>
+        </Logger>
+        <Logger name="eclipselink.logging.all"  additivity="false" level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="appLog"/>
+        </Logger>
+        <Logger name="transaction-log"  additivity="false" level="DEBUG">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="transactionLog"/>
         </Logger>
-        <Root level="info">
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

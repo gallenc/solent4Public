@@ -1,20 +1,24 @@
 package org.solent.com600.example.journeyplanner.model;
 
 import java.util.List;
+import javax.naming.AuthenticationException;
 
 public interface ServiceFacade {
 
-    public SysUser create(SysUser user, SysUser actingUser);
+    public SysUser createUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException;
 
-    public Integer delete(Integer id, SysUser actingUser);
+    public void deleteUser(Long id, String actingSysUserName) throws AuthenticationException;
 
-    public Integer retrieve(Integer id, SysUser actingUser);
+    public SysUser retrieveUser(Long id, String actingSysUserName) throws AuthenticationException;
+    
+    public SysUser retrieveByUserName(String username, String actingSysUserName) throws AuthenticationException;
 
-    public List<SysUser> retrieveAll();
+    public List<SysUser> retrieveAllUsers(String actingSysUserName) throws AuthenticationException;
 
-    public SysUser retrieveMatching(SysUser template, SysUser actingUser);
+    public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, String actingSysUserName) throws AuthenticationException;
 
-    public SysUser update(SysUser user, SysUser actingUser);
+    // TODO note problem - USER SHOULD NOT BE ABLE TO CHANGE ROLE OR USERNAME
+    public SysUser updateUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException;
 
-    public void deleteAll(SysUser actingUser);
+    public void deleteAllUsers(String actingSysUserName) throws AuthenticationException;
 }
