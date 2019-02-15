@@ -60,13 +60,13 @@ public class TestSysUserDAO {
         // get first user by username
         SysUser user1 = userDAO.retrieveByUserName(adminName);
         assertTrue(user1.getId().equals(admin.getId()));
-        assertTrue(user1.getFirstname().equals(admin.getFirstname()));
+        assertTrue(user1.getUserInfo().getFirstname().equals(admin.getUserInfo().getFirstname()));
         assertTrue(user1.getRole().equals(Role.ADMIN));
 
         // get third user by username
         SysUser user3 = userDAO.retrieveByUserName(anonName);
         assertTrue(user3.getId().equals(anon.getId()));
-        assertTrue(user3.getFirstname().equals(anon.getFirstname()));
+        assertTrue(user3.getUserInfo().getFirstname().equals(anon.getUserInfo().getFirstname()));
         assertTrue(user3.getRole().equals(Role.ANONYMOUS));
 
     }
@@ -88,8 +88,8 @@ public class TestSysUserDAO {
         assertNotNull(admin);
         String adminName = admin.getUserName();
         admin.setRole(Role.ADMIN);
-        admin.setSurname("aaabbbccc");
-        admin.setFirstname("dddeeefff");
+        admin.getUserInfo().setSurname("aaabbbccc");
+        admin.getUserInfo().setFirstname("dddeeefff");
         userDAO.update(admin);
 
         // find near match
@@ -131,27 +131,29 @@ public class TestSysUserDAO {
             address.setLongitude(0);
             address.setMobile("0777444555444");
 
-            sysUser.setAddress(address);
+            sysUser.getUserInfo().setAddress(address);
 
-            sysUser.setEmergencyContactAddress(address);
-            sysUser.setEmergencyContactFirstName("econtactfirstName_" + i);
-            sysUser.setEmergencyContactSurname("econtactSurname_" + i);
-            sysUser.setEmergencyContactRelationship("friend");
+            sysUser.getUserInfo().setEmergencyContactAddress(address);
+            sysUser.getUserInfo().setEmergencyContactFirstName("econtactfirstName_" + i);
+            sysUser.getUserInfo().setEmergencyContactSurname("econtactSurname_" + i);
+            sysUser.getUserInfo().setEmergencyContactRelationship("friend");
 
-            sysUser.setFirstname("firstname_" + i);
-            sysUser.setSurname("surname_" + i);
+            sysUser.getUserInfo().setFirstname("firstname_" + i);
+            sysUser.getUserInfo().setSurname("surname_" + i);
 
             Insurance insurance = new Insurance();
             insurance.setExpirydate(new Date());
             insurance.setInsuranceNo("12345467");
             insurance.setSeenByStaff(true);
-            sysUser.setInsurance(insurance);
+            sysUser.getUserInfo().setInsurance(insurance);
+            sysUser.getUserInfo().setMedicalMd("#test Markdown");
+            sysUser.getProcessInfo().setInsuranceVerified(Boolean.TRUE);
 
             sysUser.setPassWordHash("XXX");
             sysUser.setPasswordSalt("YYY");
             sysUser.setPassword("ZZZ");
             sysUser.setRole(Role.RIDER);
-            sysUser.setMedicalMd("#test Markdown");
+
 
             SysUser newSysUser = sysUserDAO.create(sysUser);
             assertNotNull(newSysUser);

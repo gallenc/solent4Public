@@ -31,8 +31,10 @@ import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import org.solent.com600.example.journeyplanner.model.Address;
 import org.solent.com600.example.journeyplanner.model.Insurance;
+import org.solent.com600.example.journeyplanner.model.ProcessInfo;
 import org.solent.com600.example.journeyplanner.model.ReplyData;
 import org.solent.com600.example.journeyplanner.model.ReplyMessage;
+import org.solent.com600.example.journeyplanner.model.UserInfo;
 
 /**
  *
@@ -71,7 +73,20 @@ public class ModelJaxbTest {
 
             SysUser sysUser = new SysUser();
             userList.add(sysUser);
+            
+            sysUser.setPassWordHash("XXX");
+            sysUser.setPasswordSalt("YYY");
+            sysUser.setPassword("ZZZ");
+            sysUser.setRole(Role.RIDER);
 
+            UserInfo userInfo = sysUser.getUserInfo();
+            sysUser.setUserInfo(userInfo);
+            
+            ProcessInfo processInfo = sysUser.getProcessInfo();
+            sysUser.setProcessInfo(processInfo);
+            
+            processInfo.setInsuranceVerified(Boolean.TRUE);
+            
             Address address = new Address();
             address.setNumber("6");
             address.setAddressLine1("Plane Avenue");
@@ -83,26 +98,22 @@ public class ModelJaxbTest {
             address.setLongitude(0);
             address.setMobile("0777444555444");
 
-            sysUser.setAddress(address);
-            sysUser.setFirstname("John");
-            sysUser.setSurname("Doe");
+            userInfo.setAddress(address);
+            userInfo.setFirstname("John");
+            userInfo.setSurname("Doe");
 
-            sysUser.setEmergencyContactAddress(address);
-            sysUser.setEmergencyContactFirstName("June");
-            sysUser.setEmergencyContactSurname("Whitfield");
-            sysUser.setEmergencyContactRelationship("Sister");
+            userInfo.setEmergencyContactAddress(address);
+            userInfo.setEmergencyContactFirstName("June");
+            userInfo.setEmergencyContactSurname("Whitfield");
+            userInfo.setEmergencyContactRelationship("Sister");
 
             Insurance insurance = new Insurance();
             insurance.setExpirydate(new Date());
             insurance.setInsuranceNo("12345467");
             insurance.setSeenByStaff(true);
-            sysUser.setInsurance(insurance);
+            userInfo.setInsurance(insurance);
 
-            sysUser.setPassWordHash("XXX");
-            sysUser.setPasswordSalt("YYY");
-            sysUser.setPassword("ZZZ");
-            sysUser.setRole(Role.RIDER);
-            sysUser.setMedicalMd("#test Markdown");
+            userInfo.setMedicalMd("#test Markdown");
 
             // marshal the object lists to system out, a file and a stringWriter
             jaxbMarshaller.marshal(replyMessage1, System.out);

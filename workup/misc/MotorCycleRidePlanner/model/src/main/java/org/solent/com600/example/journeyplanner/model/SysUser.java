@@ -30,23 +30,9 @@ public class SysUser {
 
     private String password;
 
-    private String surname;
+    private ProcessInfo processInfo = new ProcessInfo();
 
-    private String firstname;
-
-    private Address address;
-
-    private Insurance insurance;
-
-    private String medicalMd;
-
-    private String emergencyContactFirstName;
-
-    private String emergencyContactSurname;
-
-    private String emergencyContactRelationship;
-
-    private Address emergencyContactAddress;
+    private UserInfo userInfo = new UserInfo();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -92,48 +78,6 @@ public class SysUser {
         this.passwordSalt = passwordSalt;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    @Embedded
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    @Embedded
-    public Insurance getInsurance() {
-        return insurance;
-    }
-
-    public void setInsurance(Insurance insurance) {
-        this.insurance = insurance;
-    }
-
-    public String getMedicalMd() {
-        return medicalMd;
-    }
-
-    public void setMedicalMd(String medicalMd) {
-        this.medicalMd = medicalMd;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -142,56 +86,37 @@ public class SysUser {
         this.password = password;
     }
 
-    public String getEmergencyContactFirstName() {
-        return emergencyContactFirstName;
-    }
-
-    public void setEmergencyContactFirstName(String emergencyContactFirstName) {
-        this.emergencyContactFirstName = emergencyContactFirstName;
-    }
-
-    public String getEmergencyContactSurname() {
-        return emergencyContactSurname;
-    }
-
-    public void setEmergencyContactSurname(String emergencyContactSurname) {
-        this.emergencyContactSurname = emergencyContactSurname;
-    }
-
-    public String getEmergencyContactRelationship() {
-        return emergencyContactRelationship;
-    }
-
-    public void setEmergencyContactRelationship(String emergencyContactRelationship) {
-        this.emergencyContactRelationship = emergencyContactRelationship;
-    }
-
-    // note this is done because we need table column names to be unique
-    // if we had an address table this would be avoided
     @Embedded
-    @AttributeOverrides({
-        @AttributeOverride(name = "number", column = @Column(name = "emgcyNumber")),
-        @AttributeOverride(name = "addressLine1", column = @Column(name = "emgcyAddressLine1")),
-        @AttributeOverride(name = "addressLine2", column = @Column(name = "emgcyAddressLine2")),
-        @AttributeOverride(name = "County", column = @Column(name = "emgcyCounty")),
-        @AttributeOverride(name = "Country", column = @Column(name = "emgcyCountry")),
-        @AttributeOverride(name = "postcode", column = @Column(name = "emgcyPostcode")),
-        @AttributeOverride(name = "latitude", column = @Column(name = "emgcyLatitude")),
-        @AttributeOverride(name = "longitude", column = @Column(name = "emgcyLongditude")),
-        @AttributeOverride(name = "telephone", column = @Column(name = "emgcyTelephone")),
-        @AttributeOverride(name = "mobile", column = @Column(name = "emgcyMobile"))
-    })
-    public Address getEmergencyContactAddress() {
-        return emergencyContactAddress;
+    public ProcessInfo getProcessInfo() {
+        return processInfo;
     }
 
-    public void setEmergencyContactAddress(Address emergencyContactAddress) {
-        this.emergencyContactAddress = emergencyContactAddress;
+    public void setProcessInfo(ProcessInfo processInfo) {
+        this.processInfo = processInfo;
     }
 
+    @Embedded
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    /**
+     * note toString does NOT print password related info *
+     */
     @Override
     public String toString() {
-        return "SysUser{" + "Id=" + Id + ", role=" + role + ", userName=" + userName + ", passWordHash=" + passWordHash + ", passwordSalt=" + passwordSalt + ", password=" + password + ", surname=" + surname + ", firstname=" + firstname + ", address=" + address + ", insurance=" + insurance + ", medicalMd=" + medicalMd + ", emergencyContactFirstName=" + emergencyContactFirstName + ", emergencyContactSurname=" + emergencyContactSurname + ", emergencyContactRelationship=" + emergencyContactRelationship + ", emergencyContactAddress=" + emergencyContactAddress + '}';
+        return "SysUser{" + "Id=" + Id
+                + ", role=" + role
+                + ", userName=" + userName
+                + ", passWordHash=" + ((passWordHash == null) ? "null" : "***set but not shown***")
+                + ", passwordSalt=" + ((passwordSalt == null) ? "null" : "***set but not shown***")
+                + ", password=" + ((password == null) ? "null" : "***set but not shown***")
+                + ", processInfo=" + processInfo
+                + ", userInfo=" + userInfo + '}';
     }
 
 }

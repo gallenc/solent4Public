@@ -63,8 +63,8 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
     public List<SysUser> retrieveLikeMatching(String surname, String firstname) {
         // see https://stackoverflow.com/questions/21456494/spring-jpa-query-with-like
         
-        String queryString="select u from SysUser u WHERE UPPER(u.surname) LIKE CONCAT('%',UPPER(:surname),'%')"
-                + " AND UPPER(u.firstname) LIKE CONCAT('%',UPPER(:firstname),'%')";
+        String queryString="select u from SysUser u WHERE UPPER(u.userInfo.surname) LIKE CONCAT('%',UPPER(:surname),'%')"
+                + " AND UPPER(u.userInfo.firstname) LIKE CONCAT('%',UPPER(:firstname),'%')";
       
         TypedQuery<SysUser> q = entityManager.createQuery(queryString, SysUser.class);
         q.setParameter("surname", surname);
