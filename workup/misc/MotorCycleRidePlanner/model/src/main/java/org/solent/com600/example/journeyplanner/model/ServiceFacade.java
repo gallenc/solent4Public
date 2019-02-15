@@ -17,8 +17,20 @@ public interface ServiceFacade {
 
     public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, String actingSysUserName) throws AuthenticationException;
 
-    // TODO note problem - USER SHOULD NOT BE ABLE TO CHANGE ROLE OR USERNAME
     public SysUser updateUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException;
 
     public void deleteAllUsers(String actingSysUserName) throws AuthenticationException;
+
+    public SysUser getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException;
+
+    public SysUser updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public Boolean getInsuranceVerified(String userName, String actingSysUserName) throws AuthenticationException;
+
+    public void updateInsuranceVerified(Boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException;
+
 }

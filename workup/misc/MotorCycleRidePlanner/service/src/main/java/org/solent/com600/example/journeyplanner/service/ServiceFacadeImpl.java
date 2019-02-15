@@ -13,6 +13,7 @@ import org.solent.com600.example.journeyplanner.model.SysUser;
 import javax.naming.AuthenticationException;
 import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUserDAO;
+import org.solent.com600.example.journeyplanner.model.UserInfo;
 
 /**
  *
@@ -147,5 +148,35 @@ public class ServiceFacadeImpl implements ServiceFacade {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive user");
         }
         return retrievedUser;
+    }
+
+    @Override
+    public SysUser getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public SysUser updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean getInsuranceVerified(String userName, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateInsuranceVerified(Boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
