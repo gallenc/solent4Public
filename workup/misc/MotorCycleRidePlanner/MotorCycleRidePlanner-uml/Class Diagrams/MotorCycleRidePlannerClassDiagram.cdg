@@ -36,7 +36,6 @@
       <Fields>
         <Field name="expirydate" type="Date" visibility="private"/>
         <Field name="insuranceNo" type="String" visibility="private"/>
-        <Field name="seenByStaff" type="boolean" visibility="private"/>
       </Fields>
       <Constructors/>
       <Methods/>

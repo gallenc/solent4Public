@@ -144,7 +144,7 @@ public class TestSysUserDAO {
             Insurance insurance = new Insurance();
             insurance.setExpirydate(new Date());
             insurance.setInsuranceNo("12345467");
-            insurance.setSeenByStaff(true);
+
             sysUser.getUserInfo().setInsurance(insurance);
             sysUser.getUserInfo().setMedicalMd("#test Markdown");
             sysUser.getProcessInfo().setInsuranceVerified(Boolean.TRUE);

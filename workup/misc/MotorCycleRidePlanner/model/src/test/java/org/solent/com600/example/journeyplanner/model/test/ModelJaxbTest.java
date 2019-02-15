@@ -110,7 +110,7 @@ public class ModelJaxbTest {
             Insurance insurance = new Insurance();
             insurance.setExpirydate(new Date());
             insurance.setInsuranceNo("12345467");
-            insurance.setSeenByStaff(true);
+
             userInfo.setInsurance(insurance);
 
             userInfo.setMedicalMd("#test Markdown");
