@@ -113,7 +113,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="SysUserDAO" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="748.0" yPosition="620.0">
+    <Interface name="SysUserDAO" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="786.0" yPosition="620.0">
       <Methods>
         <Method name="create" returnType="SysUser" visibility="public">
           <Argument type="SysUser" name="sysUser"/>
@@ -125,7 +125,7 @@
           <Argument type="Long" name="id"/>
         </Method>
         <Method name="retrieveAll" returnType="List&lt;SysUser&gt;" visibility="public"/>
-        <Method name="retrieveLikeMatching" returnType="String" visibility="public">
+        <Method name="retrieveLikeMatching" returnType="List&lt;SysUser&gt;" visibility="public">
           <Argument type="String" name="surname"/>
           <Argument type="String" name="firstname"/>
         </Method>
@@ -133,7 +133,7 @@
           <Argument type="SysUser" name="updateUser"/>
         </Method>
         <Method name="deleteAll" returnType="void" visibility="public"/>
-        <Method name="retrieveByUsername" returnType="String" visibility="public">
+        <Method name="retrieveByUsername" returnType="SysUser" visibility="public">
           <Argument type="String" name="username"/>
         </Method>
       </Methods>
@@ -157,6 +157,38 @@
     <Interface name="WebUiJsp_do_not_generate" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="881.0" yPosition="19.0">
       <Methods/>
     </Interface>
+    <Interface name="NewServiceFacade" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="104.0" yPosition="620.0">
+      <Methods>
+        <Method name="getUserInfoByUserName" returnType="SysUser" visibility="public">
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="updateUserInfoByUserName" returnType="SysUser" visibility="public">
+          <Argument type="UserInfo" name="updateUserInfo"/>
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="updatePasswordByUserName" returnType="void" visibility="public">
+          <Argument type="String" name="newPassword"/>
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="getInsuranceVerified" returnType="Boolean" visibility="public">
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="updateInsuranceVerified" returnType="void" visibility="public">
+          <Argument type="Boolean" name="insuranceVerified"/>
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="updateUserRoleByUserName" returnType="void" visibility="public">
+          <Argument type="Role" name="newRole"/>
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+      </Methods>
+    </Interface>
     <Enum name="Role" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="1320.0" yPosition="948.0">
       <Literals>
         <Literal name="ANONYMOUS"/>
@@ -165,28 +197,24 @@
         <Literal name="ADMIN"/>
         <Literal name="SAME_USER"/>
         <Literal name="SAME_RIDELEADER"/>
+        <Literal name="DEACTIVATED"/>
       </Literals>
     </Enum>
-    <Interface name="NewServiceFacade" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="320.0" yPosition="618.0">
-      <Methods>
-        <Method name="untitledMethod" returnType="void" visibility="public"/>
-      </Methods>
-    </Interface>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation name="userInfoHasEmergencyContactAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="RestUsesServiceFacade" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="JSPsUseServiceFactory" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <UseRelation name="sysuserHasUserInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.UserInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="userInfoHasAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="sysUserHasRole" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="RestUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="RestInterfaceUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="sysUserHasProcessInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.ProcessInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="JSPsUseServiceFacade" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <UseRelation name="SysUserDAOusesSysUser" source="org.solent.com600.example.journeyplanner.model.SysUserDAO" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="serviceFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="hasReplyData" source="org.solent.com600.example.journeyplanner.model.ReplyMessage" target="org.solent.com600.example.journeyplanner.model.ReplyData" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
     <UseRelation name="userInfoHasInsurance" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Insurance" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="RestUsesServiceFacade" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="JSPsUseServiceFacade" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="JSPsUseServiceFactory" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="SysUserDAOusesSysUser" source="org.solent.com600.example.journeyplanner.model.SysUserDAO" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="sysuserHasUserInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.UserInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasReplyData" source="org.solent.com600.example.journeyplanner.model.ReplyMessage" target="org.solent.com600.example.journeyplanner.model.ReplyData" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="userInfoHasEmergencyContactAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="RestInterfaceUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="RestUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="serviceFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="sysUserHasRole" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>
