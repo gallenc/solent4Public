@@ -96,7 +96,7 @@ public class ServiceFacadeTest {
         try {
             SysUser user = serviceFacade.retrieveByUserName(RIDER1_USER,RIDER1_USER);
             assertTrue(user.getUserName().equals(RIDER1_USER));
-            user.setFirstname("fred");
+            user.getUserInfo().setFirstname("fred");
             serviceFacade.updateUser(user, RIDER1_USER);
         } catch (AuthenticationException ex) {
             fail("same user should be able update user");
@@ -116,8 +116,8 @@ public class ServiceFacadeTest {
         // create users with different permissions
         SysUser adminUser1 = new SysUser();
         adminUser1.setUserName(ADMIN1_USER);
-        adminUser1.setFirstname("AdminFirstname");
-        adminUser1.setSurname("AdminSurname");
+        adminUser1.getUserInfo().setFirstname("AdminFirstname");
+        adminUser1.getUserInfo().setSurname("AdminSurname");
         adminUser1.setRole(Role.ADMIN);
 
         // create first user in database
@@ -129,8 +129,8 @@ public class ServiceFacadeTest {
 
         SysUser anonUser = new SysUser();
         anonUser.setUserName(ANONAMOUS1_USER);
-        anonUser.setFirstname("AnonFirstname");
-        anonUser.setSurname("AnonSurname");
+        anonUser.getUserInfo().setFirstname("AnonFirstname");
+        anonUser.getUserInfo().setSurname("AnonSurname");
         anonUser.setRole(Role.ANONYMOUS);
 
         // create anonymous user in database
@@ -142,8 +142,8 @@ public class ServiceFacadeTest {
 
         SysUser rideLeaderUser1 = new SysUser();
         rideLeaderUser1.setUserName(RIDELEADER1_USER);
-        rideLeaderUser1.setFirstname("RideLeader1Firstname");
-        rideLeaderUser1.setSurname("RideLeaderSurname");
+        rideLeaderUser1.getUserInfo().setFirstname("RideLeader1Firstname");
+        rideLeaderUser1.getUserInfo().setSurname("RideLeaderSurname");
         rideLeaderUser1.setRole(Role.RIDELEADER);
 
         // create anonymous user in database
@@ -155,8 +155,8 @@ public class ServiceFacadeTest {
 
         SysUser riderUser1 = new SysUser();
         riderUser1.setUserName(RIDER1_USER);
-        riderUser1.setFirstname("rider1Firstname");
-        riderUser1.setSurname("rider1Surname");
+        riderUser1.getUserInfo().setFirstname("rider1Firstname");
+        riderUser1.getUserInfo().setSurname("rider1Surname");
         riderUser1.setRole(Role.RIDER);
 
         try {
