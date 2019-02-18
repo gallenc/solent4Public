@@ -5,6 +5,7 @@
  */
 package org.solent.com600.example.journeyplanner.service;
 
+import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -71,7 +72,10 @@ public class ServiceFacadeImpl implements ServiceFacade {
         }
         return false;
     }
-    
+
+    /* **********************************************
+       LOW GRANULARITY RESTRICTED DATA ACCESS METHODS
+     */
     @Override
     public SysUser createUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN));
@@ -150,33 +154,53 @@ public class ServiceFacadeImpl implements ServiceFacade {
         return retrievedUser;
     }
 
+    /* **********************************************
+       HI GRANULARITY RESTRICTED DATA ACCESS METHODS
+     */
     @Override
-    public SysUser getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public UserInfo getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        return sysUser.getUserInfo();
     }
-
+    
     @Override
-    public SysUser updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        sysUser.setUserInfo(updateUserInfo);
+        updateUser(sysUser, actingSysUserName);
     }
-
+    
     @Override
     public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        sysUser.setPassword(newPassword);
+        updateUser(sysUser, actingSysUserName);
     }
-
+    
     @Override
     public Boolean getInsuranceVerified(String userName, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        return new Boolean(sysUser.getProcessInfo().getInsuranceVerified()); // detach object
     }
-
+    
     @Override
-    public void updateInsuranceVerified(Boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateInsuranceVerified(boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) throw new IllegalArgumentException("cannot find user  for username "+userName);
+        sysUser.getProcessInfo().setInsuranceVerified(insuranceVerified);
+        updateUser(sysUser, actingSysUserName);
     }
-
+    
     @Override
     public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (newRole == null) throw new IllegalArgumentException("new role cannot be null");
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) throw new IllegalArgumentException("cannot find user  for username "+userName);
+        sysUser.setRole(newRole);
+        updateUser(sysUser, actingSysUserName);
     }
 }

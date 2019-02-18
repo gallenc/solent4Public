@@ -21,15 +21,15 @@ public interface ServiceFacade {
 
     public void deleteAllUsers(String actingSysUserName) throws AuthenticationException;
 
-    public SysUser getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException;
+    public UserInfo getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException;
 
-    public SysUser updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException;
+    public void updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException;
 
     public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException;
 
     public Boolean getInsuranceVerified(String userName, String actingSysUserName) throws AuthenticationException;
 
-    public void updateInsuranceVerified(Boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException;
+    public void updateInsuranceVerified(boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException;
 
     public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException;
 
