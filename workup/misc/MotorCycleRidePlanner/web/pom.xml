@@ -118,6 +118,14 @@
             <groupId>org.solent.examples.com600.mcride</groupId>
             <artifactId>MotorCycleRidePlanner-dao-jaxb</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.solent.examples.com600.mcride</groupId>
+            <artifactId>MotorCycleRidePlanner-dao-jpa</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

@@ -14,7 +14,15 @@
         <log4j.version>2.11.1</log4j.version>
         <junit.version>4.12</junit.version>
         <hamcrest-core.version>1.3</hamcrest-core.version>
-        <jetty.version>9.0.5.v20130815</jetty.version>
+        <!-- class path loading problems with this version -->
+        <!--        <jetty.version>9.0.5.v20130815</jetty.version>-->
+        
+        <!-- spammed with warnings for class path in this one -->
+        <!-- see https://stackoverflow.com/questions/52402360/maven-jetty-spams-warning-scanned-from-multiple-locations -->
+        <!--<jetty.version>9.4.9.v20180320</jetty.version>-->
+        <!-- this version works without warnings but takes a while to come up -->
+        <jetty.version>9.3.9.v20160517</jetty.version>
+
         <jersey.version>2.17</jersey.version>
         <maven.surefire.plugin.version>2.18</maven.surefire.plugin.version>
     </properties>

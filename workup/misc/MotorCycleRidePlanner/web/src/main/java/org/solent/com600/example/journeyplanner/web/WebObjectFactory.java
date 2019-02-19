@@ -14,8 +14,6 @@ import org.solent.com600.example.journeyplanner.service.ServiceFactoryImpl;
  */
 public class WebObjectFactory {
 
-
-
     private static ServiceFactory serviceFactory = null;
 
     public static ServiceFactory getServiceFactory() {
