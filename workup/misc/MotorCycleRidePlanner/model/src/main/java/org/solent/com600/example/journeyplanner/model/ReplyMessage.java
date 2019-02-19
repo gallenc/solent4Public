@@ -12,7 +12,7 @@ public class ReplyMessage {
 
     private String debugMessage;
 
-    private ReplyData data;
+    private ReplyData data = new ReplyData();
 
     public Integer getCode() {
         return code;

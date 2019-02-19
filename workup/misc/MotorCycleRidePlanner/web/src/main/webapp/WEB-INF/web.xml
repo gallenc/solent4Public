@@ -8,8 +8,8 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>org.solent.examples.com600.mcride.web.rest.RestApp</param-value>
-            <!--<param-value>org.solent.com600.example.journeyplanner.web.rest.RestApp</param-value> -->
+            <!--<param-value>org.solent.examples.com600.mcride.web.rest.RestApp</param-value>-->
+            <param-value>org.solent.com600.example.journeyplanner.web.rest.RestApp</param-value> 
         </init-param>
     </servlet>
     <servlet-mapping>

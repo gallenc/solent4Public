@@ -6,6 +6,8 @@
 package org.solent.com600.example.journeyplanner.web.rest;
 
 import java.util.List;
+import java.util.logging.Level;
+import javax.naming.AuthenticationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 
@@ -22,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import org.solent.com600.example.journeyplanner.model.ReplyMessage;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
+import org.solent.com600.example.journeyplanner.model.SysUser;
+import org.solent.com600.example.journeyplanner.service.ServiceFacadeImpl;
 import org.solent.com600.example.journeyplanner.web.WebObjectFactory;
 
 /**
@@ -32,13 +36,36 @@ import org.solent.com600.example.journeyplanner.web.WebObjectFactory;
 public class MotorCycleRidePlannerRestImpl {
 
     private static final Logger LOG = LoggerFactory.getLogger(MotorCycleRidePlannerRestImpl.class);
-    
-    //    @GET
+
+    // http://localhost:8680/rest/mcapp/getusers?username=SuperAdmin
+    @GET
+    @Path("/getusers")
+    public Response retrieve(@QueryParam("username") String userName) {
+
+        if (userName==null) userName = ServiceFacadeImpl.SUPERADMIN_SYSUSERNAME;
+        ReplyMessage replyMessage = new ReplyMessage();
+
+        try {
+            ServiceFacade serviceFacade = WebObjectFactory.getServiceFactory().getServiceFacade();
+            List<SysUser> allusers = serviceFacade.retrieveAllUsers(userName);
+            replyMessage.setDebugMessage("happy to serve");
+            replyMessage.getData().setSysUserList(allusers);
+            return Response.status(Response.Status.OK).entity(replyMessage).build();
+        } catch (AuthenticationException ex) {
+            replyMessage.setDebugMessage(ex.getMessage());
+            return Response.status(Response.Status.UNAUTHORIZED).entity(replyMessage).build();
+        } catch (Exception e) {
+            replyMessage.setDebugMessage(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(replyMessage).build();
+        }
+
+    }
+
+//    @GET
 //    @Path("/retrieve")
 //    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 //    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 //    public Response retrieve(@QueryParam("id") Integer id) {
-
 //    @POST
 //    @Path("/retrievematching")
 //    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
