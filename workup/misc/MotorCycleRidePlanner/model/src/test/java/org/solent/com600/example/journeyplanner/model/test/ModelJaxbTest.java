@@ -75,7 +75,6 @@ public class ModelJaxbTest {
             userList.add(sysUser);
             
             sysUser.setPassWordHash("XXX");
-            sysUser.setPasswordSalt("YYY");
             sysUser.setPassword("ZZZ");
             sysUser.setRole(Role.RIDER);
 

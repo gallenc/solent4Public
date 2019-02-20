@@ -13,7 +13,6 @@ import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.ServiceFactory;
 import org.solent.com600.example.journeyplanner.model.SysUser;
-import org.solent.com600.example.journeyplanner.model.UserInfo;
 import org.solent.com600.example.journeyplanner.service.ServiceFacadeImpl;
 import org.solent.com600.example.journeyplanner.service.ServiceFactoryImpl;
 
@@ -22,11 +21,19 @@ import org.solent.com600.example.journeyplanner.service.ServiceFactoryImpl;
  * @author gallenc
  */
 public class ServiceFacadeTest {
+    //TODO THIS CLASS STILL ALLOWS SAME USERS TO RETREIVE THEIR OWN DATA - NEEDS CHANGED
 
     public static final String ADMIN1_USER = "admin1";
+    public static final String ADMIN1_USER_PASSWORD = "admin1password";
+
     public static final String ANONAMOUS1_USER = "anon1";
+    public static final String ANONAMOUS1_USER_PASSWORD = "anon1";
+
     public static final String RIDELEADER1_USER = "rideleader1";
+    public static final String RIDELEADER1_USER_PASSWORD = "rideleader1";
+
     public static final String RIDER1_USER = "rider1";
+    public static final String RIDER1_USER_PASSWORD = "rider1password";
 
     @Test
     public void facadeLowGranualarityAuthorisationTest() {
@@ -122,7 +129,7 @@ public class ServiceFacadeTest {
             String actingSysUserName = ADMIN1_USER;
             serviceFacade.getUserInfoByUserName(userName, actingSysUserName);;
         } catch (AuthenticationException ex) {
-            fail("Admin should be able to change password ");
+            fail("Admin should be able to get user info ");
         }
 
         // same user allowed to get user info
@@ -131,7 +138,7 @@ public class ServiceFacadeTest {
             String actingSysUserName = RIDER1_USER;
             serviceFacade.getUserInfoByUserName(userName, actingSysUserName);;
         } catch (AuthenticationException ex) {
-            fail("same user should be able to change password ");
+            fail("same user should be able to get user info ");
         }
 
         try {
@@ -142,12 +149,41 @@ public class ServiceFacadeTest {
         } catch (AuthenticationException ex) {
         }
 
+        //admin allowed to change password with no old password
+        try {
+            String userName = RIDER1_USER;
+            String actingSysUserName = ADMIN1_USER;
+            String newPassword = RIDER1_USER_PASSWORD;
+            serviceFacade.updatePasswordByUserName(newPassword, userName, actingSysUserName);
+
+            // check password
+            assertTrue(serviceFacade.checkPasswordByUserName(newPassword, userName, actingSysUserName));
+            assertFalse(serviceFacade.checkPasswordByUserName("xxx", userName, actingSysUserName));
+
+        } catch (AuthenticationException ex) {
+            fail("admin user should be able to change another user password " + ex.getMessage());
+        }
+
+        // same user allowed to change password with old password
+        try {
+            String userName = RIDER1_USER;
+            String actingSysUserName = RIDER1_USER;
+            String oldPassword = RIDER1_USER_PASSWORD;
+            String newPassword = RIDER1_USER_PASSWORD + "new";
+            serviceFacade.updateOldPasswordByUserName(newPassword, oldPassword, userName, actingSysUserName);
+
+            // check password
+            assertTrue(serviceFacade.checkPasswordByUserName(newPassword, userName, actingSysUserName));
+            assertFalse(serviceFacade.checkPasswordByUserName(oldPassword, userName, actingSysUserName));
+
+        } catch (AuthenticationException ex) {
+            fail("admin user should be able to change anotehr user password " + ex.getMessage());
+        }
+
         //TODO ADD TESTS
         // allowed to modify user info
         // not allowed to get user info
         // not allowed to modify user info
-        //allowec to change password
-        // not allowed to change password
         //allowed to change insuranceVerified
         // not allowed to change insurance verified
     }
@@ -165,6 +201,7 @@ public class ServiceFacadeTest {
         // create users with different permissions
         SysUser adminUser1 = new SysUser();
         adminUser1.setUserName(ADMIN1_USER);
+        adminUser1.setPassword(ADMIN1_USER_PASSWORD);
         adminUser1.getUserInfo().setFirstname("AdminFirstname");
         adminUser1.getUserInfo().setSurname("AdminSurname");
         adminUser1.setRole(Role.ADMIN);
@@ -178,6 +215,7 @@ public class ServiceFacadeTest {
 
         SysUser anonUser = new SysUser();
         anonUser.setUserName(ANONAMOUS1_USER);
+        anonUser.setPassword(ANONAMOUS1_USER_PASSWORD);
         anonUser.getUserInfo().setFirstname("AnonFirstname");
         anonUser.getUserInfo().setSurname("AnonSurname");
         anonUser.setRole(Role.ANONYMOUS);
@@ -191,6 +229,7 @@ public class ServiceFacadeTest {
 
         SysUser rideLeaderUser1 = new SysUser();
         rideLeaderUser1.setUserName(RIDELEADER1_USER);
+        rideLeaderUser1.setPassword(RIDELEADER1_USER_PASSWORD);
         rideLeaderUser1.getUserInfo().setFirstname("RideLeader1Firstname");
         rideLeaderUser1.getUserInfo().setSurname("RideLeaderSurname");
         rideLeaderUser1.setRole(Role.RIDELEADER);
@@ -204,6 +243,7 @@ public class ServiceFacadeTest {
 
         SysUser riderUser1 = new SysUser();
         riderUser1.setUserName(RIDER1_USER);
+        riderUser1.setPassword(RIDER1_USER_PASSWORD);
         riderUser1.getUserInfo().setFirstname("rider1Firstname");
         riderUser1.getUserInfo().setSurname("rider1Surname");
         riderUser1.setRole(Role.RIDER);

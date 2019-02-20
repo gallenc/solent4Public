@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,9 +27,7 @@ public class SysUser {
 
     private String passWordHash;
 
-    private String passwordSalt;
-
-    private String password;
+    private String password =null;
 
     private ProcessInfo processInfo = new ProcessInfo();
 
@@ -70,14 +69,8 @@ public class SysUser {
         this.passWordHash = passWordHash;
     }
 
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
+    // passwords not saved in database only passwordhash is saved
+    @Transient
     public String getPassword() {
         return password;
     }
@@ -113,7 +106,6 @@ public class SysUser {
                 + ", role=" + role
                 + ", userName=" + userName
                 + ", passWordHash=" + ((passWordHash == null) ? "null" : "***set but not shown***")
-                + ", passwordSalt=" + ((passwordSalt == null) ? "null" : "***set but not shown***")
                 + ", password=" + ((password == null) ? "null" : "***set but not shown***")
                 + ", processInfo=" + processInfo
                 + ", userInfo=" + userInfo + '}';

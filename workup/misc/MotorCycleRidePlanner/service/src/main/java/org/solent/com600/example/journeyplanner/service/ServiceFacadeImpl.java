@@ -21,20 +21,21 @@ import org.solent.com600.example.journeyplanner.model.UserInfo;
  * @author gallenc
  */
 public class ServiceFacadeImpl implements ServiceFacade {
-    
+    //TODO THIS CLASs STILL ALLOWS SAME USERS TO RETREIVE THEIR OWN DATA - NEEDS CHANGED
+
     public static final String ANONYMOUS_SYSUSERNAME = "Anonymous";
     public static final String SUPERADMIN_SYSUSERNAME = "SuperAdmin";
-    
+
     private SysUserDAO sysUserDAO = null;
-    
+
     public SysUserDAO getSysUserDAO() {
         return sysUserDAO;
     }
-    
+
     public void setSysUserDAO(SysUserDAO sysUserDAO) {
         this.sysUserDAO = sysUserDAO;
     }
-    
+
     private boolean validateUserAction(SysUser modifiedSysUser, String actingSysUserName, List<Role> authList) {
         if (actingSysUserName == null) {
             throw new IllegalArgumentException("actingSysUserName must not be null when calling operation");
@@ -58,7 +59,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
             if (actingSysUser == null) {
                 return false;
             }
-            
+
             Role actingRole = actingSysUser.getRole();
             if (authList.contains(actingRole)) {
                 return true;
@@ -68,7 +69,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
                     return true;
                 }
             }
-            
+
         }
         return false;
     }
@@ -82,10 +83,18 @@ public class ServiceFacadeImpl implements ServiceFacade {
         if (!validateUserAction(null, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to create user");
         }
+        if (sysUser.getPassword() == null) {
+            throw new AuthenticationException("user must be create with an initial password set");
+        }
+
+        String hash = PasswordUtils.hashPassword(sysUser.getPassword());
+        sysUser.setPassword(null);
+        sysUser.setPassWordHash(hash);
+
         SysUser newSysUser = sysUserDAO.create(sysUser);
         return newSysUser;
     }
-    
+
     @Override
     public void deleteUser(Long id, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN));
@@ -94,7 +103,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         }
         sysUserDAO.delete(id);
     }
-    
+
     @Override
     public SysUser retrieveUser(Long id, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.SAME_USER));
@@ -104,7 +113,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         }
         return retrievedUser;
     }
-    
+
     @Override
     public List<SysUser> retrieveAllUsers(String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
@@ -114,7 +123,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         List<SysUser> retrievedUsers = sysUserDAO.retrieveAll();
         return retrievedUsers;
     }
-    
+
     @Override
     public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
@@ -124,7 +133,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         List<SysUser> retrievedUsers = sysUserDAO.retrieveAll();
         return retrievedUsers;
     }
-    
+
     @Override
     public SysUser updateUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.SAME_USER));
@@ -134,7 +143,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         SysUser newSysUser = sysUserDAO.update(sysUser);
         return newSysUser;
     }
-    
+
     @Override
     public void deleteAllUsers(String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN));
@@ -143,7 +152,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         }
         sysUserDAO.deleteAll();
     }
-    
+
     @Override
     public SysUser retrieveByUserName(String username, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.SAME_USER));
@@ -160,47 +169,89 @@ public class ServiceFacadeImpl implements ServiceFacade {
     @Override
     public UserInfo getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException {
         SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
-        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user for username " + userName);
+        }
         return sysUser.getUserInfo();
     }
-    
+
     @Override
     public void updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException {
         SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
-        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user for username " + userName);
+        }
         sysUser.setUserInfo(updateUserInfo);
         updateUser(sysUser, actingSysUserName);
     }
-    
-    @Override
-    public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException {
-        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
-        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
-        sysUser.setPassword(newPassword);
-        updateUser(sysUser, actingSysUserName);
-    }
-    
+
     @Override
     public Boolean getInsuranceVerified(String userName, String actingSysUserName) throws AuthenticationException {
         SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
-        if (sysUser == null) throw new IllegalArgumentException("cannot find user for username "+userName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user for username " + userName);
+        }
         return new Boolean(sysUser.getProcessInfo().getInsuranceVerified()); // detach object
     }
-    
+
     @Override
     public void updateInsuranceVerified(boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException {
         SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
-        if (sysUser == null) throw new IllegalArgumentException("cannot find user  for username "+userName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user  for username " + userName);
+        }
         sysUser.getProcessInfo().setInsuranceVerified(insuranceVerified);
         updateUser(sysUser, actingSysUserName);
     }
-    
+
     @Override
     public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException {
-        if (newRole == null) throw new IllegalArgumentException("new role cannot be null");
+        if (newRole == null) {
+            throw new IllegalArgumentException("new role cannot be null");
+        }
         SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
-        if (sysUser == null) throw new IllegalArgumentException("cannot find user  for username "+userName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user  for username " + userName);
+        }
         sysUser.setRole(newRole);
         updateUser(sysUser, actingSysUserName);
+    }
+
+    @Override
+    public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user for username " + userName);
+        }
+        String passwordHash = PasswordUtils.hashPassword(newPassword);
+        sysUser.setPassWordHash(passwordHash);
+        updateUser(sysUser, actingSysUserName);
+    }
+
+    @Override
+    public void updateOldPasswordByUserName(String newPassword, String oldPassword, String userName, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user for username " + userName);
+        }
+
+        String oldPasswordHash = sysUser.getPassWordHash();
+        if (!PasswordUtils.checkPassword(oldPassword, oldPasswordHash)) {
+            throw new AuthenticationException("old password does not match");
+        }
+
+        String passwordHash = PasswordUtils.hashPassword(newPassword);
+        sysUser.setPassWordHash(passwordHash);
+        updateUser(sysUser, actingSysUserName);
+    }
+
+    @Override
+    public boolean checkPasswordByUserName(String password, String userName, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = retrieveByUserName(userName, actingSysUserName);
+        if (sysUser == null) {
+            throw new IllegalArgumentException("cannot find user for username " + userName);
+        }
+        String passwordHash = sysUser.getPassWordHash();
+        return PasswordUtils.checkPassword(password, passwordHash);
     }
 }

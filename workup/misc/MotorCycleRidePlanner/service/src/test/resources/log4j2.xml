@@ -43,7 +43,7 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="transactionLog"/>
         </Logger>
-        <Root level="INFO">
+        <Root level="DEBUG"> <!-- INFO-->
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

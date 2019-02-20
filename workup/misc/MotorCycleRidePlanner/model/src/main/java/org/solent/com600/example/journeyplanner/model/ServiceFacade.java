@@ -10,7 +10,7 @@ public interface ServiceFacade {
     public void deleteUser(Long id, String actingSysUserName) throws AuthenticationException;
 
     public SysUser retrieveUser(Long id, String actingSysUserName) throws AuthenticationException;
-    
+
     public SysUser retrieveByUserName(String username, String actingSysUserName) throws AuthenticationException;
 
     public List<SysUser> retrieveAllUsers(String actingSysUserName) throws AuthenticationException;
@@ -26,6 +26,10 @@ public interface ServiceFacade {
     public void updateUserInfoByUserName(UserInfo updateUserInfo, String userName, String actingSysUserName) throws AuthenticationException;
 
     public void updatePasswordByUserName(String newPassword, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public void updateOldPasswordByUserName(String newPassword, String oldPassword, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public boolean checkPasswordByUserName(String password, String userName, String actingSysUserName) throws AuthenticationException;
 
     public Boolean getInsuranceVerified(String userName, String actingSysUserName) throws AuthenticationException;
 
