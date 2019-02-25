@@ -37,7 +37,7 @@ public class ServiceFactoryImpl implements ServiceFactory {
             LOG.warn("admin user not present in database. Created default admin user. You should change password");
             SysUser adminUser1 = new SysUser();
             adminUser1.setUserName(DEFAULT_ADMIN_USER);
-            adminUser1.setPassword(DEFAULT_ADMIN_USER_PASSWORD);
+            adminUser1.setPassWordHash(PasswordUtils.hashPassword(DEFAULT_ADMIN_USER_PASSWORD));
             adminUser1.getUserInfo().setFirstname("Default Admin User First Name");
             adminUser1.getUserInfo().setSurname("Default Admin User Surname");
             adminUser1.setRole(Role.ADMIN);
