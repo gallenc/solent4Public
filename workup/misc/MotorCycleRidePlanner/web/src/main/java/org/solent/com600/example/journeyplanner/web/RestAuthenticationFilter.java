@@ -13,6 +13,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.solent.com600.example.journeyplanner.web.rest.MotorCycleRidePlannerRestImpl;
 
 /**
  * see
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author gallenc
  */
 public class RestAuthenticationFilter implements javax.servlet.Filter {
+    private static final Logger LOG = LoggerFactory.getLogger(RestAuthenticationFilter.class);
 
     public static final String AUTHENTICATION_HEADER = "Authorization";
 
@@ -29,8 +33,7 @@ public class RestAuthenticationFilter implements javax.servlet.Filter {
             FilterChain filter) throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-            String authCredentials = httpServletRequest
-                    .getHeader(AUTHENTICATION_HEADER);
+            String authCredentials = httpServletRequest.getHeader(AUTHENTICATION_HEADER);
 
             // You can implement dependancy injection here
             AuthenticationService authenticationService = new AuthenticationService();
@@ -38,9 +41,12 @@ public class RestAuthenticationFilter implements javax.servlet.Filter {
             boolean authenticationStatus = authenticationService.authenticate(authCredentials);
 
             if (authenticationStatus) {
+                LOG.debug("authorised returning authorised reponse");
                 filter.doFilter(request, response);
             } else {
+                LOG.debug("unauthorised returning unauthorised reponse");
                 if (response instanceof HttpServletResponse) {
+                    LOG.debug("marking response unauthorised");
                     HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                     httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 }
