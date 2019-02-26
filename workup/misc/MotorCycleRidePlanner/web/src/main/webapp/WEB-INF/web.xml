@@ -11,6 +11,7 @@
             <!--<param-value>org.solent.examples.com600.mcride.web.rest.RestApp</param-value>-->
             <param-value>org.solent.com600.example.journeyplanner.web.rest.RestApp</param-value> 
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>RestApp</servlet-name>
