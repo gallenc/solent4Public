@@ -8,6 +8,7 @@ package org.solent.com600.example.journeyplanner.jpadao;
 import java.util.List;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
@@ -62,10 +63,10 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
     @Override
     public List<SysUser> retrieveLikeMatching(String surname, String firstname) {
         // see https://stackoverflow.com/questions/21456494/spring-jpa-query-with-like
-        
-        String queryString="select u from SysUser u WHERE UPPER(u.userInfo.surname) LIKE CONCAT('%',UPPER(:surname),'%')"
+
+        String queryString = "select u from SysUser u WHERE UPPER(u.userInfo.surname) LIKE CONCAT('%',UPPER(:surname),'%')"
                 + " AND UPPER(u.userInfo.firstname) LIKE CONCAT('%',UPPER(:firstname),'%')";
-      
+
         TypedQuery<SysUser> q = entityManager.createQuery(queryString, SysUser.class);
         q.setParameter("surname", surname);
         q.setParameter("firstname", firstname);
@@ -92,7 +93,11 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
     public SysUser retrieveByUserName(String username) {
         TypedQuery<SysUser> q = entityManager.createQuery("select u from SysUser u WHERE u.userName=:userName", SysUser.class);
         q.setParameter("userName", username);
-        SysUser sysUser = q.getSingleResult();
+        SysUser sysUser = null;
+        try {
+            sysUser = q.getSingleResult();
+        } catch (NoResultException ex) {
+        }
         return sysUser;
     }
 

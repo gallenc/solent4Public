@@ -19,17 +19,17 @@ public class UserInfo {
 
     private String firstname;
 
-    private Address address;
+    private Address address = new Address();
 
     private String emergencyContactFirstName;
 
-    private Insurance insurance;
+    private Insurance insurance = new Insurance();
 
     private String medicalMd;
 
     private String emergencyContactSurname;
 
-    private Address emergencyContactAddress;
+    private Address emergencyContactAddress = new Address();
 
     private String emergencyContactRelationship;
 

@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ListUsers
-    Created on : 26-Feb-2019, 09:16:55
-    Author     : gallenc
+    Document   : addOrModifyRideout
+    Created on : Feb 27, 2019, 7:01:13 PM
+    Author     : cgallen
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>List users</title>
+        <title>JSP Page</title>
     </head>
     <body>
         <h1>Hello World!</h1>

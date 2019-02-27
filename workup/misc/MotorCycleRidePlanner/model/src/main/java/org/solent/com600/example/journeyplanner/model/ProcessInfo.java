@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class ProcessInfo {
 
-    private Boolean insuranceVerified;
+    private Boolean insuranceVerified = false;
 
     public Boolean getInsuranceVerified() {
         return insuranceVerified;
