@@ -55,6 +55,14 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
                 <configuration>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                        <!-- this prevents long startup times with scanning all jars for annotations -->
+                        <!-- see https://stackoverflow.com/questions/25229710/jetty-annotation-timeout-reason/43819722 -->
+                        <!-- https://www.eclipse.org/jetty/documentation/9.4.x/configuring-webapps.html  -->
+                        <!-- org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern -->
+                        <webInfIncludeJarPattern>.*/foo-[^/]*\.jar$|.*/classes/.*</webInfIncludeJarPattern>
+                    </webAppConfig>
                     <httpConnector>
                         <port>8680</port>
                     </httpConnector>
