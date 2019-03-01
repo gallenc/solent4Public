@@ -6,24 +6,26 @@ You will be constructing our use cases using Draw IO
 Draw IO (https://www.draw.io/) is a simple on line javascript based drawing library which can construct UML diagrams in your browser. 
 Images can be saved and loaded as xml files within your project and exported as images which can be included in your documentation.
 
-# Initial Diagrams
+# Design Diagrams
 
-# information model
+# Information Model
 ![alt text](../MotorCycleRidePlanner-uml/images/informationModel.png "Figure informationModel.png")
 
-## Template information diagram
+# Class Diagram
+![alt text](../MotorCycleRidePlanner-uml/images/MotorCycleRidePlannerClassDiagram.png "Figure MotorCycleRidePlannerClassDiagram.png")
 
-![alt text](../MotorCycleRidePlanner-uml/drawio/exampleproject-usecase-drawio.png "Figure exampleproject-usecase-drawio.png")
 
-## Template use case diagram
+## Use case diagram
 
-![alt text](../MotorCycleRidePlanner-uml/drawio/exampleproject-usecase-drawio.png "Figure exampleproject-usecase-drawio.png")
+![alt text](../MotorCycleRidePlanner-uml/drawio/MotorCycleRidePlanner-usecase-drawio.png "Figure MotorCycleRidePlanner-usecase-drawio.png")
 
-## Template Robustness Diagram 
+## MotorCycleRide Planner Page Flow 
 
-![alt text](../MotorCycleRidePlanner-uml/drawio/exampleproject-robustness-diagram-drawio.png "Figure exampleproject-robustness-diagram-drawio.png")
+![alt text](../MotorCycleRidePlanner-uml/drawio/MotorCycleRidePlanner-pageflow.png "Figure MotorCycleRidePlanner-pageflow.png")
 
-## Template Class Diagram
 
-![alt text](../MotorCycleRidePlanner-uml/images/exampleprojectClassDiagram.png "Figure exampleprojectClassDiagram.png")
+## MotorCycleRidePlanner Robustness Diagram 
+
+![alt text](../MotorCycleRidePlanner-uml/drawio/MotorCycleRidePlanner-robustness-diagram-drawio.png "Figure MotorCycleRidePlanner-robustness-diagram-drawio.png")
+
 
