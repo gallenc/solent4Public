@@ -37,7 +37,7 @@
 <!DOCTYPE html>
 <html>
 <!-- header.jsp injected content -->
-<%@include file="header.jsp"%>
+    <jsp:include page="header.jsp" />
 <!-- current jsp page content -->
             <!--BODY-->
             <div id="content">
@@ -56,7 +56,7 @@
             </div>
             
 <!-- footer.jsp injected content-->
-<%@include file="footer.jsp"%> 
+<jsp:include page="footer.jsp" />
 
 <!-- end of page -->
 </html>

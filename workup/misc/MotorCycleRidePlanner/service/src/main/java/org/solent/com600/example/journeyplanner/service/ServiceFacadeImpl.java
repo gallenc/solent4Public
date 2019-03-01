@@ -83,8 +83,8 @@ public class ServiceFacadeImpl implements ServiceFacade {
         if (!validateUserAction(null, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to create user");
         }
-        if (sysUser.getPassword() == null) {
-            throw new AuthenticationException("user must be create with an initial password set");
+        if (sysUser.getPassWordHash() == null) {
+            throw new AuthenticationException("user must be create with an initial passwordhash set");
         }
 
         String hash = PasswordUtils.hashPassword(sysUser.getPassword());
@@ -93,6 +93,18 @@ public class ServiceFacadeImpl implements ServiceFacade {
 
         SysUser newSysUser = sysUserDAO.create(sysUser);
         return newSysUser;
+    }
+
+    @Override
+    public SysUser createUser(String userName, String password, String firstname, String surname, String actingSysUserName) throws AuthenticationException {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserName(userName);
+        String passwordHash = PasswordUtils.hashPassword(password);
+        sysUser.setPassWordHash(passwordHash);
+        sysUser.setRole(Role.RIDER);
+        sysUser.getUserInfo().setFirstname(firstname);
+        sysUser.getUserInfo().setSurname(surname);
+        return createUser(sysUser, actingSysUserName);
     }
 
     @Override
@@ -130,7 +142,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         if (!validateUserAction(null, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive all users");
         }
-        List<SysUser> retrievedUsers = sysUserDAO.retrieveAll();
+        List<SysUser> retrievedUsers = sysUserDAO.retrieveLikeMatching(surname, firstname);
         return retrievedUsers;
     }
 
@@ -166,6 +178,16 @@ public class ServiceFacadeImpl implements ServiceFacade {
     /* **********************************************
        HI GRANULARITY RESTRICTED DATA ACCESS METHODS
      */
+    @Override
+    public Role getRoleByUserName(String userName) {
+        SysUser retrievedUser = sysUserDAO.retrieveByUserName(userName);
+        if (retrievedUser != null) {
+            return retrievedUser.getRole();
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public UserInfo getUserInfoByUserName(String userName, String actingSysUserName) throws AuthenticationException {
         SysUser sysUser = retrieveByUserName(userName, actingSysUserName);

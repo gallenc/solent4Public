@@ -7,6 +7,8 @@ public interface ServiceFacade {
 
     public SysUser createUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException;
 
+    public SysUser createUser(String userName, String password, String firstname, String lastname, String actingSysUserName) throws AuthenticationException;
+
     public void deleteUser(Long id, String actingSysUserName) throws AuthenticationException;
 
     public SysUser retrieveUser(Long id, String actingSysUserName) throws AuthenticationException;
@@ -36,5 +38,7 @@ public interface ServiceFacade {
     public void updateInsuranceVerified(boolean insuranceVerified, String userName, String actingSysUserName) throws AuthenticationException;
 
     public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public Role getRoleByUserName(String userName);
 
 }

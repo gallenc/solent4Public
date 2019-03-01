@@ -28,7 +28,7 @@
     // generic code for all JSPs to set up session
     // error message string
     String errorMessage = "";
-    
+
     ServiceFacade serviceFacade = (ServiceFacade) session.getAttribute("serviceFacade");
 
     // If the user session has no service facade, create a new one
@@ -37,22 +37,64 @@
         serviceFacade = serviceFactory.getServiceFacade();
         session.setAttribute("ServiceFacade", serviceFacade);
     }
-    
+
     String sessionUserName = (String) session.getAttribute("sessionUserName");
-    if(sessionUserName==null) sessionUserName = "anonymous";
-    
-    Role sessionUserRole = (Role)  session.getAttribute("sessionUserRole");
-    if(sessionUserRole==null) sessionUserRole = Role.ANONYMOUS;
+    if (sessionUserName == null) {
+        sessionUserName = "anonymous";
+    }
+
+    Role sessionUserRole = (Role) session.getAttribute("sessionUserRole");
+    if (sessionUserRole == null) {
+        sessionUserRole = Role.ANONYMOUS;
+    }
+
+    // access
+    String inputControl = "disabled";
+    String rolechangeControl = "disabled";
+    String insuranceVerifiedControl = "disabled";
+
+    if (Role.ANONYMOUS.equals(sessionUserRole)) {
+        // redirect main page
+    } else if (Role.RIDER.equals(sessionUserRole)) {
+        // redirect main page if not this user
+        inputControl = "";
+        rolechangeControl = "disabled";
+        insuranceVerifiedControl = "disabled";
+    } else if (Role.RIDELEADER.equals(sessionUserRole)) {
+        inputControl = "";
+        rolechangeControl = "disabled";
+        insuranceVerifiedControl = "";
+    } else if (Role.ADMIN.equals(sessionUserRole)) {
+        inputControl = "";
+        rolechangeControl = "";
+        insuranceVerifiedControl = "";
+    }
 
     // get request values
     String action = (String) request.getParameter("action");
     String selectedUserName = (String) request.getParameter("selectedUserName");
-    
+
     // this is just to test jsp display
     SysUser sysUser = serviceFacade.retrieveByUserName(selectedUserName, "admin");
-    
+    if (sysUser == null) {
+        sysUser = new SysUser();
+    }
+    UserInfo userInfo = sysUser.getUserInfo();
+    ProcessInfo processInfo = sysUser.getProcessInfo();
 
-    
+    Address address = (userInfo == null) ? new Address() : userInfo.getAddress();
+    Address emergencyContactAddress = (userInfo == null) ? new Address() : userInfo.getEmergencyContactAddress();
+    Insurance insurance = (userInfo == null) ? new Insurance() : userInfo.getInsurance();
+
+    // test actions
+    if ("changePassword".equals(action)) {
+
+    } else if ("updateUserInfo".equals(action)) {
+
+    } else if ("updateUserInfo".equals(action)) {
+
+    }
+
 //    String userName = "User_";
 //    sysUser.setUserName(userName);
 //
@@ -89,31 +131,18 @@
 //    sysUser.setPassword("ZZZ");  // should not persist as transient
 //    sysUser.setRole(Role.RIDER);
 
-    UserInfo userInfo = sysUser.getUserInfo();
-    ProcessInfo processInfo = sysUser.getProcessInfo();
-
-    Address address = userInfo.getAddress();
-    Address emergencyContactAddress = userInfo.getEmergencyContactAddress();
-    Insurance insurance = userInfo.getInsurance();
-    
-
-// access
-    String control = "disabled";
-    String rolechangeControl = "";   //  String rolechangeControl = "disabled";
-    String insuranceVerifiedControl = "disabled";
-
 %>
 <!DOCTYPE html>
 <html>
     <!-- header.jsp injected content -->
-    <%@include file="header.jsp"%>
+    <jsp:include page="header.jsp" />
     <!-- current jsp page content -->
     <!--BODY-->
     <div class="content"> 
         <!-- print error message if there is one -->
         <div style="color:red;"><%=errorMessage%></div>
         <BR>
-        <h2>User Details for <%=sysUser.getUserName() %> </h2>
+        <h2>User Details for <%=sysUser.getUserName()%> </h2>
         <div class="splitcontentleft">
             <BR>
             <h2>Update Password</h2>
@@ -144,23 +173,23 @@
                 </table>
                 <BR>
                 <table>
-                    <tr><td>username</td><td><input type="text" name="username" value ="<%=sysUser.getUserName()%>" <%=control%>  ></td></tr>
-                    <tr><td>first name</td><td><input type="text" name="firstname" value ="<%=userInfo.getFirstname()%>" <%=control%>  ></td></tr>
-                    <tr><td>surname</td><td><input type="text" name="surname" value ="<%=userInfo.getSurname()%>"<%=control%>  ></td></tr>
+                    <tr><td>username</td><td><input type="text" name="username" value ="<%=sysUser.getUserName()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>first name</td><td><input type="text" name="firstname" value ="<%=userInfo.getFirstname()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>surname</td><td><input type="text" name="surname" value ="<%=userInfo.getSurname()%>"<%=inputControl%>  ></td></tr>
                 </table>
                 <BR>
                 <h2>User Address</h2>
                 <BR>
                 <table>
-                    <tr><td>house number</td><td><input type="text" name="number" value ="<%=address.getNumber()%>" <%=control%>  ></td></tr>
-                    <tr><td>address line1</td><td><input type="text" name="addressline1" value ="<%=address.getAddressLine1()%>" <%=control%>  ></td></tr>
-                    <tr><td>address line2</td><td><input type="text" name="addressline2" value ="<%=address.getAddressLine2()%>" <%=control%>  ></td></tr>
-                    <tr><td>country</td><td><input type="text" name="country" value ="<%=address.getCountry()%>" <%=control%>  ></td></tr>
-                    <tr><td>county</td><td><input type="text" name="county" value ="<%=address.getCounty()%>" <%=control%>  ></td></tr>
-                    <tr><td>postcode</td><td><input type="text" name="postcode" value ="<%=address.getPostcode()%>" <%=control%>  ></td></tr>
-                    <tr><td>latitude</td><td><input type="text" name="latitude" value ="<%=address.getLatitude()%>" <%=control%>  ></td></tr>
-                    <tr><td>longitude</td><td><input type="text" name="longitude" value ="<%=address.getLongitude()%>" <%=control%>  ></td></tr>
-                    <tr><td>mobile</td><td><input type="text" name="mobile" value ="<%=address.getMobile()%>" <%=control%>  ></td></tr>
+                    <tr><td>house number</td><td><input type="text" name="number" value ="<%=address.getNumber()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>address line1</td><td><input type="text" name="addressline1" value ="<%=address.getAddressLine1()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>address line2</td><td><input type="text" name="addressline2" value ="<%=address.getAddressLine2()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>country</td><td><input type="text" name="country" value ="<%=address.getCountry()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>county</td><td><input type="text" name="county" value ="<%=address.getCounty()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>postcode</td><td><input type="text" name="postcode" value ="<%=address.getPostcode()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>latitude</td><td><input type="text" name="latitude" value ="<%=address.getLatitude()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>longitude</td><td><input type="text" name="longitude" value ="<%=address.getLongitude()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>mobile</td><td><input type="text" name="mobile" value ="<%=address.getMobile()%>" <%=inputControl%>  ></td></tr>
                 </table>
                 <BR>
                 </div>
@@ -170,19 +199,19 @@
                     <h2>Emergency Contact</h2>
                     <BR>
                     <table>
-                        <tr><td>emergency contact first name</td><td><input type="text" name="emergencycontactfirstname" value ="<%=userInfo.getEmergencyContactFirstName()%>" <%=control%>  ></td></tr>
-                        <tr><td>emergency contact surname</td><td><input type="text" name="emergencycontactsurname" value ="<%=userInfo.getEmergencyContactSurname()%>" <%=control%>  ></td></tr>
-                        <tr><td>emergency contact relationship</td><td><input type="text" name="emergencycontactrelationship" value ="<%=userInfo.getEmergencyContactRelationship()%>" <%=control%>  ></td></tr>
+                        <tr><td>emergency contact first name</td><td><input type="text" name="emergencycontactfirstname" value ="<%=userInfo.getEmergencyContactFirstName()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>emergency contact surname</td><td><input type="text" name="emergencycontactsurname" value ="<%=userInfo.getEmergencyContactSurname()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>emergency contact relationship</td><td><input type="text" name="emergencycontactrelationship" value ="<%=userInfo.getEmergencyContactRelationship()%>" <%=inputControl%>  ></td></tr>
 
-                        <tr><td>house number</td><td><input type="text" name="number" value ="<%=emergencyContactAddress.getNumber()%>" <%=control%>  ></td></tr>
-                        <tr><td>address line1</td><td><input type="text" name="addressline1" value ="<%=emergencyContactAddress.getAddressLine1()%>" <%=control%>  ></td></tr>
-                        <tr><td>address line2</td><td><input type="text" name="addressline2" value ="<%=emergencyContactAddress.getAddressLine2()%>" <%=control%>  ></td></tr>
-                        <tr><td>country</td><td><input type="text" name="country" value ="<%=emergencyContactAddress.getCountry()%>" <%=control%>  ></td></tr>
-                        <tr><td>county</td><td><input type="text" name="county" value ="<%=emergencyContactAddress.getCounty()%>" <%=control%>  ></td></tr>
-                        <tr><td>postcode</td><td><input type="text" name="postcode" value ="<%=emergencyContactAddress.getPostcode()%>" <%=control%>  ></td></tr>
-                        <tr><td>latitude</td><td><input type="text" name="latitude" value ="<%=emergencyContactAddress.getLatitude()%>" <%=control%>  ></td></tr>
-                        <tr><td>longitude</td><td><input type="text" name="longitude" value ="<%=emergencyContactAddress.getLongitude()%>" <%=control%>  ></td></tr>
-                        <tr><td>mobile</td><td><input type="text" name="mobile" value ="<%=emergencyContactAddress.getMobile()%>" <%=control%>  ></td></tr>
+                        <tr><td>house number</td><td><input type="text" name="number" value ="<%=emergencyContactAddress.getNumber()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>address line1</td><td><input type="text" name="addressline1" value ="<%=emergencyContactAddress.getAddressLine1()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>address line2</td><td><input type="text" name="addressline2" value ="<%=emergencyContactAddress.getAddressLine2()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>country</td><td><input type="text" name="country" value ="<%=emergencyContactAddress.getCountry()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>county</td><td><input type="text" name="county" value ="<%=emergencyContactAddress.getCounty()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>postcode</td><td><input type="text" name="postcode" value ="<%=emergencyContactAddress.getPostcode()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>latitude</td><td><input type="text" name="latitude" value ="<%=emergencyContactAddress.getLatitude()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>longitude</td><td><input type="text" name="longitude" value ="<%=emergencyContactAddress.getLongitude()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>mobile</td><td><input type="text" name="mobile" value ="<%=emergencyContactAddress.getMobile()%>" <%=inputControl%>  ></td></tr>
 
                     </table>
 
@@ -190,9 +219,9 @@
                     <h2>Medical and Insurance</h2>
                     <BR>
                     <table>
-                        <tr><td>insurance policy number</td><td><input type="text" name="insuranceno" value ="<%=insurance.getInsuranceNo()%>" <%=control%>  ></td></tr>
-                        <tr><td>insurance expiry date</td><td><input type="text" name="expirydate" value ="<%=insurance.getExpirydate()%>" <%=control%>  ></td></tr>
-                        <tr><td>Additional medical Information</td><td><input type="text" name="medicalmd" value ="<%=userInfo.getMedicalMd()%>" <%=control%>  ></td></tr>
+                        <tr><td>insurance policy number</td><td><input type="text" name="insuranceno" value ="<%=insurance.getInsuranceNo()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>insurance expiry date</td><td><input type="text" name="expirydate" value ="<%=insurance.getExpirydate()%>" <%=inputControl%>  ></td></tr>
+                        <tr><td>Additional medical Information</td><td><input type="text" name="medicalmd" value ="<%=userInfo.getMedicalMd()%>" <%=inputControl%>  ></td></tr>
                         <tr><td>insurance verified</td><td>
                                 <input type="checkbox" name="insuranceverified" value="true" <%=(processInfo.getInsuranceVerified()) ? "checked" : ""%>  <%=insuranceVerifiedControl%>  >
                                 <label for="insuranceverified">Verified</label></td></tr>
@@ -210,7 +239,7 @@
         </div>
 
         <!-- footer.jsp injected content-->
-        <%@include file="footer.jsp"%> 
+        <jsp:include page="footer.jsp" />
 
         <!-- end of page -->
 </html>

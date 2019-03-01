@@ -13,6 +13,7 @@ import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.ServiceFactory;
 import org.solent.com600.example.journeyplanner.model.SysUser;
+import org.solent.com600.example.journeyplanner.service.PasswordUtils;
 import org.solent.com600.example.journeyplanner.service.ServiceFacadeImpl;
 import org.solent.com600.example.journeyplanner.service.ServiceFactoryImpl;
 
@@ -202,6 +203,7 @@ public class ServiceFacadeTest {
         SysUser adminUser1 = new SysUser();
         adminUser1.setUserName(ADMIN1_USER);
         adminUser1.setPassword(ADMIN1_USER_PASSWORD);
+        adminUser1.setPassWordHash(PasswordUtils.hashPassword(ADMIN1_USER_PASSWORD));
         adminUser1.getUserInfo().setFirstname("AdminFirstname");
         adminUser1.getUserInfo().setSurname("AdminSurname");
         adminUser1.setRole(Role.ADMIN);
@@ -216,6 +218,7 @@ public class ServiceFacadeTest {
         SysUser anonUser = new SysUser();
         anonUser.setUserName(ANONAMOUS1_USER);
         anonUser.setPassword(ANONAMOUS1_USER_PASSWORD);
+        anonUser.setPassWordHash(PasswordUtils.hashPassword(ANONAMOUS1_USER_PASSWORD));
         anonUser.getUserInfo().setFirstname("AnonFirstname");
         anonUser.getUserInfo().setSurname("AnonSurname");
         anonUser.setRole(Role.ANONYMOUS);
@@ -230,6 +233,7 @@ public class ServiceFacadeTest {
         SysUser rideLeaderUser1 = new SysUser();
         rideLeaderUser1.setUserName(RIDELEADER1_USER);
         rideLeaderUser1.setPassword(RIDELEADER1_USER_PASSWORD);
+        rideLeaderUser1.setPassWordHash(PasswordUtils.hashPassword(RIDELEADER1_USER_PASSWORD));
         rideLeaderUser1.getUserInfo().setFirstname("RideLeader1Firstname");
         rideLeaderUser1.getUserInfo().setSurname("RideLeaderSurname");
         rideLeaderUser1.setRole(Role.RIDELEADER);
@@ -244,6 +248,7 @@ public class ServiceFacadeTest {
         SysUser riderUser1 = new SysUser();
         riderUser1.setUserName(RIDER1_USER);
         riderUser1.setPassword(RIDER1_USER_PASSWORD);
+        riderUser1.setPassWordHash(PasswordUtils.hashPassword(RIDER1_USER_PASSWORD));
         riderUser1.getUserInfo().setFirstname("rider1Firstname");
         riderUser1.getUserInfo().setSurname("rider1Surname");
         riderUser1.setRole(Role.RIDER);
