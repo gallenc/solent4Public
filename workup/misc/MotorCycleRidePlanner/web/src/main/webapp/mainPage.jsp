@@ -16,7 +16,7 @@
         
     </div>
     <div class="splitcontentleft">
-       <p>This site enables you th choose and register for the Hell Raisers motor cycle rideouts.</p>
+       <p>This site enables you to choose and register for the Hell Raisers motor cycle rideouts.</p>
     </div>
     <div class="splitcontentright">
         
