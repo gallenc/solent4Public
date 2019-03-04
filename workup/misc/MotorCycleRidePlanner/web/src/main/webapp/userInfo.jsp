@@ -74,13 +74,14 @@
     String action = (String) request.getParameter("action");
     String selectedUserName = (String) request.getParameter("selectedUserName");
 
-
     SysUser sysUser = serviceFacade.retrieveByUserName(selectedUserName, sessionUserName);
-    
-        // this is just to test jsp display
+    if (sysUser == null) {
+        throw new IllegalStateException("sysUser is null for selectedUserName=" + selectedUserName);
+    }
+    // this is just to test jsp display
 //    if (sysUser == null) {
 //        sysUser = new SysUser();
- //   }
+    //   }
     UserInfo userInfo = sysUser.getUserInfo();
     ProcessInfo processInfo = sysUser.getProcessInfo();
 
@@ -354,9 +355,9 @@
                         if (Role.ADMIN.equals(sessionUserRole)) {
                     %>
                     <tr><td>old password </td><td>not needed since in Admin role</td></tr>
-                        <%
-                        } else {
-                        %>
+                    <%
+                    } else {
+                    %>
                     <tr><td>old password </td><td><input type="password" id="oldpass" name="oldpassword"></td></tr>
                             <%
                                 }
@@ -391,7 +392,7 @@
                 <h2>User Information</h2>
                 <BR>
                 <table>
-                    <tr><td>username</td><td><input type="text" name="selectedUserName" value ="<%=sysUser.getUserName()%>" disabled  ></td></tr>
+                    <tr><td>username</td><td><%=selectedUserName%></td></tr>
                     <tr><td>first name</td><td><input type="text" name="firstname" value ="<%=userInfo.getFirstname()%>" <%=inputControl%>  ></td></tr>
                     <tr><td>surname</td><td><input type="text" name="surname" value ="<%=userInfo.getSurname()%>"<%=inputControl%>  ></td></tr>
                 </table>
@@ -451,11 +452,12 @@
                     </table>
                     <BR>
                 </div>
-
+                <input type="hidden" name="selectedUserName" value ="<%=selectedUserName%>">
                 <input type="hidden" name="action" value="updateUserInfo">
                 <input type="submit" value="Update User Information">
             </form>
             <form action="userInfo.jsp?selected=userInfo" method="post">
+                <input type="hidden" name="selectedUserName" value ="<%=selectedUserName%>">
                 <input type="hidden" name="action" value="cancel">
                 <input type="submit" value="Cancel">
             </form>

@@ -25,7 +25,7 @@
 
     String sessionUserName = (String) session.getAttribute("sessionUserName");
     if (sessionUserName == null) {
-        sessionUserName = sessionUserName;
+        sessionUserName = "anonymous";
         session.setAttribute("sessionUserName", sessionUserName);
     }
 

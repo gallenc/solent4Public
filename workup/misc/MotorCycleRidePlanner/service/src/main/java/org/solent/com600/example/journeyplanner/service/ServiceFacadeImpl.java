@@ -169,6 +169,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public SysUser retrieveByUserName(String username, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.SAME_USER));
         SysUser retrievedUser = sysUserDAO.retrieveByUserName(username);
+        if (retrievedUser==null) return null;
         if (!validateUserAction(retrievedUser, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive user");
         }
