@@ -25,7 +25,7 @@
 
     String sessionUserName = (String) session.getAttribute("sessionUserName");
     if (sessionUserName == null) {
-        sessionUserName = sessionUserName;
+        sessionUserName = "anonymous";
         session.setAttribute("sessionUserName", sessionUserName);
     }
 
@@ -46,7 +46,7 @@
         password = "";
     }
 
-    String password2 = (String) request.getParameter("password2");
+    String verifypassword = (String) request.getParameter("verifypassword");
 
     String firstname = (String) request.getParameter("firstname");
     if (firstname == null) {
@@ -82,7 +82,7 @@
             errorMessage = "Error - you must enter a username";
         } else if (password == null || password.length() < 8) {
             errorMessage = "Error - you must enter a password greater than 8 characters";
-        } else if (!password.equals(password2)) {
+        } else if (!password.equals(verifypassword)) {
             errorMessage = "Error - the two password entries must be equal ";
         } else {
             Role role = serviceFacade.getRoleByUserName(username);
@@ -133,17 +133,15 @@
             <form action="login.jsp" method=post>
                 <p><strong>Create a new User Account: </strong>
                     <input type="text" name="username" size="25" value="<%=username%>">
-                <p><p><strong>Please Enter A Password: </strong>
+                <p><strong>Please Enter A Password: </strong>
                     <input type="password" size="15" name="password">
-                <p><p><strong>Please re-enter your password: </strong>
-                    <input type="password" size="15" name="password2">
-                <p><p>
-                <p><p><strong>Please enter your first name: </strong>
+                <p><strong>Please re-enter your password: </strong>
+                    <input type="password" size="15" name="verifypassword">
+                <p><strong>Please enter your first name: </strong>
                     <input type="text" size="25" name="firstname" value="<%=firstname%>">
-                <p><p>
-                <p><p><strong>Please enter your surname: </strong>
+                <p>
+                <p><strong>Please enter your surname: </strong>
                     <input type="text" size="25" name="surname" value="<%=surname%>">
-                <p><p>
                     <input type="hidden" name="action" value="addNewUser">
                     <input type="submit" value="Create New User">
                     <input type="reset" value="Reset">

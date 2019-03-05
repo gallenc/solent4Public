@@ -52,9 +52,9 @@
         <div style="color:red;"><%=errorMessage%></div>
 
         <div class="splitcontentleft">
-            
-            
-            
+
+
+
         </div>
 
 
@@ -86,6 +86,13 @@
                             <input type="hidden" name="selectedUserName" value="<%=user.getUserName()%>">
                             <input type="submit" value="Show User">
                         </form>
+                        <% if (Role.ADMIN.equals(sessionUserRole)) {%>
+                        <form action="userInfo.jsp?selected=userInfo" method="get">
+                            <input type="hidden" name="action" value="deactivateUser">
+                            <input type="hidden" name="selectedUserName" value="<%=user.getUserName()%>">
+                            <input type="submit" value="Deactivate User">
+                        </form>
+                        <% }%>
                     </td>
                 </tr>
                 <%
