@@ -31,9 +31,13 @@ import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import org.solent.com600.example.journeyplanner.model.Address;
 import org.solent.com600.example.journeyplanner.model.Insurance;
+import org.solent.com600.example.journeyplanner.model.ItinearyItem;
 import org.solent.com600.example.journeyplanner.model.ProcessInfo;
 import org.solent.com600.example.journeyplanner.model.ReplyData;
 import org.solent.com600.example.journeyplanner.model.ReplyMessage;
+import org.solent.com600.example.journeyplanner.model.Rideout;
+import org.solent.com600.example.journeyplanner.model.RideoutDay;
+import org.solent.com600.example.journeyplanner.model.RideoutState;
 import org.solent.com600.example.journeyplanner.model.UserInfo;
 
 /**
@@ -43,7 +47,7 @@ import org.solent.com600.example.journeyplanner.model.UserInfo;
 public class ModelJaxbTest {
 
     @Test
-    public void testJaxb() {
+    public void testUserJaxb() {
 
         try {
 
@@ -73,19 +77,19 @@ public class ModelJaxbTest {
 
             SysUser sysUser = new SysUser();
             userList.add(sysUser);
-            
+
             sysUser.setPassWordHash("XXX");
             sysUser.setPassword("ZZZ");
             sysUser.setRole(Role.RIDER);
 
             UserInfo userInfo = sysUser.getUserInfo();
             sysUser.setUserInfo(userInfo);
-            
+
             ProcessInfo processInfo = sysUser.getProcessInfo();
             sysUser.setProcessInfo(processInfo);
-            
+
             processInfo.setInsuranceVerified(Boolean.TRUE);
-            
+
             Address address = new Address();
             address.setNumber("6");
             address.setAddressLine1("Plane Avenue");
@@ -113,6 +117,91 @@ public class ModelJaxbTest {
             userInfo.setInsurance(insurance);
 
             userInfo.setMedicalMd("#test Markdown");
+
+            // marshal the object lists to system out, a file and a stringWriter
+            jaxbMarshaller.marshal(replyMessage1, System.out);
+            jaxbMarshaller.marshal(replyMessage1, file);
+
+            // string writer is used to compare received object
+            StringWriter sw1 = new StringWriter();
+            jaxbMarshaller.marshal(replyMessage1, sw1);
+
+            // having written the file we now read in the file for test
+            Unmarshaller jaxbUnMarshaller = jaxbContext.createUnmarshaller();
+            ReplyMessage receivedMessage = (ReplyMessage) jaxbUnMarshaller.unmarshal(file);
+
+            StringWriter sw2 = new StringWriter();
+            jaxbMarshaller.marshal(receivedMessage, sw2);
+
+            // check transmitted and recieved message are the same
+            assertEquals(sw1.toString(), sw2.toString());
+
+        } catch (JAXBException e) {
+            throw new RuntimeException("problem testing jaxb marshalling", e);
+        }
+    }
+
+    @Test
+    public void testRidoutJaxb() {
+
+        try {
+
+            // test file we will write and read. 
+            // Note in target so that will be delted on each run and will not be saved to git
+            File file = new File("target/testData.xml");
+            System.out.println("writing test file to " + file.getAbsolutePath());
+
+            // jaxb context needs jaxb.index file to be in same classpath
+            // this contains a list of Jaxb annotated classes for the context to parse
+            JAXBContext jaxbContext = JAXBContext.newInstance("org.solent.com600.example.journeyplanner.model");
+
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            // create some mock objects to test marshalling and unmarshalling
+            ReplyMessage replyMessage1 = new ReplyMessage();
+            replyMessage1.setCode(200);
+            replyMessage1.setDebugMessage("debug message 1");
+
+            ReplyData replyData = new ReplyData();
+            replyMessage1.setData(replyData);
+
+            List<Rideout> ridoutList = replyData.getRidoutList();
+            Rideout rideout = new Rideout();
+            ridoutList.add(rideout);
+
+            String descriptionMd = "#description";
+            rideout.setDescriptionMd(descriptionMd);
+            rideout.setId(Long.MIN_VALUE);
+            rideout.setMaxRiders(Integer.MAX_VALUE);
+            SysUser rideLeader = new SysUser();
+            rideLeader.setRole(Role.RIDELEADER);
+            rideout.setRideLeader(rideLeader);
+
+            List<RideoutDay> rideoutDays = rideout.getRideoutDays();
+            RideoutDay rideoutDay = new RideoutDay();
+            rideoutDay.setDescriptionMd("#day 1");
+            List<ItinearyItem> itinearyItems = rideoutDay.getItinearyItems();
+
+            ItinearyItem itinearyItem = new ItinearyItem();
+            itinearyItem.setDescriptionMd("first itineary item");
+
+            itinearyItems.add(itinearyItem);
+
+            rideoutDays.add(rideoutDay);
+
+            rideout.setRideoutstate(RideoutState.FINISHED);
+            List<SysUser> riders = rideout.getRiders();
+            Date startDate = new Date();
+            rideout.setStartDate(startDate);
+
+            String title = "testTitle";
+            rideout.setTitle(title);
+
+            List<SysUser> waitlist = rideout.getWaitlist();
+            waitlist.add(new SysUser());
 
             // marshal the object lists to system out, a file and a stringWriter
             jaxbMarshaller.marshal(replyMessage1, System.out);
