@@ -1,7 +1,5 @@
 package org.solent.com600.example.journeyplanner.model;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;

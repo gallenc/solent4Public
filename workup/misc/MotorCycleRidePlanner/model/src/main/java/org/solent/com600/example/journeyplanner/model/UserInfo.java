@@ -15,23 +15,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class UserInfo {
 
-    private String surname;
+    private String surname="";
 
-    private String firstname;
+    private String firstname="";
 
     private Address address = new Address();
 
-    private String emergencyContactFirstName;
+    private String emergencyContactFirstName="";
 
     private Insurance insurance = new Insurance();
 
-    private String medicalMd;
+    private String medicalMd="";
 
-    private String emergencyContactSurname;
+    private String emergencyContactSurname="";
 
     private Address emergencyContactAddress = new Address();
 
-    private String emergencyContactRelationship;
+    private String emergencyContactRelationship="";
 
     public String getSurname() {
         return surname;

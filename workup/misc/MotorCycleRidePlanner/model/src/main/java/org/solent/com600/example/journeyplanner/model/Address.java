@@ -12,25 +12,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class Address {
 
-    private String number;
+    private String number="";
 
-    private String addressLine1;
+    private String addressLine1="";
 
-    private String addressLine2;
+    private String addressLine2="";
 
-    private String County;
+    private String County="";
 
-    private String Country;
+    private String Country="";
 
-    private String postcode;
+    private String postcode="";
 
-    private double latitude;
+    private double latitude=0.0;
 
-    private double longitude;
+    private double longitude=0.0;
 
-    private String telephone;
+    private String telephone="";
 
-    private String mobile;
+    private String mobile="";
 
     public String getNumber() {
         return number;

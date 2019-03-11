@@ -15,7 +15,7 @@ public class Insurance {
 
     private Date expirydate;
 
-    private String insuranceNo;
+    private String insuranceNo="";
 
 
     public Date getExpirydate() {
