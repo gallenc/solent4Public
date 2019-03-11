@@ -25,5 +25,7 @@ public interface RideoutDAO {
     public List<Rideout> retrieveAllByRider(SysUser rider, List<RideoutState> rideoutStates);
 
     public List<Rideout> retrieveAll(List<RideoutState> rideoutStates);
+    
+    public List<Rideout> retrieveAllWaitListByRider(SysUser rider, List<RideoutState> rideoutStates);
 
 }

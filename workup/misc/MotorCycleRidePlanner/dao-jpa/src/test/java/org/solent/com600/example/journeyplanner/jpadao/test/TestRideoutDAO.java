@@ -45,7 +45,7 @@ public class TestRideoutDAO {
         // set up rideoutDAO before creating rideouts
         RideoutDAO rideoutDAO = DAOFactory.getRideoutDAO();
         assertNotNull(rideoutDAO);
-        
+
         // first delete all rideouts before deleting/creating  users
         rideoutDAO.deleteAll();
 
@@ -55,8 +55,6 @@ public class TestRideoutDAO {
         TestSysUserDAO.testCreateSysUsersDatabase(userDAO);
 
         // now start testing the rideout dao
-
-
         // create multiple rideouts
         createMockRideouts(rideoutDAO);
         List<Rideout> createdRideouts = rideoutDAO.retrieveAll();
@@ -69,6 +67,9 @@ public class TestRideoutDAO {
 
         SysUser rideLeader = sysUsers.get(0);
         assertNotNull(rideLeader);
+
+        SysUser rider = sysUsers.get(1);
+        assertNotNull(rider);
 
         testRideout.setRideLeader(rideLeader);
 
@@ -85,13 +86,37 @@ public class TestRideoutDAO {
         LOG.debug("retrievedRideout:" + retrievedRideout);
         assertTrue(retrievedRideout.toString().equals(testRideout.toString()));
 
-        
         // retrieve rideouts by state
-        List<RideoutState> rideoutStates = Arrays.asList(RideoutState.PUBLISHED,RideoutState.PLANNING);
-        List<Rideout> retrievedRideouts =  rideoutDAO.retrieveAll(rideoutStates);
-        LOG.debug("retrievedRideouts (published planning) size :"+retrievedRideouts.size() );
-        for(Rideout rideout:retrievedRideouts){
-                LOG.debug("      " + rideout);
+        List<RideoutState> rideoutStates = Arrays.asList(RideoutState.PUBLISHED, RideoutState.PLANNING);
+        List<Rideout> retrievedRideouts = rideoutDAO.retrieveAll(rideoutStates);
+        LOG.debug("retrievedRideouts (published planning) size :" + retrievedRideouts.size());
+        for (Rideout rideout : retrievedRideouts) {
+            LOG.debug("      " + rideout);
+        }
+
+        String title = "rideoutNo";
+        retrievedRideouts = rideoutDAO.retrieveLikeMatching(title, rideoutStates);
+        LOG.debug("retrieveLikeMatching (published planning) size :" + retrievedRideouts.size());
+        for (Rideout rideout : retrievedRideouts) {
+            LOG.debug("      " + rideout);
+        }
+
+        retrievedRideouts = rideoutDAO.retrieveAllByRideLeader(rideLeader, rideoutStates);
+        LOG.debug("retrieveAllByRideLeader (published planning) size :" + retrievedRideouts.size());
+        for (Rideout rideout : retrievedRideouts) {
+            LOG.debug("      " + rideout);
+        }
+
+        retrievedRideouts = rideoutDAO.retrieveAllByRider(rider, rideoutStates);
+        LOG.debug("retrieveAllByRider (published planning) size :" + retrievedRideouts.size());
+        for (Rideout rideout : retrievedRideouts) {
+            LOG.debug("      " + rideout);
+        }
+
+        retrievedRideouts = rideoutDAO.retrieveAllWaitListByRider(rider, rideoutStates);
+        LOG.debug("retrieveAllWaitListByRider (published planning) size :" + retrievedRideouts.size());
+        for (Rideout rideout : retrievedRideouts) {
+            LOG.debug("      " + rideout);
         }
 
     }
@@ -101,7 +126,7 @@ public class TestRideoutDAO {
         rideoutDAO.deleteAll();
         List<Rideout> createdRideouts = rideoutDAO.retrieveAll();
         assertTrue(createdRideouts.isEmpty());
-        
+
         RideoutState[] rideoutStateValues = RideoutState.values();
 
         // create test rideouts from scratch
@@ -110,7 +135,7 @@ public class TestRideoutDAO {
             rideout.setRideoutstate(rideoutStateValues[rideoutNo]);
             rideout = rideoutDAO.createRideout(rideout);
             assertNotNull(rideout);
-            LOG.debug("created rideout:rideoutStateValues[rideoutNo]"+rideoutStateValues[rideoutNo]+"  " + rideout.toString());
+            LOG.debug("created rideout:rideoutStateValues[rideoutNo]" + rideoutStateValues[rideoutNo] + "  " + rideout.toString());
         }
     }
 
@@ -142,13 +167,33 @@ public class TestRideoutDAO {
             rideout.getRideoutDays().add(rideoutDay);
         }
 
-        //        SysUser rideLeader = new SysUser();
-//        rideLeader.setRole(Role.RIDELEADER);
-//        rideoutNo.setRideLeader(rideLeader);
-//
-//        List<SysUser> riders = rideoutNo.getRiders();
-//        List<SysUser> waitlist = rideoutNo.getWaitlist();
-//        waitlist.add(new SysUser());
+        // create and add ride leaders
+        // set up sysUsers for test
+        SysUserDAO userDAO = DAOFactory.getSysUserDAO();
+        assertNotNull(userDAO);
+
+        SysUser rideLeader = new SysUser();
+        rideLeader.setUserName("ride_leader_" + title);
+        rideLeader.setRole(Role.RIDELEADER);
+        userDAO.create(rideLeader);
+
+        SysUser rider = new SysUser();
+        rider.setUserName("rider_" + title);
+        rider.setRole(Role.RIDER);
+        userDAO.create(rider);
+
+        SysUser riderwait = new SysUser();
+        riderwait.setUserName("riderwait_" + title);
+        riderwait.setRole(Role.RIDER);
+        userDAO.create(riderwait);
+
+        rideout.setRideLeader(rideLeader);
+
+        List<SysUser> riders = rideout.getRiders();
+        riders.add(rider);
+        List<SysUser> waitlist = rideout.getWaitlist();
+        waitlist.add(riderwait);
+
         return rideout;
     }
 

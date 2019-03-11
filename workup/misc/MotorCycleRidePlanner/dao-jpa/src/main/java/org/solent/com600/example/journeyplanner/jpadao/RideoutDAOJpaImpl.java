@@ -92,22 +92,61 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
 
     @Override
     public List<Rideout> retrieveLikeMatching(String title, List<RideoutState> rideoutStates) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        String queryString = "select r from Rideout r WHERE UPPER(r.title) LIKE CONCAT('%',UPPER(:title),'%') AND "
+                + queryForRideoutState(rideoutStates);
+
+        TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
+        q.setParameter("title", title);
+        List<Rideout> rideoutList = q.getResultList();
+        return rideoutList;
     }
 
     @Override
     public List<Rideout> retrieveAllByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        String queryString = "select r from Rideout r WHERE r.rideLeader = :rideLeader AND "
+                + queryForRideoutState(rideoutStates);
+
+        TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
+        q.setParameter("rideLeader", rideLeader);
+        List<Rideout> rideoutList = q.getResultList();
+        return rideoutList;
+
     }
 
     @Override
     public List<Rideout> retrieveAllByRider(SysUser rider, List<RideoutState> rideoutStates) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String queryString = "select r from Rideout r join r.riders rdr WHERE rdr = :rider AND "
+                + queryForRideoutState(rideoutStates);
+
+        TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
+        q.setParameter("rider", rider);
+        List<Rideout> rideoutList = q.getResultList();
+
+        //Rideout r;
+        // r.getRiders()
+        //         r.getWaitlist()
+        return rideoutList;
+
+    }
+
+    @Override
+    public List<Rideout> retrieveAllWaitListByRider(SysUser rider, List<RideoutState> rideoutStates) {
+        String queryString = "select r from Rideout r join r.waitlist rdr WHERE rdr = :rider AND "
+                + queryForRideoutState(rideoutStates);
+
+        TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
+        q.setParameter("rider", rider);
+        List<Rideout> rideoutList = q.getResultList();
+
+        return rideoutList;
+
     }
 
     @Override
     public List<Rideout> retrieveAll(List<RideoutState> rideoutStates) {
-        String queryString="select r from Rideout r WHERE "+queryForRideoutState(rideoutStates);
+        String queryString = "select r from Rideout r WHERE " + queryForRideoutState(rideoutStates);
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         List<Rideout> rideoutList = q.getResultList();
         return rideoutList;
@@ -120,7 +159,7 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
         while (it.hasNext()) {
             RideoutState state = it.next();
             // this isnt great but it works
-            query = query+ "r.rideoutstate = " + state.getClass().getName()+"."+state.name();
+            query = query + "r.rideoutstate = " + state.getClass().getName() + "." + state.name();
             if (it.hasNext()) {
                 query = query + " OR ";
             }
