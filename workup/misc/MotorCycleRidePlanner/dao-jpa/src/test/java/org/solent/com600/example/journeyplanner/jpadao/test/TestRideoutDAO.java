@@ -59,7 +59,7 @@ public class TestRideoutDAO {
 
         // create multiple rideouts
         createMockRideouts(rideoutDAO);
-        List<Rideout> createdRideouts = rideoutDAO.retreiveAll();
+        List<Rideout> createdRideouts = rideoutDAO.retrieveAll();
         LOG.debug("createdRideouts.size:" + createdRideouts.size());
 
         List<SysUser> sysUsers = userDAO.retrieveAll();
@@ -80,17 +80,17 @@ public class TestRideoutDAO {
 
         rideoutDAO.update(testRideout);
 
-        Rideout retreivedRideout = rideoutDAO.retreive(testRideoutID);
-        assertNotNull(retreivedRideout);
-        LOG.debug("retreivedRideout:" + retreivedRideout);
-        assertTrue(retreivedRideout.toString().equals(testRideout.toString()));
+        Rideout retrievedRideout = rideoutDAO.retrieve(testRideoutID);
+        assertNotNull(retrievedRideout);
+        LOG.debug("retrievedRideout:" + retrievedRideout);
+        assertTrue(retrievedRideout.toString().equals(testRideout.toString()));
 
         
-        // retreive rideouts by state
+        // retrieve rideouts by state
         List<RideoutState> rideoutStates = Arrays.asList(RideoutState.PUBLISHED,RideoutState.PLANNING);
-        List<Rideout> retreivedRideouts =  rideoutDAO.retreiveAll(rideoutStates);
-        LOG.debug("retreivedRideouts (published planning) size :"+retreivedRideouts.size() );
-        for(Rideout rideout:retreivedRideouts){
+        List<Rideout> retrievedRideouts =  rideoutDAO.retrieveAll(rideoutStates);
+        LOG.debug("retrievedRideouts (published planning) size :"+retrievedRideouts.size() );
+        for(Rideout rideout:retrievedRideouts){
                 LOG.debug("      " + rideout);
         }
 
@@ -99,7 +99,7 @@ public class TestRideoutDAO {
     public void createMockRideouts(RideoutDAO rideoutDAO) {
         // delete any pre-existing rideouts
         rideoutDAO.deleteAll();
-        List<Rideout> createdRideouts = rideoutDAO.retreiveAll();
+        List<Rideout> createdRideouts = rideoutDAO.retrieveAll();
         assertTrue(createdRideouts.isEmpty());
         
         RideoutState[] rideoutStateValues = RideoutState.values();

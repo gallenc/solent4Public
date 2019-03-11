@@ -10,9 +10,9 @@ public interface RideoutDAO {
 
     public void delete(Long Id);
 
-    public Rideout retreive(Long id);
+    public Rideout retrieve(Long id);
 
-    public List<Rideout> retreiveAll();
+    public List<Rideout> retrieveAll();
 
     public void deleteAll();
 
@@ -20,10 +20,10 @@ public interface RideoutDAO {
 
     public List<Rideout> retrieveLikeMatching(String title, List<RideoutState> rideoutStates);
 
-    public List<Rideout> retreiveAllByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates);
+    public List<Rideout> retrieveAllByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates);
 
-    public List<Rideout> retreiveAllByRider(SysUser rider, List<RideoutState> rideoutStates);
+    public List<Rideout> retrieveAllByRider(SysUser rider, List<RideoutState> rideoutStates);
 
-    public List<Rideout> retreiveAll(List<RideoutState> rideoutStates);
+    public List<Rideout> retrieveAll(List<RideoutState> rideoutStates);
 
 }

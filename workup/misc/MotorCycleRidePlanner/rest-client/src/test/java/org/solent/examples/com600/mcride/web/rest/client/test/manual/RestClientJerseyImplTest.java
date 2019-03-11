@@ -24,16 +24,16 @@ public class RestClientJerseyImplTest {
     MediaType mediaType = MediaType.APPLICATION_XML_TYPE;
 
     @Test
-    public void restClientRetreiveTest() {
+    public void restClientretrieveTest() {
 
         RestClientJerseyImpl restClient = new RestClientJerseyImpl(baseUrl, mediaType);
 
-        // try to retreive an unknown entity
+        // try to retrieve an unknown entity
         ReplyMessage replyMessage = restClient.retrieveEntity(Integer.SIZE);
         assertNotNull(replyMessage);
         assertTrue(replyMessage.getEntityList().getEntities().isEmpty());
 
-        // try to retreive entity with id 1
+        // try to retrieve entity with id 1
         ReplyMessage replyMessage2 = restClient.retrieveEntity(1);
         assertNotNull(replyMessage2);
         assertEquals(1, replyMessage2.getEntityList().getEntities().size());
@@ -44,14 +44,14 @@ public class RestClientJerseyImplTest {
     }
 
     @Test
-    public void restClientRetreiveTemplateTest() {
+    public void restClientretrieveTemplateTest() {
 
         RestClientJerseyImpl restClient = new RestClientJerseyImpl(baseUrl, mediaType);
 
         Entity entityTempate = new Entity();
         entityTempate.setField_A("abcd");
 
-        // try to retreive an unknown entity
+        // try to retrieve an unknown entity
         ReplyMessage replyMessage = restClient.retrieveMatchingEntites(entityTempate);
         assertNotNull(replyMessage);
 

@@ -247,13 +247,13 @@
         <Method name="delete" returnType="void" visibility="public">
           <Argument type="Long" name="Id"/>
         </Method>
-        <Method name="retreive" returnType="Rideout" visibility="public">
+        <Method name="retrieve" returnType="Rideout" visibility="public">
           <Argument type="Long" name="id"/>
         </Method>
         <Method name="update" returnType="Rideout" visibility="public">
           <Argument type="Rideout" name="rideout"/>
         </Method>
-        <Method name="retreiveAll" returnType="List&lt;Rideout&gt;" visibility="public"/>
+        <Method name="retrieveAll" returnType="List&lt;Rideout&gt;" visibility="public"/>
         <Method name="deleteAll" returnType="void" visibility="public"/>
         <Method name="retrieveLikeMatching" returnType="Rideout" visibility="public">
           <Argument type="String" name="title"/>
@@ -262,15 +262,15 @@
           <Argument type="String" name="title"/>
           <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
         </Method>
-        <Method name="retreiveAllByRideLeader" returnType="List&lt;Rideout&gt;" visibility="public">
+        <Method name="retrieveAllByRideLeader" returnType="List&lt;Rideout&gt;" visibility="public">
           <Argument type="SysUser" name="rideLeader"/>
           <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
         </Method>
-        <Method name="retreiveAllByRider" returnType="List&lt;Rideout&gt;" visibility="public">
+        <Method name="retrieveAllByRider" returnType="List&lt;Rideout&gt;" visibility="public">
           <Argument type="SysUser" name="rider"/>
           <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
         </Method>
-        <Method name="retreiveAll" returnType="void" visibility="public">
+        <Method name="retrieveAll" returnType="void" visibility="public">
           <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
         </Method>
       </Methods>

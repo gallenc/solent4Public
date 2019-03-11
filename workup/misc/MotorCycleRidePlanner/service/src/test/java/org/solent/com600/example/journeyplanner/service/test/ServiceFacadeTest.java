@@ -22,7 +22,7 @@ import org.solent.com600.example.journeyplanner.service.ServiceFactoryImpl;
  * @author gallenc
  */
 public class ServiceFacadeTest {
-    //TODO THIS CLASS STILL ALLOWS SAME USERS TO RETREIVE THEIR OWN DATA - NEEDS CHANGED
+    //TODO THIS CLASS STILL ALLOWS SAME USERS TO retrieve THEIR OWN DATA - NEEDS CHANGED
 
     public static final String ADMIN1_USER = "admin1";
     public static final String ADMIN1_USER_PASSWORD = "admin1password";
@@ -100,7 +100,7 @@ public class ServiceFacadeTest {
         } catch (AuthenticationException ex) {
         }
 
-        // user pass retreive same user
+        // user pass retrieve same user
         // TODO note problem - SHOULD NOT BE ABLE TO CHANGE ROLE OR USERNAME
         try {
             SysUser user = serviceFacade.retrieveByUserName(RIDER1_USER, RIDER1_USER);

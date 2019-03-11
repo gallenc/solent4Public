@@ -21,7 +21,7 @@ import org.solent.com600.example.journeyplanner.model.UserInfo;
  * @author gallenc
  */
 public class ServiceFacadeImpl implements ServiceFacade {
-    //TODO THIS CLASs STILL ALLOWS SAME USERS TO RETREIVE THEIR OWN DATA - NEEDS CHANGED
+    //TODO THIS CLASs STILL ALLOWS SAME USERS TO retrieve THEIR OWN DATA - NEEDS CHANGED
 
     public static final String ANONYMOUS_SYSUSERNAME = "Anonymous";
     public static final String SUPERADMIN_SYSUSERNAME = "SuperAdmin";
@@ -121,7 +121,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.SAME_USER));
         SysUser retrievedUser = sysUserDAO.retrieve(id);
         if (!validateUserAction(retrievedUser, actingSysUserName, authList)) {
-            throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive user");
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve user");
         }
         return retrievedUser;
     }
@@ -130,7 +130,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public List<SysUser> retrieveAllUsers(String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
         if (!validateUserAction(null, actingSysUserName, authList)) {
-            throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive all users");
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
         }
         List<SysUser> retrievedUsers = sysUserDAO.retrieveAll();
         return retrievedUsers;
@@ -140,7 +140,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
         if (!validateUserAction(null, actingSysUserName, authList)) {
-            throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive all users");
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
         }
         List<SysUser> retrievedUsers = sysUserDAO.retrieveLikeMatching(surname, firstname);
         return retrievedUsers;
@@ -171,7 +171,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
         SysUser retrievedUser = sysUserDAO.retrieveByUserName(username);
         if (retrievedUser==null) return null;
         if (!validateUserAction(retrievedUser, actingSysUserName, authList)) {
-            throw new AuthenticationException(actingSysUserName + " does not have permissions to retreive user");
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve user");
         }
         return retrievedUser;
     }

@@ -59,13 +59,13 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     }
 
     @Override
-    public Rideout retreive(Long id) {
+    public Rideout retrieve(Long id) {
         Rideout rideout = entityManager.find(Rideout.class, id);
         return rideout;
     }
 
     @Override
-    public List<Rideout> retreiveAll() {
+    public List<Rideout> retrieveAll() {
         TypedQuery<Rideout> q = entityManager.createQuery("select r from Rideout r", Rideout.class);
         List<Rideout> rideoutList = q.getResultList();
         return rideoutList;
@@ -96,17 +96,17 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     }
 
     @Override
-    public List<Rideout> retreiveAllByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates) {
+    public List<Rideout> retrieveAllByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Rideout> retreiveAllByRider(SysUser rider, List<RideoutState> rideoutStates) {
+    public List<Rideout> retrieveAllByRider(SysUser rider, List<RideoutState> rideoutStates) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Rideout> retreiveAll(List<RideoutState> rideoutStates) {
+    public List<Rideout> retrieveAll(List<RideoutState> rideoutStates) {
         String queryString="select r from Rideout r WHERE "+queryForRideoutState(rideoutStates);
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         List<Rideout> rideoutList = q.getResultList();

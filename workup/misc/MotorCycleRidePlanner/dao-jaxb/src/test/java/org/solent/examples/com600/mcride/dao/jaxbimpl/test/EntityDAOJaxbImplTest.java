@@ -94,7 +94,7 @@ public class EntityDAOJaxbImplTest {
 
         // check entity updated
         Entity retrievedEntity = entityDao.retrieveEntity(updatedEntity.getId());
-        LOG.debug("retreived entity: " + retrievedEntity);
+        LOG.debug("retrieved entity: " + retrievedEntity);
         assertEquals(entityToUpdate.getField_A(), retrievedEntity.getField_A());
         assertEquals(entityToUpdate.getField_A(), retrievedEntity.getField_A());
         assertNotEquals(entityToUpdate.getField_C(), retrievedEntity.getField_C());
