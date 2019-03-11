@@ -1,5 +1,6 @@
 package org.solent.com600.example.journeyplanner.jpadao.test;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import static org.junit.Assert.*;
@@ -76,6 +77,21 @@ public class TestSysUserDAO {
         assertTrue(user3.getUserInfo().getFirstname().equals(anon.getUserInfo().getFirstname()));
         assertTrue(user3.getRole().equals(Role.ANONYMOUS));
 
+        // get by user role
+        List<Role> userRoles = Arrays.asList(Role.ADMIN);
+        List<SysUser> sysUsers = userDAO.retrieveAll(userRoles);
+        LOG.debug("userDAO.retrieveAll(userRoles) Role.ADMIN");
+        printOutValues(sysUsers);
+
+        userRoles = Arrays.asList(Role.RIDELEADER);
+        sysUsers = userDAO.retrieveAll(userRoles);
+        LOG.debug("userDAO.retrieveAll(userRoles) Role.RIDELEADER");
+        printOutValues(sysUsers);
+
+        userRoles = Arrays.asList(Role.RIDER);
+        sysUsers = userDAO.retrieveAll(userRoles);
+        LOG.debug("userDAO.retrieveAll(userRoles) Role.RIDER");
+        printOutValues(sysUsers);
     }
 
     @Test
@@ -108,6 +124,14 @@ public class TestSysUserDAO {
         assertTrue(userListResult.size() == 1);
         assertTrue(userListResult.get(0).getUserName().equals(admin.getUserName()));
 
+        // find near match userroles
+        List<Role> userRoles = Arrays.asList(Role.ADMIN);
+        userListResult = userDAO.retrieveLikeMatching(surname, firstname, userRoles);
+        LOG.debug("test select userRoles surname=" + surname + " firstname=" + firstname + " userListResult:");
+        printOutValues(userListResult);
+        assertTrue(userListResult.size() == 1);
+        assertTrue(userListResult.get(0).getUserName().equals(admin.getUserName()));
+
     }
 
     @Test
@@ -131,7 +155,6 @@ public class TestSysUserDAO {
     }
 
 // utility methods
-    
     public static void testCreateSysUsersDatabase(SysUserDAO sysUserDAO) {
         assertNotNull(sysUserDAO);
 

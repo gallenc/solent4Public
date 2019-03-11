@@ -5,6 +5,7 @@
  */
 package org.solent.com600.example.journeyplanner.service.test;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.naming.AuthenticationException;
 import org.junit.Test;
@@ -35,6 +36,35 @@ public class ServiceFacadeTest {
 
     public static final String RIDER1_USER = "rider1";
     public static final String RIDER1_USER_PASSWORD = "rider1password";
+
+    @Test
+    public void facadeGetByRolesTest() {
+        ServiceFactory serviceFactory = new ServiceFactoryImpl();
+        assertNotNull(serviceFactory);
+
+        ServiceFacade serviceFacade = serviceFactory.getServiceFacade();
+        assertNotNull(serviceFacade);
+
+        // test we can create users in database
+        createDatabaseTestUsers(serviceFacade);
+
+        try {
+            List<Role> userRoles = Arrays.asList(Role.RIDER);
+            List<SysUser> users = serviceFacade.retrieveAllUsers(userRoles, RIDELEADER1_USER);
+            assertTrue(users.size() > 0);
+        } catch (AuthenticationException ex) {
+            fail("rideleader user should be able to list users ");
+        }
+
+        try {
+            List<Role> userRoles = Arrays.asList(Role.RIDER);
+            List<SysUser> users = serviceFacade.retrieveLikeMatchingUsers("", "", userRoles, ADMIN1_USER);
+            assertTrue(users.size() > 0);
+        } catch (AuthenticationException ex) {
+            fail("adminuser user should be able to list users ");
+        }
+
+    }
 
     @Test
     public void facadeLowGranualarityAuthorisationTest() {

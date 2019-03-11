@@ -5,7 +5,6 @@
  */
 package org.solent.com600.example.journeyplanner.service;
 
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -137,12 +136,32 @@ public class ServiceFacadeImpl implements ServiceFacade {
     }
 
     @Override
+    public List<SysUser> retrieveAllUsers(List<Role> userRoles, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        List<SysUser> retrievedUsers = sysUserDAO.retrieveAll(userRoles);
+        return retrievedUsers;
+    }
+
+    @Override
     public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
         if (!validateUserAction(null, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
         }
         List<SysUser> retrievedUsers = sysUserDAO.retrieveLikeMatching(surname, firstname);
+        return retrievedUsers;
+    }
+
+    @Override
+    public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, List<Role> userRoles, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        List<SysUser> retrievedUsers = sysUserDAO.retrieveLikeMatching(surname, firstname, userRoles);
         return retrievedUsers;
     }
 
@@ -169,7 +188,9 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public SysUser retrieveByUserName(String username, String actingSysUserName) throws AuthenticationException {
         List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.SAME_USER));
         SysUser retrievedUser = sysUserDAO.retrieveByUserName(username);
-        if (retrievedUser==null) return null;
+        if (retrievedUser == null) {
+            return null;
+        }
         if (!validateUserAction(retrievedUser, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve user");
         }
@@ -277,4 +298,5 @@ public class ServiceFacadeImpl implements ServiceFacade {
         String passwordHash = sysUser.getPassWordHash();
         return PasswordUtils.checkPassword(password, passwordHash);
     }
+
 }

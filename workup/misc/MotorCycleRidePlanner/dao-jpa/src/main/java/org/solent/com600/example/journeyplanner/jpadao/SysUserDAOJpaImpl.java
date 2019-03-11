@@ -5,6 +5,7 @@
  */
 package org.solent.com600.example.journeyplanner.jpadao;
 
+import java.util.Iterator;
 import java.util.List;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import javax.persistence.EntityManager;
@@ -13,6 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUserDAO;
 
 /**
@@ -99,6 +101,43 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
         } catch (NoResultException ex) {
         }
         return sysUser;
+    }
+
+    @Override
+    public List<SysUser> retrieveAll(List<Role> userRoles) {
+        String query = "select u from SysUser u WHERE " + queryForRole(userRoles);
+        TypedQuery<SysUser> q = entityManager.createQuery(query, SysUser.class);
+        List<SysUser> sysUserList = q.getResultList();
+        return sysUserList;
+    }
+
+    @Override
+    public List<SysUser> retrieveLikeMatching(String surname, String firstname, List<Role> userRoles) {
+        String queryString = "select u from SysUser u WHERE UPPER(u.userInfo.surname) LIKE CONCAT('%',UPPER(:surname),'%')"
+                + " AND UPPER(u.userInfo.firstname) LIKE CONCAT('%',UPPER(:firstname),'%')"
+                + " AND " + queryForRole(userRoles);
+
+        TypedQuery<SysUser> q = entityManager.createQuery(queryString, SysUser.class);
+        q.setParameter("surname", surname);
+        q.setParameter("firstname", firstname);
+        List<SysUser> sysUserList = q.getResultList();
+        return sysUserList;
+    }
+
+    public String queryForRole(List<Role> userRoles) {
+        String query = " (";
+
+        Iterator<Role> it = userRoles.iterator();
+        while (it.hasNext()) {
+            Role role = it.next();
+            // this isnt great but it works
+            query = query + "u.role = " + role.getClass().getName() + "." + role.name();
+            if (it.hasNext()) {
+                query = query + " OR ";
+            }
+        }
+        query = query + " )";
+        return query;
     }
 
 }

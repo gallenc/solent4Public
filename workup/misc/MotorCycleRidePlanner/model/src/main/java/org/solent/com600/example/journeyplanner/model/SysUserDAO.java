@@ -9,12 +9,16 @@ public interface SysUserDAO {
     public void delete(Long id);
 
     public SysUser retrieve(Long id);
-    
+
     public SysUser retrieveByUserName(String username);
 
     public List<SysUser> retrieveAll();
 
     public List<SysUser> retrieveLikeMatching(String surname, String firstname);
+
+    public List<SysUser> retrieveAll(List<Role> userRoles);
+
+    public List<SysUser> retrieveLikeMatching(String surname, String firstname, List<Role> userRoles);
 
     public SysUser update(SysUser entity);
 

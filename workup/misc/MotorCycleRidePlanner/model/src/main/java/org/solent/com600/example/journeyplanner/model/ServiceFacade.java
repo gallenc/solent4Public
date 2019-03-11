@@ -40,5 +40,9 @@ public interface ServiceFacade {
     public void updateUserRoleByUserName(Role newRole, String userName, String actingSysUserName) throws AuthenticationException;
 
     public Role getRoleByUserName(String userName);
+    
+    public List<SysUser> retrieveAllUsers(List<Role> userRoles, String actingSysUserName) throws AuthenticationException;
+    
+    public List<SysUser> retrieveLikeMatchingUsers(String surname, String firstname, List<Role> userRoles, String actingSysUserName) throws AuthenticationException;
 
 }
