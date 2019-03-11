@@ -2,6 +2,7 @@ package org.solent.com600.example.journeyplanner.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -19,8 +21,6 @@ import javax.persistence.Id;
 @Entity
 public class RideoutDay {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @XmlElementWrapper(name = "itinearyItems")
@@ -29,6 +29,8 @@ public class RideoutDay {
 
     private String descriptionMd;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -37,6 +39,10 @@ public class RideoutDay {
         this.id = id;
     }
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     public List<ItinearyItem> getItinearyItems() {
         return itinearyItems;
     }
@@ -57,9 +63,5 @@ public class RideoutDay {
     public String toString() {
         return "RideoutDay{" + "id=" + id + ", itinearyItems=" + itinearyItems + ", descriptionMd=" + descriptionMd + '}';
     }
-    
-    
-    
-    
-    
+
 }

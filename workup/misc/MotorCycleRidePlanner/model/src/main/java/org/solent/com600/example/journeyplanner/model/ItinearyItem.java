@@ -15,8 +15,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 public class ItinearyItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String startTime;
@@ -27,7 +25,6 @@ public class ItinearyItem {
 
     private String bookingReference;
 
-    @Embedded
     private Address address;
 
     private Double distance;
@@ -36,6 +33,8 @@ public class ItinearyItem {
 
     private ItinearyItemType itinearyItemType;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -76,6 +75,7 @@ public class ItinearyItem {
         this.bookingReference = bookingReference;
     }
 
+    @Embedded
     public Address getAddress() {
         return address;
     }
@@ -112,7 +112,5 @@ public class ItinearyItem {
     public String toString() {
         return "ItinearyItem{" + "id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", descriptionMd=" + descriptionMd + ", bookingReference=" + bookingReference + ", address=" + address + ", distance=" + distance + ", gisRoute=" + gisRoute + ", itinearyItemType=" + itinearyItemType + '}';
     }
-
-    
 
 }

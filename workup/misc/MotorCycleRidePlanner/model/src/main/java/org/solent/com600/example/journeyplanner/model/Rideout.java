@@ -3,6 +3,7 @@ package org.solent.com600.example.journeyplanner.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,8 +23,6 @@ import javax.persistence.Id;
 @Entity
 public class Rideout {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @XmlElementWrapper(name = "riders")
@@ -36,18 +37,20 @@ public class Rideout {
 
     @XmlElementWrapper(name = "waitList")
     @XmlElement(name = "sysUser")
-    private List<SysUser> waitlist= new ArrayList<SysUser>();
+    private List<SysUser> waitlist = new ArrayList<SysUser>();
 
     private RideoutState rideoutstate = RideoutState.PLANNING;
 
     @XmlElementWrapper(name = "rideoutDays")
     @XmlElement(name = "rideoutDay")
-    private List<RideoutDay> rideoutDays= new ArrayList<RideoutDay>();
+    private List<RideoutDay> rideoutDays = new ArrayList<RideoutDay>();
 
     private String title;
 
     private Date startDate;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -56,6 +59,11 @@ public class Rideout {
         this.id = id;
     }
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinTable(name = "riders")
     public List<SysUser> getRiders() {
         return riders;
     }
@@ -88,6 +96,11 @@ public class Rideout {
         this.maxRiders = maxRiders;
     }
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinTable(name = "waitlist")
     public List<SysUser> getWaitlist() {
         return waitlist;
     }
@@ -104,6 +117,10 @@ public class Rideout {
         this.rideoutstate = rideoutstate;
     }
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     public List<RideoutDay> getRideoutDays() {
         return rideoutDays;
     }

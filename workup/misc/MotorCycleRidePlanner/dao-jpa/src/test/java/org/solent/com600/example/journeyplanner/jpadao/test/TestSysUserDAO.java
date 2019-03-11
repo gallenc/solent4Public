@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.solent.com600.example.journeyplanner.jpadao.DAOFactory;
 import org.solent.com600.example.journeyplanner.model.Address;
 import org.solent.com600.example.journeyplanner.model.Insurance;
+import org.solent.com600.example.journeyplanner.model.RideoutDAO;
 import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import org.solent.com600.example.journeyplanner.model.SysUserDAO;
@@ -26,7 +27,13 @@ public class TestSysUserDAO {
 
     @Test
     public void testFindUserRoles() {
+        // first delete all rideouts before deleting/creating  users
+        // this avoids foreign key constraint exceptions
+        RideoutDAO rideoutDAO = DAOFactory.getRideoutDAO();
+        assertNotNull(rideoutDAO);
+        rideoutDAO.deleteAll();
 
+        // set up user dao
         SysUserDAO userDAO = DAOFactory.getSysUserDAO();
         assertNotNull(userDAO);
 
@@ -115,16 +122,17 @@ public class TestSysUserDAO {
         printOutValues(sysUserList);
 
         for (SysUser sysUser : sysUserList) {
-            LOG.debug("hash "+sysUser.getPassWordHash()+" password="+sysUser.getPassword());
+            LOG.debug("hash " + sysUser.getPassWordHash() + " password=" + sysUser.getPassword());
             //TODO problem  - password is not saved in db but remains in jpa context
-           assertNotNull(sysUser.getPassWordHash());
-          // assertNull(sysUser.getPassword());
+            assertNotNull(sysUser.getPassWordHash());
+            // assertNull(sysUser.getPassword());
         }
 
     }
 
 // utility methods
-    public void testCreateSysUsersDatabase(SysUserDAO sysUserDAO) {
+    
+    public static void testCreateSysUsersDatabase(SysUserDAO sysUserDAO) {
         assertNotNull(sysUserDAO);
 
         // empty database before test
