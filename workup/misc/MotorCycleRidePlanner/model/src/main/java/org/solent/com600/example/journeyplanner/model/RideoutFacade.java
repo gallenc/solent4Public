@@ -12,7 +12,7 @@ import javax.naming.AuthenticationException;
  * @author cgallen
  */
 public interface RideoutFacade {
-    
+
     public Rideout createRideout(Rideout rideout, String actingSysUserName) throws AuthenticationException;
 
     public Rideout updateRideout(Rideout rideout, String actingSysUserName) throws AuthenticationException;
@@ -21,9 +21,9 @@ public interface RideoutFacade {
 
     public Rideout retrieveRideout(Long id, String actingSysUserName) throws AuthenticationException;
 
-    public List<Rideout> retrieveAllRideouts( String actingSysUserName) throws AuthenticationException;
+    public List<Rideout> retrieveAllRideouts(String actingSysUserName) throws AuthenticationException;
 
-    public void deleteAllRideouts( String actingSysUserName) throws AuthenticationException;
+    public void deleteAllRideouts(String actingSysUserName) throws AuthenticationException;
 
     public List<Rideout> retrieveLikeMatchingRideouts(String title, String actingSysUserName) throws AuthenticationException;
 
@@ -34,7 +34,7 @@ public interface RideoutFacade {
     public List<Rideout> retrieveAllRideoutsByRider(SysUser rider, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException;
 
     public List<Rideout> retrieveAllRideouts(List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException;
-    
+
     public List<Rideout> retrieveAllRideoutsWaitListByRider(SysUser rider, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException;
-    
+
 }

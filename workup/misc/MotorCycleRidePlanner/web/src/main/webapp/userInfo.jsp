@@ -380,6 +380,7 @@
                                 <option value="<%=Role.RIDER%>" <%= (Role.RIDER.equals(sysUser.getRole())) ? "selected" : ""%>><%=Role.RIDER%></option>
                                 <option value="<%=Role.RIDELEADER%>" <%= (Role.RIDELEADER.equals(sysUser.getRole())) ? "selected" : ""%>><%=Role.RIDELEADER%></option>
                                 <option value="<%=Role.ADMIN%>" <%= (Role.ADMIN.equals(sysUser.getRole())) ? "selected" : ""%>><%=Role.ADMIN%></option>
+                                <option value="<%=Role.DEACTIVATED%>" <%= (Role.DEACTIVATED.equals(sysUser.getRole())) ? "selected" : ""%>><%=Role.DEACTIVATED%></option>
                             </select>
                         </td></tr>
                 </table>

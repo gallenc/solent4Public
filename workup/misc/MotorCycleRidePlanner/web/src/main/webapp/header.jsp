@@ -11,8 +11,7 @@
     if (logout != null) {
         session.setAttribute("sessionUserRole", Role.ANONYMOUS);
         session.setAttribute("sessionUserName", "anonymous");
-        //response.sendRedirect("./mainPage.jsp");
-        //return;
+        response.sendRedirect("./mainPage.jsp");
     }
 
     String sessionUserName = (String) session.getAttribute("sessionUserName");
@@ -53,8 +52,7 @@
                     </td>
                     <td>
                         <div style="text-align: right;">
-                            <% 
-                                if (Role.ANONYMOUS.equals(sessionUserRole)) {
+                            <%                                if (Role.ANONYMOUS.equals(sessionUserRole)) {
                             %>
                             <h2>Not Logged In</h2>
                             <form action="login.jsp" method="post">
@@ -83,16 +81,19 @@
             <ul>
                 <li <%=("Main".equals(selected) ? "class=\"selected\"" : "")%> >
                     <a href="./mainPage.jsp?selected=Main">Main</a></li>
-                
-                    <% if (!Role.ANONYMOUS.equals(sessionUserRole)) {%>
+
+                <% if (!Role.ANONYMOUS.equals(sessionUserRole)) {%>
                 <li <%=("MyProfile".equals(selected) ? "class=\"selected\"" : "")%> >
                     <a href="./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName=<%=sessionUserName%>">My Profile</a></li>
-                <li <%=("ManageUsers".equals(selected) ? "class=\"selected\"" : "")%> > 
-                    <a href="./listUsers.jsp?selected=ManageUsers">Manage Users</a></li>
                 <li <%=("ManageRideouts".equals(selected) ? "class=\"selected\"" : "")%> >
                     <a href="./listRideouts.jsp?selected=ManageRideouts">Manage Rideouts</a></li>
-                    <% }%>
                 
+                <% if (Role.ADMIN.equals(sessionUserRole)) {%>
+                <li <%=("ManageUsers".equals(selected) ? "class=\"selected\"" : "")%> > 
+                    <a href="./listUsers.jsp?selected=ManageUsers">Manage Users</a></li>
+
+                <% }%>
+                <% }%>
                 <li <%=("About".equals(selected) ? "class=\"selected\"" : "")%> >
                     <a href="./about.jsp?selected=About">About</a></li>
             </ul>

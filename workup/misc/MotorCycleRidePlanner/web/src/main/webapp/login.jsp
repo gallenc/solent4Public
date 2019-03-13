@@ -57,7 +57,7 @@
         surname = "";
     }
     if(action==null || "".equals(action)){
-        // do nothing first tiem at page
+        // do nothing first time at page
     } else if ("login".equals(action)) {
         // log user in
         boolean authenticated = false;
@@ -74,6 +74,8 @@
             session.setAttribute("sessionUserName", username);
             Role role = serviceFacade.getRoleByUserName(username);
             session.setAttribute("sessionUserRole", role);
+            // redirect to own profile
+            response.sendRedirect("./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName="+username);
         }
 
     } else if ("addNewUser".equals(action)) {
@@ -89,9 +91,12 @@
             if (role!=null) {
                 errorMessage = "Error - please choose another user name. user "+username+"already exists";
             } else {
-               SysUser user = serviceFacade.createUser(username, password, firstname, surname, "admin");
+               SysUser user = serviceFacade.createUser(username, password, firstname, surname,Role.RIDER, "admin");
                session.setAttribute("sessionUserName", username);
                session.setAttribute("sessionUserRole", user.getRole());
+               
+               // redirect to user profile page
+               response.sendRedirect("./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName="+username);
             }
         }
     } else {
@@ -139,7 +144,6 @@
                     <input type="password" size="15" name="verifypassword">
                 <p><strong>Please enter your first name: </strong>
                     <input type="text" size="25" name="firstname" value="<%=firstname%>">
-                <p>
                 <p><strong>Please enter your surname: </strong>
                     <input type="text" size="25" name="surname" value="<%=surname%>">
                     <input type="hidden" name="action" value="addNewUser">

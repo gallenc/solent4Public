@@ -16,7 +16,7 @@ public interface UserFacade {
     
     public SysUser createUser(SysUser sysUser, String actingSysUserName) throws AuthenticationException;
 
-    public SysUser createUser(String userName, String password, String firstname, String lastname, String actingSysUserName) throws AuthenticationException;
+    public SysUser createUser(String userName, String password, String firstname, String lastname, Role role, String actingSysUserName) throws AuthenticationException;
 
     public void deleteUser(Long id, String actingSysUserName) throws AuthenticationException;
 

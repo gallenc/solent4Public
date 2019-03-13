@@ -113,12 +113,13 @@ public class ServiceFacadeImpl implements ServiceFacade {
     }
 
     @Override
-    public SysUser createUser(String userName, String password, String firstname, String surname, String actingSysUserName) throws AuthenticationException {
+    public SysUser createUser(String userName, String password, String firstname, String surname, Role role, String actingSysUserName) throws AuthenticationException {
         SysUser sysUser = new SysUser();
         sysUser.setUserName(userName);
         String passwordHash = PasswordUtils.hashPassword(password);
         sysUser.setPassWordHash(passwordHash);
-        sysUser.setRole(Role.RIDER);
+        if(role==null) role = Role.RIDER;
+        sysUser.setRole(role);
         sysUser.getUserInfo().setFirstname(firstname);
         sysUser.getUserInfo().setSurname(surname);
         return createUser(sysUser, actingSysUserName);

@@ -36,7 +36,58 @@
     }
 
     // get request values
+    String selected = (String) request.getParameter("selected");
+
     String action = (String) request.getParameter("action");
+
+    String username = (String) request.getParameter("username");
+    if (username == null) {
+        username = "";
+    }
+    String password = (String) request.getParameter("password");
+    if (password == null) {
+        password = "";
+    }
+
+    String verifypassword = (String) request.getParameter("verifypassword");
+
+    String firstname = (String) request.getParameter("firstname");
+    if (firstname == null) {
+        firstname = "";
+    }
+    String surname = (String) request.getParameter("surname");
+    if (surname == null) {
+        surname = "";
+    }
+
+    if (action == null || "".equals(action)) {
+        // do nothing first time at page
+    } else if ("addNewUser".equals(action)) {
+        // add new user
+        if (username.isEmpty()) {
+            errorMessage = "Error - you must enter a username";
+        } else if (password == null || password.length() < 8) {
+            errorMessage = "Error - you must enter a password greater than 8 characters";
+        } else if (!password.equals(verifypassword)) {
+            errorMessage = "Error - the two password entries must be equal ";
+        } else {
+            Role role = serviceFacade.getRoleByUserName(username);
+            if (role != null) {
+                errorMessage = "Error - please choose another user name. user " + username + "already exists";
+            } else {
+                SysUser user = serviceFacade.createUser(username, password, firstname, surname, Role.RIDER, "admin");
+                errorMessage = "SUCCESS created new user " + username;
+                // reset form
+                username = "";
+                password = "";
+                firstname = "";
+                surname = "";
+            }
+        }
+    } else {
+        // unknown action
+        errorMessage = "Error - unknown action called";
+    }
 
     List<SysUser> userList = serviceFacade.retrieveAllUsers("admin");
 
@@ -53,7 +104,24 @@
 
         <div class="splitcontentleft">
 
-
+            <% if (Role.ADMIN.equals(sessionUserRole) && "ManageUsers".equals(selected)) {%>
+            <h2>Add New User</h2>
+            <form action="listUsers.jsp?selected=ManageUsers" method=post>
+                <p><strong>Create a new User Account: </strong>
+                    <input type="text" name="username" size="25" value="<%=username%>">
+                <p><strong>Please Enter A Password: </strong>
+                    <input type="password" size="15" name="password">
+                <p><strong>Please re-enter your password: </strong>
+                    <input type="password" size="15" name="verifypassword">
+                <p><strong>Please enter your first name: </strong>
+                    <input type="text" size="25" name="firstname" value="<%=firstname%>">
+                <p><strong>Please enter your surname: </strong>
+                    <input type="text" size="25" name="surname" value="<%=surname%>">
+                    <input type="hidden" name="action" value="addNewUser">
+                    <input type="submit" value="Create New User">
+                    <input type="reset" value="Reset">
+            </form>
+            <% } %>
 
         </div>
 
@@ -88,7 +156,8 @@
                         </form>
                         <% if (Role.ADMIN.equals(sessionUserRole)) {%>
                         <form action="userInfo.jsp?selected=userInfo" method="get">
-                            <input type="hidden" name="action" value="deactivateUser">
+                            <input type="hidden" name="action" value="updateUserRole">
+                            <input type="hidden" name="role" value="<%=Role.DEACTIVATED%>">
                             <input type="hidden" name="selectedUserName" value="<%=user.getUserName()%>">
                             <input type="submit" value="Deactivate User">
                         </form>

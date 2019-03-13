@@ -304,7 +304,58 @@
       </Methods>
     </Interface>
     <Interface name="RideoutFacade" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="468.0" yPosition="771.0">
-      <Methods/>
+      <Methods>
+        <Method name="createRideout" returnType="Rideout" visibility="public">
+          <Argument type="Rideout" name="rideout"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="updateRideout" returnType="Rideout" visibility="public">
+          <Argument type="Rideout" name="rideout"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="deleteRideout" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveRideout" returnType="Rideout" visibility="public">
+          <Argument type="Long" name="id"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveAllRideouts" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="deleteAllRideouts" returnType="void" visibility="public">
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveLikeMatchingRideouts" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="String" name="title"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveLikeMatchingRideouts" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="String" name="title"/>
+          <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveAllRideoutsByRideLeader" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="SysUser" name="rideLeader"/>
+          <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveAllRideoutsByRider" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="SysUser" name="rider"/>
+          <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveAllRideouts" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+        <Method name="retrieveAllRideoutsWaitListByRider" returnType="List&lt;Rideout&gt;" visibility="public">
+          <Argument type="SysUser" name="rider"/>
+          <Argument type="List&lt;RideoutState&gt;" name="rideoutStates"/>
+          <Argument type="String" name="actingSysUserName"/>
+        </Method>
+      </Methods>
     </Interface>
     <Enum name="RideoutState" package="org.solent.com600.example.journeyplanner.model" visibility="public" xPosition="310.0" yPosition="1802.0">
       <Literals>
@@ -336,32 +387,32 @@
     </Enum>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation name="sysUserHasRole" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="userInfoHasEmergencyContactAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="JSPsUseServiceFacade" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <UseRelation name="usesRideout" source="org.solent.com600.example.journeyplanner.model.RideoutDAO" target="org.solent.com600.example.journeyplanner.model.Rideout" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="hasAddress" source="org.solent.com600.example.journeyplanner.model.ItinearyItem" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="0..1" targetCardinality="0..1"/>
-    <UseRelation name="hasDays" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.RideoutDay" sourceCardinality="1..1" targetCardinality="1..*"/>
-    <UseRelation name="rideoutFacadeUsesRideoutDAO" source="org.solent.com600.example.journeyplanner.model.RideoutFacade" target="org.solent.com600.example.journeyplanner.model.RideoutDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="userInfoHasAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="sysUserHasProcessInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.ProcessInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="JSPsUseServiceFactory" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <UseRelation name="hasItemType" source="org.solent.com600.example.journeyplanner.model.ItinearyItem" target="org.solent.com600.example.journeyplanner.model.ItinearyItemType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="SysUserDAOusesSysUser" source="org.solent.com600.example.journeyplanner.model.SysUserDAO" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="sysuserHasUserInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.UserInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="hasState" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.RideoutState" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="serviceFacadeExtendsRideoutFacade" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.RideoutFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="ridoutFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.RideoutFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="hasItems" source="org.solent.com600.example.journeyplanner.model.RideoutDay" target="org.solent.com600.example.journeyplanner.model.ItinearyItem" sourceCardinality="1..1" targetCardinality="1..*"/>
-    <UseRelation name="hasRiderWaitList" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="0..*" targetCardinality="0..*"/>
-    <UseRelation name="serviceFacadeExtendsUserFacade" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.UserFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="hasRiders" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="0..*" targetCardinality="0..*"/>
-    <UseRelation name="RestInterfaceUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="hasReplyData" source="org.solent.com600.example.journeyplanner.model.ReplyMessage" target="org.solent.com600.example.journeyplanner.model.ReplyData" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="RestUsesServiceFacade" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="userFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.UserFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="RestUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="hasRideLeader" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="0..*" targetCardinality="0..1"/>
     <UseRelation name="userInfoHasInsurance" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Insurance" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasReplyData" source="org.solent.com600.example.journeyplanner.model.ReplyMessage" target="org.solent.com600.example.journeyplanner.model.ReplyData" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="JSPsUseServiceFacade" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="RestUsesServiceFacade" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="ridoutFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.RideoutFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="userInfoHasEmergencyContactAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasItemType" source="org.solent.com600.example.journeyplanner.model.ItinearyItem" target="org.solent.com600.example.journeyplanner.model.ItinearyItemType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasRiders" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="0..*" targetCardinality="0..*"/>
+    <UseRelation name="hasDays" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.RideoutDay" sourceCardinality="1..1" targetCardinality="1..*"/>
+    <UseRelation name="JSPsUseServiceFactory" source="org.solent.com600.example.journeyplanner.model.WebUiJsp_do_not_generate" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="sysUserHasRole" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasRiderWaitList" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="0..*" targetCardinality="0..*"/>
+    <UseRelation name="sysUserHasProcessInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.ProcessInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasState" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.RideoutState" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasRideLeader" source="org.solent.com600.example.journeyplanner.model.Rideout" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="0..*" targetCardinality="0..1"/>
+    <UseRelation name="sysuserHasUserInfo" source="org.solent.com600.example.journeyplanner.model.SysUser" target="org.solent.com600.example.journeyplanner.model.UserInfo" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasItems" source="org.solent.com600.example.journeyplanner.model.RideoutDay" target="org.solent.com600.example.journeyplanner.model.ItinearyItem" sourceCardinality="1..1" targetCardinality="1..*"/>
+    <UseRelation name="hasAddress" source="org.solent.com600.example.journeyplanner.model.ItinearyItem" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="0..1" targetCardinality="0..1"/>
+    <UseRelation name="userFacadeUsesSysUserDAO" source="org.solent.com600.example.journeyplanner.model.UserFacade" target="org.solent.com600.example.journeyplanner.model.SysUserDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="RestInterfaceUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesRideout" source="org.solent.com600.example.journeyplanner.model.RideoutDAO" target="org.solent.com600.example.journeyplanner.model.Rideout" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="SysUserDAOusesSysUser" source="org.solent.com600.example.journeyplanner.model.SysUserDAO" target="org.solent.com600.example.journeyplanner.model.SysUser" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="serviceFacadeExtendsUserFacade" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.UserFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="userInfoHasAddress" source="org.solent.com600.example.journeyplanner.model.UserInfo" target="org.solent.com600.example.journeyplanner.model.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="RestUsesServiceFactory" source="org.solent.com600.example.journeyplanner.model.RestInterface" target="org.solent.com600.example.journeyplanner.model.ServiceFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="rideoutFacadeUsesRideoutDAO" source="org.solent.com600.example.journeyplanner.model.RideoutFacade" target="org.solent.com600.example.journeyplanner.model.RideoutDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="serviceFacadeExtendsRideoutFacade" source="org.solent.com600.example.journeyplanner.model.ServiceFacade" target="org.solent.com600.example.journeyplanner.model.RideoutFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

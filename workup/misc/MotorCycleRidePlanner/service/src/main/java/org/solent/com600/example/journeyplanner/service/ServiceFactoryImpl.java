@@ -5,11 +5,11 @@
  */
 package org.solent.com600.example.journeyplanner.service;
 
-import javax.naming.AuthenticationException;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.solent.com600.example.journeyplanner.jpadao.DAOFactory;
+import org.solent.com600.example.journeyplanner.model.RideoutDAO;
 import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.ServiceFactory;
@@ -33,6 +33,10 @@ public class ServiceFactoryImpl implements ServiceFactory {
 
     static {
         serviceFacade = new ServiceFacadeImpl();
+        
+        RideoutDAO rideoutDAO = DAOFactory.getRideoutDAO();
+        serviceFacade.setRideoutDAO(rideoutDAO);
+        
         SysUserDAO sysUserDao = DAOFactory.getSysUserDAO();
 
         // add admin user if not present
