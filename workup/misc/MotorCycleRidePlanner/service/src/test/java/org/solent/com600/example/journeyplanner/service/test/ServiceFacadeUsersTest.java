@@ -10,6 +10,8 @@ import java.util.List;
 import javax.naming.AuthenticationException;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.ServiceFactory;
@@ -22,7 +24,9 @@ import org.solent.com600.example.journeyplanner.service.ServiceFactoryImpl;
  *
  * @author gallenc
  */
-public class ServiceFacadeTest {
+public class ServiceFacadeUsersTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceFacadeUsersTest.class);
     //TODO THIS CLASS STILL ALLOWS SAME USERS TO retrieve THEIR OWN DATA - NEEDS CHANGED
 
     public static final String ADMIN1_USER = "admin1";
@@ -220,7 +224,7 @@ public class ServiceFacadeTest {
     }
 
     // utility methods to create users
-    public void createDatabaseTestUsers(ServiceFacade serviceFacade) {
+    public static void createDatabaseTestUsers(ServiceFacade serviceFacade) {
 
         // clear all user data in database at beginning of test
         try {

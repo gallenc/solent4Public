@@ -11,6 +11,9 @@ import java.util.List;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import javax.naming.AuthenticationException;
+import org.solent.com600.example.journeyplanner.model.Rideout;
+import org.solent.com600.example.journeyplanner.model.RideoutDAO;
+import org.solent.com600.example.journeyplanner.model.RideoutState;
 import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUserDAO;
 import org.solent.com600.example.journeyplanner.model.UserInfo;
@@ -26,6 +29,16 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public static final String SUPERADMIN_SYSUSERNAME = "SuperAdmin";
 
     private SysUserDAO sysUserDAO = null;
+
+    private RideoutDAO rideoutDAO = null;
+
+    public RideoutDAO getRideoutDAO() {
+        return rideoutDAO;
+    }
+
+    public void setRideoutDAO(RideoutDAO rideoutDAO) {
+        this.rideoutDAO = rideoutDAO;
+    }
 
     public SysUserDAO getSysUserDAO() {
         return sysUserDAO;
@@ -73,7 +86,12 @@ public class ServiceFacadeImpl implements ServiceFacade {
         return false;
     }
 
-    /* **********************************************
+    /* *********************************
+     * methods from SysUserFacade
+     * ********************************
+     */
+
+ /* **********************************************
        LOW GRANULARITY RESTRICTED DATA ACCESS METHODS
      */
     @Override
@@ -297,6 +315,118 @@ public class ServiceFacadeImpl implements ServiceFacade {
         }
         String passwordHash = sysUser.getPassWordHash();
         return PasswordUtils.checkPassword(password, passwordHash);
+    }
+
+    /* *********************************
+     * methods from Rideout Facade
+     * ********************************
+     */
+    @Override
+    public Rideout createRideout(Rideout rideout, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.createRideout(rideout);
+    }
+
+    @Override
+    public Rideout updateRideout(Rideout rideout, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.update(rideout);
+    }
+
+    @Override
+    public void deleteRideout(Long id, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        rideoutDAO.delete(id);
+    }
+
+    @Override
+    public Rideout retrieveRideout(Long id, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieve(id);
+    }
+
+    @Override
+    public List<Rideout> retrieveAllRideouts(String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveAll();
+    }
+
+    @Override
+    public void deleteAllRideouts(String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        rideoutDAO.deleteAll();
+    }
+
+    @Override
+    public List<Rideout> retrieveLikeMatchingRideouts(String title, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveLikeMatching(title);
+    }
+
+    @Override
+    public List<Rideout> retrieveLikeMatchingRideouts(String title, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveLikeMatching(title, rideoutStates);
+    }
+
+    @Override
+    public List<Rideout> retrieveAllRideoutsByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveAllByRideLeader(rideLeader, rideoutStates);
+    }
+
+    @Override
+    public List<Rideout> retrieveAllRideoutsByRider(SysUser rider, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveAllByRider(rider, rideoutStates);
+    }
+
+    @Override
+    public List<Rideout> retrieveAllRideouts(List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveAll(rideoutStates);
+    }
+
+    @Override
+    public List<Rideout> retrieveAllRideoutsWaitListByRider(SysUser rider, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER, Role.RIDER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
+        }
+        return rideoutDAO.retrieveAllWaitListByRider(rider, rideoutStates);
     }
 
 }
