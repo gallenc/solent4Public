@@ -297,41 +297,6 @@
 
     }
 
-//    String userName = "User_";
-//    sysUser.setUserName(userName);
-//
-//    Address address = new Address();
-//    address.setNumber("6");
-//    address.setAddressLine1("Plane Avenue");
-//    address.setAddressLine2("Oswestry");
-//    address.setCountry("England");
-//    address.setCounty("Hampshire");
-//    address.setPostcode("HA23TV");
-//    address.setLatitude(0);
-//    address.setLongitude(0);
-//    address.setMobile("0777444555444");
-//
-//    sysUser.getUserInfo().setAddress(address);
-//
-//    sysUser.getUserInfo().setEmergencyContactAddress(address);
-//    sysUser.getUserInfo().setEmergencyContactFirstName("econtactfirstName_");
-//    sysUser.getUserInfo().setEmergencyContactSurname("econtactSurname_");
-//    sysUser.getUserInfo().setEmergencyContactRelationship("friend");
-//
-//    sysUser.getUserInfo().setFirstname("firstname_");
-//    sysUser.getUserInfo().setSurname("surname_");
-//
-//    Insurance insurance = new Insurance();
-//    insurance.setExpirydate(new Date());
-//    insurance.setInsuranceNo("12345467");
-//
-//    sysUser.getUserInfo().setInsurance(insurance);
-//    sysUser.getUserInfo().setMedicalMd("#test Markdown");
-//    sysUser.getProcessInfo().setInsuranceVerified(Boolean.TRUE);
-//
-//    sysUser.setPassWordHash("XXX");
-//    sysUser.setPassword("ZZZ");  // should not persist as transient
-//    sysUser.setRole(Role.RIDER);
 
 %>
 <!DOCTYPE html>

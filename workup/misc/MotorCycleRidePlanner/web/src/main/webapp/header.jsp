@@ -33,9 +33,12 @@
 <head>
     <title>Motorcycle Club Main</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="entimoss website" />
-    <meta name="keywords" content="motorcycle ride tour" />
     <link rel="stylesheet" href="./css/andreas08.css" type="text/css" />
+    <link rel="stylesheet" href="./css/accordianStyle.css" type="text/css" />
+    
+    <meta name="description" content="Motorcycle website" />
+    <meta name="keywords" content="motorcycle ride tour" />
+
     <!-- opengraph protocol -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="motorcycle rideout" />
