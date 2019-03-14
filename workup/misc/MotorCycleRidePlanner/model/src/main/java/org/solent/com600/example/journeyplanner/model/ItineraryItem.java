@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Entity
-public class ItinearyItem {
+public class ItineraryItem {
 
     private Long id;
 
@@ -31,7 +31,7 @@ public class ItinearyItem {
 
     private String gisRoute;
 
-    private ItinearyItemType itinearyItemType;
+    private ItineraryItemType itineraryItemType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,17 +100,17 @@ public class ItinearyItem {
         this.gisRoute = gisRoute;
     }
 
-    public ItinearyItemType getItinearyItemType() {
-        return itinearyItemType;
+    public ItineraryItemType getItineraryItemType() {
+        return itineraryItemType;
     }
 
-    public void setItinearyItemType(ItinearyItemType itinearyItemType) {
-        this.itinearyItemType = itinearyItemType;
+    public void setItineraryItemType(ItineraryItemType itineraryItemType) {
+        this.itineraryItemType = itineraryItemType;
     }
 
     @Override
     public String toString() {
-        return "ItinearyItem{" + "id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", descriptionMd=" + descriptionMd + ", bookingReference=" + bookingReference + ", address=" + address + ", distance=" + distance + ", gisRoute=" + gisRoute + ", itinearyItemType=" + itinearyItemType + '}';
+        return "ItineraryItem{" + "id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", descriptionMd=" + descriptionMd + ", bookingReference=" + bookingReference + ", address=" + address + ", distance=" + distance + ", gisRoute=" + gisRoute + ", itineraryItemType=" + itineraryItemType + '}';
     }
 
 }

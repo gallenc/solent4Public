@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.solent.com600.example.journeyplanner.jpadao.DAOFactory;
-import org.solent.com600.example.journeyplanner.model.ItinearyItem;
-import org.solent.com600.example.journeyplanner.model.ItinearyItemType;
+import org.solent.com600.example.journeyplanner.model.ItineraryItem;
+import org.solent.com600.example.journeyplanner.model.ItineraryItemType;
 import org.solent.com600.example.journeyplanner.model.Rideout;
 import org.solent.com600.example.journeyplanner.model.RideoutDAO;
 import org.solent.com600.example.journeyplanner.model.RideoutDay;
@@ -159,10 +159,10 @@ public class TestRideoutDAO {
 
             // add 4 items per day
             for (int item = 0; item < 4; item++) {
-                ItinearyItem itinearyItem = new ItinearyItem();
-                itinearyItem.setDescriptionMd("#rideout " + title + "day " + day + "itineary item " + item);
-                itinearyItem.setItinearyItemType(ItinearyItemType.JOURNEY);
-                rideoutDay.getItinearyItems().add(itinearyItem);
+                ItineraryItem itineraryItem = new ItineraryItem();
+                itineraryItem.setDescriptionMd("#rideout " + title + "day " + day + "itinerary item " + item);
+                itineraryItem.setItineraryItemType(ItineraryItemType.JOURNEY);
+                rideoutDay.getItineraryItems().add(itineraryItem);
             }
             rideout.getRideoutDays().add(rideoutDay);
         }

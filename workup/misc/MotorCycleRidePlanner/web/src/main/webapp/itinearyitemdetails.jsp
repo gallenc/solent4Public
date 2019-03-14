@@ -1,12 +1,12 @@
 <%-- 
-    Document   : itineary
+    Document   : itinerary
     Created on : Feb 27, 2019, 7:01:46 PM
     Author     : cgallen
 --%>
 <%@page import="org.solent.com600.example.journeyplanner.model.RideoutState"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="org.solent.com600.example.journeyplanner.model.ItinearyItemType"%>
+<%@page import="org.solent.com600.example.journeyplanner.model.ItineraryItemType"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.UserInfo"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.SysUser"%>
@@ -17,7 +17,7 @@
 <%@page import="org.solent.com600.example.journeyplanner.model.ServiceFacade"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.Rideout"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.RideoutDay"%>
-<%@page import="org.solent.com600.example.journeyplanner.model.ItinearyItem"%>
+<%@page import="org.solent.com600.example.journeyplanner.model.ItineraryItem"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.Address"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -78,7 +78,7 @@
     // access
     String inputControl = ""; //or disabled;
     
-    ItinearyItem itinearyItem = new ItinearyItem();
+    ItineraryItem itineraryItem = new ItineraryItem();
 
     
 %>
@@ -89,7 +89,7 @@
 <!-- current jsp page content -->
             <!--BODY-->
             <div id="content">
-                <h2>Itineary</h2>
+                <h2>Itinerary</h2>
                 <br>
             </div>
             <div class="splitcontentright">

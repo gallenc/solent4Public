@@ -6,7 +6,7 @@
 <%@page import="org.solent.com600.example.journeyplanner.model.RideoutState"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="org.solent.com600.example.journeyplanner.model.ItinearyItemType"%>
+<%@page import="org.solent.com600.example.journeyplanner.model.ItineraryItemType"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.UserInfo"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.SysUser"%>
@@ -17,7 +17,7 @@
 <%@page import="org.solent.com600.example.journeyplanner.model.ServiceFacade"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.Rideout"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.RideoutDay"%>
-<%@page import="org.solent.com600.example.journeyplanner.model.ItinearyItem"%>
+<%@page import="org.solent.com600.example.journeyplanner.model.ItineraryItem"%>
 <%@page import="org.solent.com600.example.journeyplanner.model.Address"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -91,10 +91,10 @@
         RideoutDay day = new RideoutDay();
         days.add(day);
         day.setDescriptionMd("this is an amazing day " + (x + 1));
-        List<ItinearyItem> itinearyItems = day.getItinearyItems();
+        List<ItineraryItem> itineraryItems = day.getItineraryItems();
         for (int i = 0; i < 6; i++) {
-            ItinearyItem item = new ItinearyItem();
-            itinearyItems.add(item);
+            ItineraryItem item = new ItineraryItem();
+            itineraryItems.add(item);
             item.setAddress(new Address());
             item.setBookingReference("booking " + (x + 1) + "." + i);
             item.setDescriptionMd("day " + (x + 1) + " item " + (i + 1));
@@ -102,7 +102,7 @@
             item.setEndTime(new Date().toString());
             item.setDistance(100D);
             item.setGisRoute("gix");
-            item.setItinearyItemType(ItinearyItemType.JOURNEY);
+            item.setItineraryItemType(ItineraryItemType.JOURNEY);
 
         }
     }
@@ -196,8 +196,8 @@
                     RideoutDay day = days.get(dayno - 1);
             %>
             <div id="day_<%=dayno%>">
-                <% for (int itemno = 1; itemno <= day.getItinearyItems().size(); itemno++) {
-                        ItinearyItem item = day.getItinearyItems().get(itemno - 1);
+                <% for (int itemno = 1; itemno <= day.getItineraryItems().size(); itemno++) {
+                        ItineraryItem item = day.getItineraryItems().get(itemno - 1);
 
                 %>
                 <!-- <button class="accordion" id="<%=itemno + 100%>">Stage <%=itemno%></button> 
@@ -208,7 +208,7 @@
                     <h3><%=item.getDescriptionMd()%></h3>
                     <table>
                         <tr><td>description</td><td><%=item.getDescriptionMd()%></td></tr>
-                        <tr><td>type</td><td><%=item.getItinearyItemType()%></td></tr>
+                        <tr><td>type</td><td><%=item.getItineraryItemType()%></td></tr>
                         <tr><td>start time</td><td><%=item.getStartTime()%></td></tr>
                         <tr><td>end time</td><td><%=item.getEndTime()%></td></tr>
                         <tr><td>booking reference</td><td><%=item.getBookingReference()%></td></tr>
@@ -221,14 +221,14 @@
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                     <input type="hidden"  name="dayId" value ="<%=dayno%>" >
                     <input type="hidden"  name="itemId" value ="<%=itemno%>" >
-                    <input type="hidden" name="action" value="deleteRideoutItinearyItem">
+                    <input type="hidden" name="action" value="deleteRideoutItineraryItem">
                     <input type="submit" value="Delete Item <%=itemno%>" <%=inputControl%> >
                 </form>
                 <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                     <input type="hidden"  name="dayId" value ="<%=dayno%>" >
                     <input type="hidden"  name="itemId" value ="<%=itemno%>" >
-                    <input type="hidden" name="action" value="insertRideoutItinearyItem">
+                    <input type="hidden" name="action" value="insertRideoutItineraryItem">
                     <input type="submit" value="Insert New Item" <%=inputControl%> >
                 </form>
                 <br>

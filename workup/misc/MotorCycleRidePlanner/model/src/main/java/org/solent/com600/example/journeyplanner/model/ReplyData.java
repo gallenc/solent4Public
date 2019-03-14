@@ -16,9 +16,9 @@ public class ReplyData {
     @XmlElement(name = "sysUser")
     private List<SysUser> sysUserList = new ArrayList<SysUser>();
 
-    @XmlElementWrapper(name = "itinearyItems")
-    @XmlElement(name = "itinearyItem")
-    private List<ItinearyItem> itinearyItemList= new ArrayList<ItinearyItem>();
+    @XmlElementWrapper(name = "itineraryItems")
+    @XmlElement(name = "itineraryItem")
+    private List<ItineraryItem> itineraryItemList= new ArrayList<ItineraryItem>();
 
     @XmlElementWrapper(name = "ridouts")
     @XmlElement(name = "ridout")
@@ -36,12 +36,12 @@ public class ReplyData {
         this.sysUserList = sysUserList;
     }
 
-    public List<ItinearyItem> getItinearyItemList() {
-        return itinearyItemList;
+    public List<ItineraryItem> getItineraryItemList() {
+        return itineraryItemList;
     }
 
-    public void setItinearyItemList(List<ItinearyItem> itinearyItemList) {
-        this.itinearyItemList = itinearyItemList;
+    public void setItineraryItemList(List<ItineraryItem> itineraryItemList) {
+        this.itineraryItemList = itineraryItemList;
     }
 
     public List<Rideout> getRidoutList() {
@@ -62,7 +62,7 @@ public class ReplyData {
 
     @Override
     public String toString() {
-        return "ReplyData{" + "sysUserList=" + sysUserList + ", itinearyItemList=" + itinearyItemList + ", ridoutList=" + ridoutList + ", ridoutDayList=" + ridoutDayList + '}';
+        return "ReplyData{" + "sysUserList=" + sysUserList + ", itineraryItemList=" + itineraryItemList + ", ridoutList=" + ridoutList + ", ridoutDayList=" + ridoutDayList + '}';
     }
 
 }

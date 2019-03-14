@@ -23,9 +23,9 @@ public class RideoutDay {
 
     private Long id;
 
-    @XmlElementWrapper(name = "itinearyItems")
-    @XmlElement(name = "itinearyItem")
-    private List<ItinearyItem> itinearyItems = new ArrayList<ItinearyItem>();
+    @XmlElementWrapper(name = "itineraryItems")
+    @XmlElement(name = "itineraryItem")
+    private List<ItineraryItem> itineraryItems = new ArrayList<ItineraryItem>();
 
     private String descriptionMd;
 
@@ -43,12 +43,12 @@ public class RideoutDay {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    public List<ItinearyItem> getItinearyItems() {
-        return itinearyItems;
+    public List<ItineraryItem> getItineraryItems() {
+        return itineraryItems;
     }
 
-    public void setItinearyItems(List<ItinearyItem> itinearyItems) {
-        this.itinearyItems = itinearyItems;
+    public void setItineraryItems(List<ItineraryItem> itineraryItems) {
+        this.itineraryItems = itineraryItems;
     }
 
     public String getDescriptionMd() {
@@ -61,7 +61,7 @@ public class RideoutDay {
 
     @Override
     public String toString() {
-        return "RideoutDay{" + "id=" + id + ", itinearyItems=" + itinearyItems + ", descriptionMd=" + descriptionMd + '}';
+        return "RideoutDay{" + "id=" + id + ", itineraryItems=" + itineraryItems + ", descriptionMd=" + descriptionMd + '}';
     }
 
 }

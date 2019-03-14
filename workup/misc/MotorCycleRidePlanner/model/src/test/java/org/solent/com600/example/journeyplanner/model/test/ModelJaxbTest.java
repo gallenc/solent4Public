@@ -31,7 +31,7 @@ import org.solent.com600.example.journeyplanner.model.Role;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import org.solent.com600.example.journeyplanner.model.Address;
 import org.solent.com600.example.journeyplanner.model.Insurance;
-import org.solent.com600.example.journeyplanner.model.ItinearyItem;
+import org.solent.com600.example.journeyplanner.model.ItineraryItem;
 import org.solent.com600.example.journeyplanner.model.ProcessInfo;
 import org.solent.com600.example.journeyplanner.model.ReplyData;
 import org.solent.com600.example.journeyplanner.model.ReplyMessage;
@@ -183,12 +183,12 @@ public class ModelJaxbTest {
             List<RideoutDay> rideoutDays = rideout.getRideoutDays();
             RideoutDay rideoutDay = new RideoutDay();
             rideoutDay.setDescriptionMd("#day 1");
-            List<ItinearyItem> itinearyItems = rideoutDay.getItinearyItems();
+            List<ItineraryItem> itineraryItems = rideoutDay.getItineraryItems();
 
-            ItinearyItem itinearyItem = new ItinearyItem();
-            itinearyItem.setDescriptionMd("first itineary item");
+            ItineraryItem itineraryItem = new ItineraryItem();
+            itineraryItem.setDescriptionMd("first itinerary item");
 
-            itinearyItems.add(itinearyItem);
+            itineraryItems.add(itineraryItem);
 
             rideoutDays.add(rideoutDay);
 
