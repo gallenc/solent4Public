@@ -207,13 +207,10 @@
                 <a href="./rideoutdetails.jsp?selected=ManageRideouts" method="post" title="click to view or edit details">
                     <h3><%=item.getDescriptionMd()%></h3>
                     <table>
-                        <tr><td>description</td><td><%=item.getDescriptionMd()%></td></tr>
                         <tr><td>type</td><td><%=item.getItineraryItemType()%></td></tr>
+                        <tr><td>description</td><td><%=item.getDescriptionMd()%></td></tr>
                         <tr><td>start time</td><td><%=item.getStartTime()%></td></tr>
                         <tr><td>end time</td><td><%=item.getEndTime()%></td></tr>
-                        <tr><td>booking reference</td><td><%=item.getBookingReference()%></td></tr>
-                        <tr><td>distance</td><td><%=item.getDistance()%></td></tr>
-                        <tr><td>address</td><td><%=item.getAddress()%></td></tr>
                     </table>
                 </a>
 
