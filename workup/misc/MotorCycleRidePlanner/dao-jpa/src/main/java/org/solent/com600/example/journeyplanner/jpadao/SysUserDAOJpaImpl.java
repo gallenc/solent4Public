@@ -125,6 +125,9 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
     }
 
     public String queryForRole(List<Role> userRoles) {
+        if (userRoles.isEmpty()) {
+            return " (1=1)";
+        }
         String query = " (";
 
         Iterator<Role> it = userRoles.iterator();

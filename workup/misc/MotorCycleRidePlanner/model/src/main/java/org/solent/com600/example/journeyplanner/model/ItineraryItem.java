@@ -21,7 +21,7 @@ public class ItineraryItem {
 
     private String endTime;
 
-    private String descriptionMd;
+    private String descriptionMd="";
 
     private String bookingReference;
 
@@ -31,7 +31,7 @@ public class ItineraryItem {
 
     private String gisRoute;
 
-    private ItineraryItemType itineraryItemType;
+    private ItineraryItemType itineraryItemType=ItineraryItemType.STOP;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -53,59 +53,125 @@
 
     String action = (String) request.getParameter("action");
 
-    Integer rideoutId = 0;
+    Long rideoutId = 0L;
     Integer dayId = 0;
     Integer itemId = 0;
 
+    String rideoutIdstr = (String) request.getParameter("rideoutId");
     try {
-        String rideoutIdstr = (String) request.getParameter("rideoutId");
         if (rideoutIdstr != null) {
-            rideoutId = Integer.parseInt(rideoutIdstr);
+            rideoutId = new Long(Integer.parseInt(rideoutIdstr));
         }
-
-        String dayIdstr = (String) request.getParameter("dayId");
+    } catch (Exception e) {
+        throw new RuntimeException("cannot parse parameter rideoutId=" + rideoutIdstr + " " + e.getMessage());
+    }
+    String dayIdstr = (String) request.getParameter("dayId");
+    try {
         if (dayIdstr != null) {
             dayId = Integer.parseInt(dayIdstr);
         }
-
-        String itemIdstr = (String) request.getParameter("itemId");
+    } catch (Exception e) {
+        throw new RuntimeException("cannot parse parameter dayId=" + dayIdstr + " " + e.getMessage());
+    }
+    String itemIdstr = (String) request.getParameter("itemId");
+    try {
         if (itemIdstr != null) {
             itemId = Integer.parseInt(itemIdstr);
         }
     } catch (Exception e) {
-        errorMessage = "cannot parse parameter " + e.getMessage();
+        throw new RuntimeException("cannot parse parameter itemId=" + itemIdstr + " " + e.getMessage());
     }
     // access
     String inputControl = ""; //or disabled;
 
-    // dummy data
     Rideout rideout = new Rideout();
-    rideout.setTitle("my first rideout");
-    rideout.setStartDate(new Date());
-    rideout.setDescriptionMd("my first description ");
 
-    rideout.setMaxRiders(22);
+    // check actions
+    if ("addNewRideout".equals(action)) {
+        String newRideoutName = (String) request.getParameter("newRideoutName");
+        rideout = new Rideout();
+        rideout.setRideoutstate(RideoutState.PLANNING);
+        rideout.setTitle(newRideoutName);
+        rideout = serviceFacade.createRideout(rideout, sessionUserName);
+        rideoutId = rideout.getId();
+    } else if ("viewRideout".equals(action)) {
+        rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
+        if (rideout == null) {
+            throw new RuntimeException("viewRideout rideout null for rideoutId " + rideoutId);
+        }
+        rideoutId = rideout.getId();
+    } else if ("updateRideoutGeneralInfo".equals(action)) {
+        rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
+        if (rideout == null) {
+            throw new RuntimeException("updateRideoutGeneralInfo rideout null for rideoutId" + rideoutId);
+        }
+        rideoutId = rideout.getId();
+
+    } else if ("addNewRideoutDay".equals(action)) {
+        rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
+        if (rideout == null) {
+            throw new RuntimeException("addNewRideoutDay rideout null for rideoutId " + rideoutId);
+        }
+        rideoutId = rideout.getId();
+        RideoutDay newRideoutDay = new RideoutDay();
+        rideout.getRideoutDays().add(newRideoutDay);
+        rideout = serviceFacade.updateRideout(rideout, sessionUserName);
+
+    } else if ("deleteRideoutDay".equals(action)) {
+        rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
+        if (rideout == null) {
+            throw new RuntimeException("deleteRideoutDay rideout null for rideoutId " + rideoutId);
+        }
+        rideoutId = rideout.getId();
+
+// todo service facade delete rideout day
+    } else if ("insertRideoutItineraryItem".equals(action)) {
+        rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
+        if (rideout == null) {
+            throw new RuntimeException("insertRideoutItineraryItem rideout null for rideoutId " + rideoutId);
+        }
+
+// todo service facade insert itineary item
+    } else if ("deleteRideoutItineraryItem".equals(action)) {
+        rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
+        if (rideout == null) {
+            throw new RuntimeException("deleteRideoutItineraryItem rideout null for rideoutId " + rideoutId);
+        }
+
+    } else {
+        // unknown action
+        errorMessage = "Error - unknown action called";
+    }
+
     List<RideoutDay> days = rideout.getRideoutDays();
 
-    for (int x = 0; x < 10; x++) {
-        RideoutDay day = new RideoutDay();
-        days.add(day);
-        day.setDescriptionMd("this is an amazing day " + (x + 1));
-        List<ItineraryItem> itineraryItems = day.getItineraryItems();
-        for (int i = 0; i < 6; i++) {
-            ItineraryItem item = new ItineraryItem();
-            itineraryItems.add(item);
-            item.setAddress(new Address());
-            item.setBookingReference("booking " + (x + 1) + "." + i);
-            item.setDescriptionMd("day " + (x + 1) + " item " + (i + 1));
-            item.setStartTime(new Date().toString());
-            item.setEndTime(new Date().toString());
-            item.setDistance(100D);
-            item.setGisRoute("gix");
-            item.setItineraryItemType(ItineraryItemType.JOURNEY);
-
-        }
-    }
+//    // dummy data
+//    rideout.setTitle("my first rideout");
+//    rideout.setStartDate(new Date());
+//    rideout.setDescriptionMd("my first description ");
+//
+//    rideout.setMaxRiders(22);
+//    List<RideoutDay> days = rideout.getRideoutDays();
+//
+//    for (int x = 0; x < 10; x++) {
+//        RideoutDay day = new RideoutDay();
+//        days.add(day);
+//        day.setDescriptionMd("this is an amazing day " + (x + 1));
+//        List<ItineraryItem> itineraryItems = day.getItineraryItems();
+//        for (int i = 0; i < 6; i++) {
+//            ItineraryItem item = new ItineraryItem();
+//            itineraryItems.add(item);
+//            item.setAddress(new Address());
+//            item.setBookingReference("booking " + (x + 1) + "." + i);
+//            item.setDescriptionMd("day " + (x + 1) + " item " + (i + 1));
+//            item.setStartTime(new Date().toString());
+//            item.setEndTime(new Date().toString());
+//            item.setDistance(100D);
+//            item.setGisRoute("gix");
+//            item.setItineraryItemType(ItineraryItemType.JOURNEY);
+//
+//        }
+//    }
 %>
 <!DOCTYPE html>
 <html>
@@ -116,35 +182,48 @@
     <div id="content">
         <!-- print error message if there is one -->
         <div style="color:red;"><%=errorMessage%></div>
-        <h2>Rideout Itinerary <%=rideout.getTitle()%></h2>
+        <div>
+            <h2>Rideout Itinerary <%=rideout.getTitle()%></h2>
+            <form action="listRideouts.jsp?selected=ManageRideouts" method="get">
+                <input type="submit" value="Return to Rideout List">
+            </form>
+        </div>
+        <BR>
 
         <div class="splitcontentleft" >
             <h2>General Information</h2>
             <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
                 <table>
                     <tr>
+                        <td>id </td><td><%=rideout.getId()%></td>
+                    <tr>
+                    <tr>
+                        <td>title</td><td><input type="text" name="rideoutDescription" value ="<%=rideout.getTitle()%>" 
+                                                 <%=inputControl%> ></td>
+                    <tr>
+                    <tr>
                         <td>description</td><td><input type="text" name="rideoutDescription" value ="<%=rideout.getDescriptionMd()%>" 
                                                        <%=inputControl%> ></td>
                     <tr>
                     <tr>
-                        <td>start date</td><td><input type="text" name="rideoutStartDate" value ="<%=df.format(rideout.getStartDate())%>" 
+                        <td>start</td><td><input type="text" name="rideoutStartDate" value ="<%=df.format(rideout.getStartDate())%>" 
                                                       <%=inputControl%> ></td>
                     <tr>
                     <tr>
-                        <td>Ride Leader</td><td><%=rideout.getRideLeader()%></td>
+                        <td>Leader</td><td><%=rideout.getRideLeader()%></td>
                     <tr>
                     <tr>
-                        <td>Maximum number of riders</td><td><input type="text" name="rideoutMaxRiders" value ="<%=rideout.getMaxRiders()%>" 
+                        <td>Spaces</td><td><input type="text" name="rideoutMaxRiders" value ="<%=rideout.getMaxRiders()%>" 
                                                                     <%=inputControl%> ></td>
                     <tr>
                     <tr>
-                        <td>Current Booked Riders</td><td><%=rideout.getRiders().size()%></td>
+                        <td>booked</td><td><%=rideout.getRiders().size()%></td>
                     <tr>
                     <tr>
-                        <td>Current Wait-listed Riders</td><td><%=rideout.getWaitlist().size()%></td>
+                        <td>Wait-listed</td><td><%=rideout.getWaitlist().size()%></td>
                     <tr>
                     <tr>
-                        <td>Rideout Status</td><td>
+                        <td>Status</td><td>
                             <select name="ridoutState" <%=inputControl%> >
                                 <option value="<%=RideoutState.PLANNING%>" <%= (RideoutState.PLANNING.equals(rideout.getRideoutstate())) ? "selected" : ""%> ><%=RideoutState.PLANNING%></option>
                                 <option value="<%=RideoutState.PUBLISHED%>" <%= (RideoutState.PUBLISHED.equals(rideout.getRideoutstate())) ? "selected" : ""%> ><%=RideoutState.PUBLISHED%></option>
@@ -156,12 +235,12 @@
                     <tr>
                 </table>
 
-                <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
+                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="hidden" name="action" value="updateRideoutGeneralInfo">
                 <input type="submit" value="Update General Information" <%=inputControl%> >
             </form>
             <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
-                <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
+                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="hidden" name="action" value="updateRideoutRiders">
                 <input type="submit" value="View and Update Booked Riders" <%=inputControl%> >
             </form>
@@ -169,6 +248,7 @@
             <h2>Daily overview</h2>
             <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
                 <input type="hidden" name="action" value="addNewRideoutDay">
+                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="submit" value="Add New Day" <%=inputControl%> >
             </form>
             <br>
@@ -179,9 +259,8 @@
             <div class="panel">
                 <p><%=day.getDescriptionMd()%></p>
                 <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
-                    <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                    <input type="hidden"  name="dayId" value ="<%=dayno%>" >
-                    <input type="hidden"  name="itemId" value ="<%=itemId%>" >
+                    <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
+                    <input type="hidden"  name="dayId" value ="<%=day.getId()%>" >
                     <input type="hidden" name="action" value="deleteRideoutDay">
                     <input type="submit" value="Delete Rideout Day <%=dayno%>" <%=inputControl%> >
                 </form>
@@ -216,15 +295,15 @@
 
                 <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                    <input type="hidden"  name="dayId" value ="<%=dayno%>" >
-                    <input type="hidden"  name="itemId" value ="<%=itemno%>" >
+                    <input type="hidden"  name="dayId" value ="<%=day.getId()%>" >
+                    <input type="hidden"  name="itemId" value ="<%=item.getId()%>" >
                     <input type="hidden" name="action" value="deleteRideoutItineraryItem">
                     <input type="submit" value="Delete Item <%=itemno%>" <%=inputControl%> >
                 </form>
                 <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                    <input type="hidden"  name="dayId" value ="<%=dayno%>" >
-                    <input type="hidden"  name="itemId" value ="<%=itemno%>" >
+                    <input type="hidden"  name="dayId" value ="<%=day.getId()%>" >
+                    <input type="hidden"  name="itemId" value ="<%=item.getId()%>" >
                     <input type="hidden" name="action" value="insertRideoutItineraryItem">
                     <input type="submit" value="Insert New Item" <%=inputControl%> >
                 </form>

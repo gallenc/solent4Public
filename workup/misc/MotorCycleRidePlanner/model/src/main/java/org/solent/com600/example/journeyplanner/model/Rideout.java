@@ -29,11 +29,11 @@ public class Rideout {
     @XmlElement(name = "sysUser")
     private List<SysUser> riders = new ArrayList<SysUser>();
 
-    private SysUser rideLeader;
+    private SysUser rideLeader=null;
 
-    private String descriptionMd;
+    private String descriptionMd="";
 
-    private Integer maxRiders;
+    private Integer maxRiders=15;
 
     @XmlElementWrapper(name = "waitList")
     @XmlElement(name = "sysUser")
@@ -45,9 +45,9 @@ public class Rideout {
     @XmlElement(name = "rideoutDay")
     private List<RideoutDay> rideoutDays = new ArrayList<RideoutDay>();
 
-    private String title;
+    private String title="";
 
-    private Date startDate;
+    private Date startDate = new Date();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

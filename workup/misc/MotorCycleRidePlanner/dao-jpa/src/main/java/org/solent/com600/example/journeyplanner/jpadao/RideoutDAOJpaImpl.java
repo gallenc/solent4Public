@@ -153,6 +153,9 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     }
 
     public String queryForRideoutState(List<RideoutState> rideoutStates) {
+        if (rideoutStates.isEmpty()) {
+            return " (1=1)";
+        }
         String query = " (";
 
         Iterator<RideoutState> it = rideoutStates.iterator();

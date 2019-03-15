@@ -35,7 +35,8 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="./css/andreas08.css" type="text/css" />
     <link rel="stylesheet" href="./css/accordianStyle.css" type="text/css" />
-    
+    <link rel="stylesheet" href="./css/style.css" type="text/css" />
+
     <meta name="description" content="Motorcycle website" />
     <meta name="keywords" content="motorcycle ride tour" />
 
@@ -46,16 +47,16 @@
 </head>
 <body>
     <div id="container">
-        <div id="header">
-            <table>
+        <div id="header" >
+            <table style="border-collapse: collapse; border: none; ">
                 <tr>
-                    <td>
+                    <td style="border-collapse: collapse; border: none; ">
                         <h1 style="text-align: justify;">Motor Cycle Rideout</h1>
                         <h2>Rides with a difference...</h2>
                     </td>
-                    <td>
+                    <td style="border-collapse: collapse; border: none; ">
                         <div style="text-align: right;">
-                            <%                                if (Role.ANONYMOUS.equals(sessionUserRole)) {
+                            <% if (Role.ANONYMOUS.equals(sessionUserRole)) {
                             %>
                             <h2>Not Logged In</h2>
                             <form action="login.jsp" method="post">
@@ -90,7 +91,7 @@
                     <a href="./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName=<%=sessionUserName%>">My Profile</a></li>
                 <li <%=("ManageRideouts".equals(selected) ? "class=\"selected\"" : "")%> >
                     <a href="./listRideouts.jsp?selected=ManageRideouts">Manage Rideouts</a></li>
-                
+
                 <% if (Role.ADMIN.equals(sessionUserRole)) {%>
                 <li <%=("ManageUsers".equals(selected) ? "class=\"selected\"" : "")%> > 
                     <a href="./listUsers.jsp?selected=ManageUsers">Manage Users</a></li>
