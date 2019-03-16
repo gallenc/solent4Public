@@ -37,6 +37,9 @@
     <link rel="stylesheet" href="./css/accordianStyle.css" type="text/css" />
     <link rel="stylesheet" href="./css/style.css" type="text/css" />
 
+    <link rel="stylesheet" type="text/css" href="js/timepicker.min.css">
+    <script src="js/timepicker.min.js"></script>
+
     <meta name="description" content="Motorcycle website" />
     <meta name="keywords" content="motorcycle ride tour" />
 

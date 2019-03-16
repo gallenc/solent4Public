@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -64,6 +66,7 @@ public class Rideout {
             orphanRemoval = true
     )
     @JoinTable(name = "riders")
+    @OrderBy("userName ASC")
     public List<SysUser> getRiders() {
         return riders;
     }
@@ -101,6 +104,7 @@ public class Rideout {
             orphanRemoval = true
     )
     @JoinTable(name = "waitlist")
+    @OrderBy("userName ASC")
     public List<SysUser> getWaitlist() {
         return waitlist;
     }
@@ -121,6 +125,7 @@ public class Rideout {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @OrderColumn(name = "dayindex")
     public List<RideoutDay> getRideoutDays() {
         return rideoutDays;
     }

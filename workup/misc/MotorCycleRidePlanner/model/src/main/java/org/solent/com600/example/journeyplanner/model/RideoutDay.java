@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -43,6 +44,7 @@ public class RideoutDay {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @OrderColumn(name = "itineraryindex")
     public List<ItineraryItem> getItineraryItems() {
         return itineraryItems;
     }

@@ -53,7 +53,8 @@
     String selected = (String) request.getParameter("selected");
 
     String action = (String) request.getParameter("action");
-
+    if (action==null) action="";
+    
     Integer rideoutId = 0;
     Integer dayId = 0;
     Integer itemId = 0;

@@ -31,7 +31,7 @@
 
     // get request values
     String action = (String) request.getParameter("action");
-    
+    if (action==null) action="";
 %>
 <!DOCTYPE html>
 <html>

@@ -24,6 +24,7 @@
 
     // get request values
     String action = (String) request.getParameter("action");
+    if (action==null) action="";
     String entityIdReq = (String) request.getParameter("entityId");
     String entityField_AReq = (String) request.getParameter("field_A");
     String entityField_BReq = (String) request.getParameter("field_B");

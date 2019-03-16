@@ -39,7 +39,8 @@
     String selected = (String) request.getParameter("selected");
 
     String action = (String) request.getParameter("action");
-
+    if (action==null) action="";
+    
     String username = (String) request.getParameter("username");
     if (username == null) {
         username = "";
@@ -133,9 +134,9 @@
             <!-- https://stackoverflow.com/questions/8232713/how-to-display-scroll-bar-onto-a-html-table -->
             <table>
                 <tr>
-                    <th>Username</th>
                     <th>Firstname</th>
                     <th>Lastname</th>
+                    <th>Username</th>
                     <th>Role</th>
                     <th></th>
                 </tr>
@@ -144,9 +145,9 @@
                         UserInfo userInfo = user.getUserInfo();
                 %>
                 <tr>
-                    <th><%=user.getUserName()%></th>
                     <td><%=userInfo.getFirstname()%></td>
                     <td><%=userInfo.getSurname()%></td>
+                    <th><%=user.getUserName()%></th>
                     <td><%=user.getRole()%></td>
                     <td>
                         <form action="userInfo.jsp?selected=userInfo" method="get">

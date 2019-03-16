@@ -66,7 +66,7 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
 
     @Override
     public List<Rideout> retrieveAll() {
-        TypedQuery<Rideout> q = entityManager.createQuery("select r from Rideout r", Rideout.class);
+        TypedQuery<Rideout> q = entityManager.createQuery("SELECT r FROM Rideout r ORDER BY r.startDate,r.title ASC", Rideout.class);
         List<Rideout> rideoutList = q.getResultList();
         return rideoutList;
     }
@@ -82,7 +82,7 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     public List<Rideout> retrieveLikeMatching(String title) {
         // see https://stackoverflow.com/questions/21456494/spring-jpa-query-with-like
 
-        String queryString = "select r from Rideout r WHERE UPPER(r.title) LIKE CONCAT('%',UPPER(:title),'%')";
+        String queryString = "SELECT r FROM Rideout r WHERE UPPER(r.title) LIKE CONCAT('%',UPPER(:title),'%') ORDER BY r.startDate,r.title  ASC";
 
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         q.setParameter("title", title);
@@ -93,8 +93,9 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     @Override
     public List<Rideout> retrieveLikeMatching(String title, List<RideoutState> rideoutStates) {
 
-        String queryString = "select r from Rideout r WHERE UPPER(r.title) LIKE CONCAT('%',UPPER(:title),'%') AND "
-                + queryForRideoutState(rideoutStates);
+        String queryString = "SELECT r FROM Rideout r WHERE UPPER(r.title) LIKE CONCAT('%',UPPER(:title),'%') AND "
+                + queryForRideoutState(rideoutStates)+" ORDER BY r.startDate,r.title  ASC";
+
 
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         q.setParameter("title", title);
@@ -105,8 +106,8 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     @Override
     public List<Rideout> retrieveAllByRideLeader(SysUser rideLeader, List<RideoutState> rideoutStates) {
 
-        String queryString = "select r from Rideout r WHERE r.rideLeader = :rideLeader AND "
-                + queryForRideoutState(rideoutStates);
+        String queryString = "SELECT r FROM Rideout r WHERE r.rideLeader = :rideLeader AND "
+                + queryForRideoutState(rideoutStates)+" ORDER BY r.startDate,r.title  ASC";
 
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         q.setParameter("rideLeader", rideLeader);
@@ -117,8 +118,8 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
 
     @Override
     public List<Rideout> retrieveAllByRider(SysUser rider, List<RideoutState> rideoutStates) {
-        String queryString = "select r from Rideout r join r.riders rdr WHERE rdr = :rider AND "
-                + queryForRideoutState(rideoutStates);
+        String queryString = "SELECT r FROM Rideout r JOIN r.riders rdr WHERE rdr = :rider AND "
+                + queryForRideoutState(rideoutStates)+" ORDER BY r.startDate,r.title  ASC";
 
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         q.setParameter("rider", rider);
@@ -133,8 +134,8 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
 
     @Override
     public List<Rideout> retrieveAllWaitListByRider(SysUser rider, List<RideoutState> rideoutStates) {
-        String queryString = "select r from Rideout r join r.waitlist rdr WHERE rdr = :rider AND "
-                + queryForRideoutState(rideoutStates);
+        String queryString = "SELECT r FROM Rideout r JOIN r.waitlist rdr WHERE rdr = :rider AND "
+                + queryForRideoutState(rideoutStates)+" ORDER BY r.startDate,r.title  ASC";
 
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         q.setParameter("rider", rider);
@@ -146,7 +147,7 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
 
     @Override
     public List<Rideout> retrieveAll(List<RideoutState> rideoutStates) {
-        String queryString = "select r from Rideout r WHERE " + queryForRideoutState(rideoutStates);
+        String queryString = "SELECT r FROM Rideout r WHERE " + queryForRideoutState(rideoutStates)+" ORDER BY r.startDate,r.title  ASC";
         TypedQuery<Rideout> q = entityManager.createQuery(queryString, Rideout.class);
         List<Rideout> rideoutList = q.getResultList();
         return rideoutList;

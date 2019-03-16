@@ -57,7 +57,7 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
 
     @Override
     public List<SysUser> retrieveAll() {
-        TypedQuery<SysUser> q = entityManager.createQuery("select u from SysUser u", SysUser.class);
+        TypedQuery<SysUser> q = entityManager.createQuery("select u from SysUser u ORDER BY u.userInfo.surname, u.userInfo.firstname, u.userName ASC", SysUser.class);
         List<SysUser> sysUserList = q.getResultList();
         return sysUserList;
     }
@@ -67,7 +67,7 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
         // see https://stackoverflow.com/questions/21456494/spring-jpa-query-with-like
 
         String queryString = "select u from SysUser u WHERE UPPER(u.userInfo.surname) LIKE CONCAT('%',UPPER(:surname),'%')"
-                + " AND UPPER(u.userInfo.firstname) LIKE CONCAT('%',UPPER(:firstname),'%')";
+                + " AND UPPER(u.userInfo.firstname) LIKE CONCAT('%',UPPER(:firstname),'%')  ORDER BY u.userInfo.surname, u.userInfo.firstname, u.userName ASC";
 
         TypedQuery<SysUser> q = entityManager.createQuery(queryString, SysUser.class);
         q.setParameter("surname", surname);
@@ -93,7 +93,7 @@ public class SysUserDAOJpaImpl implements SysUserDAO {
 
     @Override
     public SysUser retrieveByUserName(String username) {
-        TypedQuery<SysUser> q = entityManager.createQuery("select u from SysUser u WHERE u.userName=:userName", SysUser.class);
+        TypedQuery<SysUser> q = entityManager.createQuery("select u from SysUser u WHERE u.userName=:userName ", SysUser.class);
         q.setParameter("userName", username);
         SysUser sysUser = null;
         try {

@@ -55,24 +55,40 @@
     String action = (String) request.getParameter("action");
 
     Set<RideoutState> selectedStates = (Set<RideoutState>) session.getAttribute("sessionSelectedStates");
-    if (selectedStates==null){
+    if (selectedStates == null) {
         selectedStates = new HashSet<RideoutState>(Arrays.asList(RideoutState.values()));
         session.setAttribute("sessionSelectedStates", selectedStates);
     }
-    
-    
+
+    if (action == null || "".equals(action)) {
+        // do nothing first time at page
+    }
     if ("changeSelectedStates".equals(action)) {
         // get selected rideout values
         selectedStates = new HashSet<RideoutState>();
         for (RideoutState state : RideoutState.values()) {
-            errorMessage = errorMessage+ " DEBUG: "+ state.toString(); 
             String st = (String) request.getParameter(state.toString());
-            errorMessage = errorMessage+" ST "+st; 
             if (st != null) {
                 selectedStates.add(state);
             }
         }
         session.setAttribute("sessionSelectedStates", selectedStates);
+
+    } else if ("deleteRideout".equals(action)) {
+        String rideoutIdstr=null;
+        try {
+            Long rideoutId = 0L;
+            rideoutIdstr = (String) request.getParameter("rideoutId");
+            if (rideoutIdstr != null) {
+                rideoutId = Long.valueOf(Integer.parseInt(rideoutIdstr));
+            }
+            serviceFacade.deleteRideout(rideoutId, sessionUserName);
+        } catch (Exception e) {
+            errorMessage = "cannot delete rideoutId="+rideoutIdstr+" " + e.getMessage();
+        }
+    } else {
+        // unknown action
+        errorMessage = "Error - unknown action called";
     }
 
     List<Rideout> rideouts = serviceFacade.retrieveAllRideouts(new ArrayList(selectedStates), sessionUserName);
@@ -105,7 +121,7 @@
         <div style="color:red;"><%=errorMessage%></div>
         <h2>Rideouts</h2>
         <div>
-            <form action="listRideouts.jsp?selected=ManageRideouts" method="post">
+            <form action="./listRideouts.jsp?selected=ManageRideouts" method="post">
                 <% for (RideoutState state : RideoutState.values()) {
                 %>
                 <input type="checkbox" name="<%=state%>" <%=((selectedStates.contains(state)) ? "checked" : "")%> 
@@ -117,11 +133,13 @@
         </div>
         <BR>
         <% if (Role.ADMIN.equals(sessionUserRole)) {%>
-        <form action="rideoutdetails.jsp?selected=ManageRideouts" method="get">
-            <input type="text" name="newRideoutName" value ="" required >
+        <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="get">
+            <div>Rideout Title <input type="text" name="newRideoutName" value ="" required >
+                <input type="submit" value="Add New Rideout">
+            </div>
             <input type="hidden" name="action" value="addNewRideout">
-            <input type="submit" value="Add New Rideout">
         </form>
+        <BR>
         <% }%>
 
         <!-- todo try scrolling table -->
@@ -146,7 +164,7 @@
                 <td><%=df.format(rideout.getStartDate())%></td>
                 <td><%=rideout.getTitle()%></td>
                 <td><%=rideout.getRideoutDays().size()%> Days</td>
-                <td><%=( (rideout.getRideLeader()==null) ? "" : rideout.getRideLeader().getUserInfo().getFirstname()+" "+ rideout.getRideLeader().getUserInfo().getSurname() )%></td>
+                <td><%=((rideout.getRideLeader() == null) ? "" : rideout.getRideLeader().getUserInfo().getFirstname() + " " + rideout.getRideLeader().getUserInfo().getSurname())%></td>
                 <td><%=rideout.getMaxRiders()%></td>
                 <td><%=rideout.getRiders().size()%></td>
                 <td><%=rideout.getWaitlist().size()%></td>
@@ -159,7 +177,7 @@
                         <input type="submit" value="Details">
                     </form>
                     <% if (Role.ADMIN.equals(sessionUserRole)) {%>
-                    <form action="./listRidouts.jsp?selected=ManageRideouts" method="get">
+                    <form action="./listRideouts.jsp?selected=ManageRideouts" method="get" onsubmit="return confirm('are you sure you want to delete this rideout?')">
                         <input type="hidden" name="action" value="deleteRideout">
                         <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                         <input type="submit" value="Delete">
