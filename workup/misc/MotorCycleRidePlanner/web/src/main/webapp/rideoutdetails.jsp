@@ -332,12 +332,11 @@
 
         </div>
         <div class="splitcontentright" >
-            <h2>Detailed Day Itinerary</h2>
-
             <% for (int dayno = 1; dayno <= days.size(); dayno++) {
                     RideoutDay day = days.get(dayno - 1);
             %>
             <div id="day_<%=dayno%>">
+                <h2>Detailed Day <%=dayno%> Itinerary</h2>
                 <% for (int itemno = 1; itemno <= day.getItineraryItems().size(); itemno++) {
                         ItineraryItem item = day.getItineraryItems().get(itemno - 1);
 
