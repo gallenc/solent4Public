@@ -121,6 +121,55 @@ public class TestRideoutDAO {
 
     }
 
+    @Test
+    public void testDeleteRideoutItems() {
+        // set up rideoutDAO before creating rideouts
+        RideoutDAO rideoutDAO = DAOFactory.getRideoutDAO();
+        assertNotNull(rideoutDAO);
+
+        // first delete all rideouts before deleting/creating  users
+        rideoutDAO.deleteAll();
+
+        // set up sysUsers for test
+        SysUserDAO userDAO = DAOFactory.getSysUserDAO();
+        assertNotNull(userDAO);
+        TestSysUserDAO.testCreateSysUsersDatabase(userDAO);
+
+        // now start testing the rideout dao
+        // create multiple rideouts
+        createMockRideouts(rideoutDAO);
+        List<Rideout> createdRideouts = rideoutDAO.retrieveAll();
+        LOG.debug("createdRideouts.size:" + createdRideouts.size());
+
+        Rideout testRideout = createdRideouts.get(0);
+        String title = testRideout.getTitle();
+        LOG.debug("testRideout.title: " + title);
+        List<RideoutDay> rideoutDays = testRideout.getRideoutDays();
+        LOG.debug("rideoutDays.size: " + rideoutDays.size());
+
+        Integer index = 2;
+        LOG.debug("rideoutDays.2 description: " + rideoutDays.get(index).getDescriptionMd());
+        LOG.debug("rideoutDays.2 ItineraryItems().size(): " + rideoutDays.get(index).getItineraryItems().size());
+        rideoutDays.remove(2);
+        LOG.debug("rideoutDays new size: " + rideoutDays.size());
+        LOG.debug("rideoutDays.2 new description: " + rideoutDays.get(index).getDescriptionMd());
+
+        testRideout = rideoutDAO.update(testRideout);
+        List<RideoutDay> afterrideoutDays = testRideout.getRideoutDays();
+        LOG.debug("afterrideoutDays.size: " + afterrideoutDays.size());
+        LOG.debug("afterrideoutDays.2 description: " + afterrideoutDays.get(index).getDescriptionMd());
+
+        // check if update has happened
+        // chek persisted and retreived
+        List<Rideout> newRideouts = rideoutDAO.retrieveLikeMatching(title);
+        Rideout newTestRideout = newRideouts.get(0);
+        LOG.debug("newTestRideout.title: " + newTestRideout.getTitle());
+        List<RideoutDay> newrideoutDays = testRideout.getRideoutDays();
+        LOG.debug("newrideoutDays.size: " + newrideoutDays.size());
+        LOG.debug("rideoutDays.2 description: " + newrideoutDays.get(index).getDescriptionMd());
+
+    }
+
     public void createMockRideouts(RideoutDAO rideoutDAO) {
         // delete any pre-existing rideouts
         rideoutDAO.deleteAll();

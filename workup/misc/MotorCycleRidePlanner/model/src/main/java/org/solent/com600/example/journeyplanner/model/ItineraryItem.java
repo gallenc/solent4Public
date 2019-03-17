@@ -17,19 +17,19 @@ public class ItineraryItem {
 
     private Long id;
 
-    private String startTime;
+    private String startTime = "00:00";
 
-    private String endTime;
+    private String endTime = "00:00";
 
     private String descriptionMd="";
 
-    private String bookingReference;
+    private String bookingReference="";
 
-    private Address address;
+    private Address address=new Address();
 
-    private Double distance;
+    private Double distance= 0D;
 
-    private String gisRoute;
+    private String gisRoute="";
 
     private ItineraryItemType itineraryItemType=ItineraryItemType.STOP;
 
@@ -48,6 +48,7 @@ public class ItineraryItem {
     }
 
     public void setStartTime(String startTime) {
+        TimeUtilities.checkTimeString(startTime);
         this.startTime = startTime;
     }
 
@@ -112,5 +113,7 @@ public class ItineraryItem {
     public String toString() {
         return "ItineraryItem{" + "id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", descriptionMd=" + descriptionMd + ", bookingReference=" + bookingReference + ", address=" + address + ", distance=" + distance + ", gisRoute=" + gisRoute + ", itineraryItemType=" + itineraryItemType + '}';
     }
+    
+    
 
 }

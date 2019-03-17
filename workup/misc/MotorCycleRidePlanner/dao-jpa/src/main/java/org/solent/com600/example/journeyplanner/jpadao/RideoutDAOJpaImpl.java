@@ -45,6 +45,7 @@ public class RideoutDAOJpaImpl implements RideoutDAO {
     public Rideout update(Rideout rideout) {
         entityManager.getTransaction().begin();
         Rideout returnRideout = entityManager.merge(rideout);
+        entityManager.flush();
         entityManager.getTransaction().commit();
         return returnRideout;
     }

@@ -28,7 +28,7 @@ public class RideoutDay {
     @XmlElement(name = "itineraryItem")
     private List<ItineraryItem> itineraryItems = new ArrayList<ItineraryItem>();
 
-    private String descriptionMd;
+    private String descriptionMd="";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

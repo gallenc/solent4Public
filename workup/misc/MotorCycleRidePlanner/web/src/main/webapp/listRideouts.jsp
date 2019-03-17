@@ -27,7 +27,7 @@
     String errorMessage = "";
 
     // date translation utilities
-    String DATE_FORMAT = "dd/mm/yyyy";
+    String DATE_FORMAT = "dd/MM/YYYY";
     DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
     ServiceFacade serviceFacade = (ServiceFacade) session.getAttribute("serviceFacade");

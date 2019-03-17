@@ -37,8 +37,7 @@
     <link rel="stylesheet" href="./css/accordianStyle.css" type="text/css" />
     <link rel="stylesheet" href="./css/style.css" type="text/css" />
 
-    <link rel="stylesheet" type="text/css" href="js/timepicker.min.css">
-    <script src="js/timepicker.min.js"></script>
+
 
     <meta name="description" content="Motorcycle website" />
     <meta name="keywords" content="motorcycle ride tour" />
@@ -47,6 +46,18 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="motorcycle rideout" />
     <meta property="og:description" content="Rideout site" />
+
+    <!-- this is to drive time picker -->
+    <link rel="stylesheet" type="text/css" href="js/timepicker.min.css">
+    <script src="js/timepicker.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            timepicker.load({
+                interval: 1,
+                defaultHour: 0
+            });
+        });
+    </script>
 </head>
 <body>
     <div id="container">
