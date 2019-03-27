@@ -345,14 +345,14 @@
                 <div class="panel">
                     <p><%=item.getDescriptionMd()%></p>
                 </div> -->
-                
-                                    <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                    <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
-                    <input type="hidden"  name="itemIndex" value ="<%=itemno%>" >
-                
-                
-                
-                
+
+                <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
+                <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
+                <input type="hidden"  name="itemIndex" value ="<%=itemno%>" >
+
+
+
+
                 <a href="./itineraryItemDetails.jsp?selected=ManageRideouts&rideoutId=<%=rideoutId%>&dayIndex=<%=dayno%>&itemIndex=<%=itemno%>"
                    method="get" title="click to view or edit details">
                     <h3><%=item.getDescriptionMd()%></h3>
