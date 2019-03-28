@@ -68,6 +68,38 @@
                     </httpConnector>
                     <!-- used to configure jetty during mvn jetty:run -->
                     <jettyXml>${project.basedir}/src/test/jetty/jetty-config.xml</jettyXml>
+
+                    <systemProperties>
+                        <systemProperty>
+                            <name>log4j.debug</name>
+                            <value>true</value>
+                        </systemProperty>
+<!--                        <systemProperty>
+                            <name>log4j.configuration</name>
+                            <value>./log4j2.xml</value>
+                        </systemProperty>-->
+                    </systemProperties>
+
+                    
+                    <!--                    <systemproperties>
+                        <systemproperty>
+                            <name>org.apache.commons.logging.Log</name>
+                            <value>org.apache.commons.logging.impl.Log4JLogger</value>
+                        </systemproperty>
+                        <systemproperty>
+                            <name>slf4j</name>
+                            <value>true</value>
+                        </systemproperty>
+                        <systemproperty>
+                            <name>log4j2.debug</name>
+                            <value>true</value>
+                        </systemproperty>
+                        <systemproperty>
+                            <name>log4j2.configuration</name>
+                            <value>file:./jetty/log4j.properties</value>
+                            <value>file:///${basedir}/src/main/resources/log4j2.xml</value>
+                        </systemproperty>
+                    </systemproperties>-->
                 </configuration>
                 <!-- logging dependencies for jetty -->
                 <dependencies>
@@ -182,18 +214,18 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- slf4j test dependencies -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         
         <dependency>

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,6 +31,10 @@ public class SysUser {
     private ProcessInfo processInfo = new ProcessInfo();
 
     private UserInfo userInfo = new UserInfo();
+    
+    private Long version;
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,6 +99,15 @@ public class SysUser {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
+    
+    @Version
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     /**
      * note toString does NOT print password related info *
@@ -101,6 +115,7 @@ public class SysUser {
     @Override
     public String toString() {
         return "SysUser{" + "Id=" + Id
+                + ", version=" + version
                 + ", role=" + role
                 + ", userName=" + userName
                 + ", passWordHash=" + ((passWordHash == null) ? "null" : "***set but not shown***")

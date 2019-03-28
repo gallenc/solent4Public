@@ -31,11 +31,11 @@ public class Rideout {
     @XmlElement(name = "sysUser")
     private List<SysUser> riders = new ArrayList<SysUser>();
 
-    private SysUser rideLeader=null;
+    private SysUser rideLeader = null;
 
-    private String descriptionMd="";
+    private String descriptionMd = "";
 
-    private Integer maxRiders=15;
+    private Integer maxRiders = 15;
 
     @XmlElementWrapper(name = "waitList")
     @XmlElement(name = "sysUser")
@@ -47,9 +47,13 @@ public class Rideout {
     @XmlElement(name = "rideoutDay")
     private List<RideoutDay> rideoutDays = new ArrayList<RideoutDay>();
 
-    private String title="";
+    private String title = "";
 
     private Date startDate = new Date();
+
+    private Date leaseTime = new Date();
+
+    private String leaseUsername = null;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -150,9 +154,26 @@ public class Rideout {
         this.startDate = startDate;
     }
 
-    @Override
-    public String toString() {
-        return "Rideout{" + "id=" + id + ", riders=" + riders + ", rideLeader=" + rideLeader + ", descriptionMd=" + descriptionMd + ", maxRiders=" + maxRiders + ", waitlist=" + waitlist + ", rideoutstate=" + rideoutstate + ", rideoutDays=" + rideoutDays + ", title=" + title + ", startDate=" + startDate + '}';
+    public Date getLeaseTime() {
+        return leaseTime;
     }
 
+    public void setLeaseTime(Date leaseTime) {
+        this.leaseTime = leaseTime;
+    }
+
+    public String getLeaseUsername() {
+        return leaseUsername;
+    }
+
+    public void setLeaseUsername(String leaseUsername) {
+        this.leaseUsername = leaseUsername;
+    }
+
+    @Override
+    public String toString() {
+        return "Rideout{" + "id=" + id + ", riders=" + riders + ", rideLeader=" + rideLeader + ", descriptionMd=" + descriptionMd + ", maxRiders=" + maxRiders + ", waitlist=" + waitlist + ", rideoutstate=" + rideoutstate + ", rideoutDays=" + rideoutDays + ", title=" + title + ", startDate=" + startDate + ", leaseTime=" + leaseTime + ", leaseUsername=" + leaseUsername + '}';
+    }
+
+    
 }

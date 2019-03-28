@@ -7,10 +7,13 @@ package org.solent.com600.example.journeyplanner.service;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.SysUser;
 import javax.naming.AuthenticationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.solent.com600.example.journeyplanner.model.Rideout;
 import org.solent.com600.example.journeyplanner.model.RideoutDAO;
 import org.solent.com600.example.journeyplanner.model.RideoutState;
@@ -23,7 +26,11 @@ import org.solent.com600.example.journeyplanner.model.UserInfo;
  * @author gallenc
  */
 public class ServiceFacadeImpl implements ServiceFacade {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceFacadeImpl.class);
+
     //TODO THIS CLASs STILL ALLOWS SAME USERS TO retrieve THEIR OWN DATA - NEEDS CHANGED
+    public static final Long LEASE_TIME = 60L * 1000L * 5L; // 5 minutes
 
     public static final String ANONYMOUS_SYSUSERNAME = "Anonymous";
     public static final String SUPERADMIN_SYSUSERNAME = "SuperAdmin";
@@ -118,7 +125,9 @@ public class ServiceFacadeImpl implements ServiceFacade {
         sysUser.setUserName(userName);
         String passwordHash = PasswordUtils.hashPassword(password);
         sysUser.setPassWordHash(passwordHash);
-        if(role==null) role = Role.RIDER;
+        if (role == null) {
+            role = Role.RIDER;
+        }
         sysUser.setRole(role);
         sysUser.getUserInfo().setFirstname(firstname);
         sysUser.getUserInfo().setSurname(surname);
@@ -337,6 +346,11 @@ public class ServiceFacadeImpl implements ServiceFacade {
         if (!validateUserAction(null, actingSysUserName, authList)) {
             throw new AuthenticationException(actingSysUserName + " does not have permissions to retrieve all users");
         }
+        // check if I have valid lease on rideout
+        if (!userHasLeaseOnRideout(rideout.getId(), actingSysUserName)) {
+            throw new AuthenticationException(actingSysUserName + " does not have a lease on the ridout");
+        };
+
         return rideoutDAO.update(rideout);
     }
 
@@ -430,4 +444,88 @@ public class ServiceFacadeImpl implements ServiceFacade {
         return rideoutDAO.retrieveAllWaitListByRider(rider, rideoutStates);
     }
 
+    @Override
+    public boolean tryGetLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException {
+        LOG.warn("tryGetLeaseOnRideout  ridout id=" + id);
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to update lease on ridout");
+        }
+
+        Rideout rideout = retrieveRideout(id, actingSysUserName);
+        String currentLeaseUser = rideout.getLeaseUsername();
+        if (currentLeaseUser!=null && !actingSysUserName.equals(currentLeaseUser)) {
+            long now = new Date().getTime();
+            if (now - rideout.getLeaseTime().getTime() < LEASE_TIME) {
+
+                LOG.warn("tryGetLeaseOnRideout CANNOT OBTAIN lease on ridout id=" + id
+                        + " actingSysUserName=" + actingSysUserName
+                        + " currentLeaseUser=" + currentLeaseUser
+                        + " now=" + now + " "
+                        + " leasetime=" + rideout.getLeaseTime().getTime());
+                return false;
+            }
+        }
+        // same user of lease expired so can take new lease
+        rideout.setLeaseTime(new Date(new Date().getTime()));
+        rideout.setLeaseUsername(actingSysUserName);
+        rideoutDAO.update(rideout);
+        LOG.warn("tryGetLeaseOnRideout OBTAINED lease on ridout id=" + id
+                + " actingSysUserName=" + actingSysUserName
+                + " currentLeaseUser=" + currentLeaseUser
+                + " leasetime=" + rideout.getLeaseTime().getTime());
+        return true;
+    }
+
+    @Override
+    public boolean userHasLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            return false;
+        }
+
+        Rideout rideout = retrieveRideout(id, actingSysUserName);
+        String currentLeaseUser = rideout.getLeaseUsername();
+        // check if lease user is same user
+        if (actingSysUserName.equals(currentLeaseUser)) {
+            long now = new Date().getTime();
+            if (now - rideout.getLeaseTime().getTime() < LEASE_TIME) {
+                LOG.warn("userHasLeaseOnRideout lease current on ridout id=" + id
+                        + " actingSysUserName=" + actingSysUserName
+                        + " currentLeaseUser=" + currentLeaseUser
+                        + " now=" + now + " "
+                        + " leasetime=" + rideout.getLeaseTime().getTime());
+                return true;
+            }
+            LOG.warn("userHasLeaseOnRideout lease expired on ridout id=" + id
+                    + " actingSysUserName=" + actingSysUserName
+                    + " currentLeaseUser=" + currentLeaseUser
+                    + " now=" + now + " "
+                    + " leasetime=" + rideout.getLeaseTime().getTime());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean tryReleaseLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException {
+        List<Role> authList = Collections.unmodifiableList(Arrays.asList(Role.ADMIN, Role.RIDELEADER));
+        if (!validateUserAction(null, actingSysUserName, authList)) {
+            throw new AuthenticationException(actingSysUserName + " does not have permissions to read lease on ridout");
+        }
+
+        Rideout rideout = retrieveRideout(id, actingSysUserName);
+        String currentLeaseUser = rideout.getLeaseUsername();
+        // check if lease user is same user
+        if (actingSysUserName.equals(currentLeaseUser)) {
+            rideout.setLeaseUsername(null);
+            LOG.warn("tryReleaseLeaseOnRideout relased lease on ridout id=" + id
+                    + " actingSysUserName=" + actingSysUserName
+                    + " currentLeaseUser=" + currentLeaseUser);
+            return true;
+        }
+        LOG.warn("tryReleaseLeaseOnRideout could not releases leased on rideout=" + id
+                + " actingSysUserName=" + actingSysUserName
+                + " currentLeaseUser=" + currentLeaseUser);
+        return false;
+    }
 }

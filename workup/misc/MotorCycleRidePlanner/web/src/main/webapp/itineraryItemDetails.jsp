@@ -135,17 +135,28 @@
     <!-- current jsp page content -->
     <!--BODY-->
     <div id="content">
-        <h2>Itinerary</h2>
+        <h2>Rideout <%=rideout.getTitle()%> Day <%=dayIndex%> Itinerary <%=itemIndex%></h2>
         <br>
 
         <div class="splitcontentleft">
-
-
+            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
+                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
+                <input type="hidden"  name="dayIndex" value ="<%=dayIndex%>" >
+                <input type="hidden"  name="itemIndex" value ="<%=itemIndex%>" >
+                <input type="hidden" name="action" value="<%=RidoutJspConstantsHelper.VIEW_RIDEOUT_ACTION%>">
+                <input type="submit" value="Return to Rideout" <%=inputControl%> >
+            </form>
+            
         </div>
         <div class="splitcontentright">
 
             <h3><%=item.getDescriptionMd()%></h3>
             <form action="./itineraryItemDetails.jsp?selected=ManageRideouts" method="post">
+                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
+                <input type="hidden"  name="dayIndex" value ="<%=dayIndex%>" >
+                <input type="hidden"  name="itemIndex" value ="<%=itemIndex%>" >
+                <input type="hidden" name="action" value="<%=RidoutJspConstantsHelper.UPDATE_RIDEOUT_ITINERARY_ITEM_ACTION%>">
+                <input type="submit" value="Update Item" <%=inputControl%> >
                 <table>
                     <tr><td>item no</td><td><%=itemIndex%></td></tr>
                     <tr>
@@ -164,7 +175,7 @@
                         <td>start time(HH:MM)</td>
                         <td>
                             <div>
-                                <input type="text" name="endTime" value="<%=item.getStartTime()%>" placeholder="Time" data-toggle="timepicker">
+                                <input type="text" name="endTime" value="<%=item.getStartTime()%>" placeholder="Time" data-toggle="timepicker"  <%=inputControl%> >
                             </div>
                         </td> 
                     </tr>
@@ -172,7 +183,7 @@
                         <td>end time(HH:MM)</td>
                         <td>
                             <div>
-                                <input type="text" name="endTime" value="<%=item.getEndTime()%>" placeholder="Time" data-toggle="timepicker">
+                                <input type="text" name="endTime" value="<%=item.getEndTime()%>" placeholder="Time" data-toggle="timepicker"  <%=inputControl%> >
                             </div>
                         </td> 
                     </tr>
@@ -189,23 +200,18 @@
                 <h2>Destination Address</h2>
                 <BR>
                 <table>
-                    <tr><td>house number</td><td><input type="text" name="<%=RidoutJspConstantsHelper.NUMBER %>" value ="<%=address.getNumber()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>address line1</td><td><input type="text" name="<%=RidoutJspConstantsHelper.ADDRESS_LINE_1 %>" value ="<%=address.getAddressLine1()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>address line2</td><td><input type="text" name="<%=RidoutJspConstantsHelper.ADDRESS_LINE_2 %>" value ="<%=address.getAddressLine2()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>country</td><td><input type="text" name="<%=RidoutJspConstantsHelper.COUNTRY %>" value ="<%=address.getCountry()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>county</td><td><input type="text" name="<%=RidoutJspConstantsHelper.COUNTY %>" value ="<%=address.getCounty()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>postcode</td><td><input type="text" name="<%=RidoutJspConstantsHelper.POSTCODE %>" value ="<%=address.getPostcode()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>latitude</td><td><input type="text" name="<%=RidoutJspConstantsHelper.LATITUDE %>" value ="<%=address.getLatitude()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>longitude</td><td><input type="text" name="<%=RidoutJspConstantsHelper.LONGITUDE %>" value ="<%=address.getLongitude()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>mobile</td><td><input type="text" name="<%=RidoutJspConstantsHelper.MOBILE %>" value ="<%=address.getMobile()%>" <%=inputControl%>  ></td></tr>
-                    <tr><td>telephone</td><td><input type="text" name="<%=RidoutJspConstantsHelper.TELEPHONE %>" value ="<%=address.getTelephone()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>house number</td><td><input type="text" name="<%=RidoutJspConstantsHelper.NUMBER%>" value ="<%=address.getNumber()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>address line1</td><td><input type="text" name="<%=RidoutJspConstantsHelper.ADDRESS_LINE_1%>" value ="<%=address.getAddressLine1()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>address line2</td><td><input type="text" name="<%=RidoutJspConstantsHelper.ADDRESS_LINE_2%>" value ="<%=address.getAddressLine2()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>country</td><td><input type="text" name="<%=RidoutJspConstantsHelper.COUNTRY%>" value ="<%=address.getCountry()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>county</td><td><input type="text" name="<%=RidoutJspConstantsHelper.COUNTY%>" value ="<%=address.getCounty()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>postcode</td><td><input type="text" name="<%=RidoutJspConstantsHelper.POSTCODE%>" value ="<%=address.getPostcode()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>latitude</td><td><input type="text" name="<%=RidoutJspConstantsHelper.LATITUDE%>" value ="<%=address.getLatitude()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>longitude</td><td><input type="text" name="<%=RidoutJspConstantsHelper.LONGITUDE%>" value ="<%=address.getLongitude()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>mobile</td><td><input type="text" name="<%=RidoutJspConstantsHelper.MOBILE%>" value ="<%=address.getMobile()%>" <%=inputControl%>  ></td></tr>
+                    <tr><td>telephone</td><td><input type="text" name="<%=RidoutJspConstantsHelper.TELEPHONE%>" value ="<%=address.getTelephone()%>" <%=inputControl%>  ></td></tr>
                 </table>
 
-                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
-                <input type="hidden"  name="dayIndex" value ="<%=dayIndex%>" >
-                <input type="hidden"  name="itemIndex" value ="<%=itemIndex%>" >
-                <input type="hidden" name="action" value="<%=RidoutJspConstantsHelper.UPDATE_RIDEOUT_ITINERARY_ITEM_ACTION %>">
-                <input type="submit" value="Update Item" <%=inputControl%> >
             </form>
         </div>
 

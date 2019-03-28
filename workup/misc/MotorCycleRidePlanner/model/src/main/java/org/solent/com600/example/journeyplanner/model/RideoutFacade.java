@@ -37,4 +37,10 @@ public interface RideoutFacade {
 
     public List<Rideout> retrieveAllRideoutsWaitListByRider(SysUser rider, List<RideoutState> rideoutStates, String actingSysUserName) throws AuthenticationException;
 
+    public boolean tryGetLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException;
+
+    public boolean userHasLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException;
+
+    public boolean tryReleaseLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException;
+
 }

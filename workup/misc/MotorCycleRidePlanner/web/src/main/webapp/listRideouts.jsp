@@ -62,8 +62,7 @@
 
     if (action == null || "".equals(action)) {
         // do nothing first time at page
-    }
-    if ("changeSelectedStates".equals(action)) {
+    } else if ("changeSelectedStates".equals(action)) {
         // get selected rideout values
         selectedStates = new HashSet<RideoutState>();
         for (RideoutState state : RideoutState.values()) {
@@ -92,22 +91,6 @@
     }
 
     List<Rideout> rideouts = serviceFacade.retrieveAllRideouts(new ArrayList(selectedStates), sessionUserName);
-
-    //String action = (String) request.getParameter("action");
-    // if ()
-//    SysUser user = serviceFacade.retrieveByUserName(sessionUserName, sessionUserName);
-//    for (int i = 0; i < 10; i++) {
-//        Rideout rideout = new Rideout();
-//        rideout.setTitle("my first rideout");
-//        rideout.setStartDate(new Date());
-//        rideout.setDescriptionMd("my first description ");
-//        rideout.setMaxRiders(22);
-//        rideout.setRideLeader(user);
-//        rideout.getRiders().add(user);
-//        rideout.getWaitlist().add(user);
-//        rideout.getRideoutDays().add(new RideoutDay());
-//        rideouts.add(rideout);
-//    }
 
 %>
 <!DOCTYPE html>

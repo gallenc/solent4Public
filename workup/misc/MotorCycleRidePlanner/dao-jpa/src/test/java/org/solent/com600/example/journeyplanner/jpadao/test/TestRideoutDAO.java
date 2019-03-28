@@ -246,4 +246,47 @@ public class TestRideoutDAO {
         return rideout;
     }
 
+    // this should test changes to the rideout are not overwritten
+    // seem to be some problems with the same object being share at cache level
+    @Test
+    public void testVersionRideout() {
+        // set up rideoutDAO before creating rideouts
+        RideoutDAO rideoutDAO = DAOFactory.getRideoutDAO();
+        assertNotNull(rideoutDAO);
+
+        // first delete all rideouts before deleting/creating  users
+        rideoutDAO.deleteAll();
+
+        // set up sysUsers for test
+        SysUserDAO userDAO = DAOFactory.getSysUserDAO();
+        assertNotNull(userDAO);
+        TestSysUserDAO.testCreateSysUsersDatabase(userDAO);
+
+        //get first user1 copy
+        List<SysUser> users = userDAO.retrieveAll();
+        assertTrue(!users.isEmpty());
+        SysUser user1Copy = users.get(0);
+        LOG.debug("user1 version:" + user1Copy.getVersion() + " user1 medicalMD:" + user1Copy.getUserInfo().getMedicalMd());
+
+        //get second user1 copy
+        List<SysUser> users2 = userDAO.retrieveAll();
+        assertTrue(!users2.isEmpty());
+        SysUser user2Copy = users2.get(0);
+        LOG.debug("user2 version:" + user2Copy.getVersion() + " user2 medicalMD:" + user2Copy.getUserInfo().getMedicalMd());
+
+        // update user1 copy
+        user1Copy.getUserInfo().setMedicalMd("updated user1 medical md");
+        userDAO.update(user1Copy);
+        LOG.debug("user1 version:" + user1Copy.getVersion() + " user1 medicalMD:" + user1Copy.getUserInfo().getMedicalMd());
+
+        // should be differnt ?? - but same objects since cached in same entity manager
+        LOG.debug("user2 version:" + user2Copy.getVersion() + " user2 medicalMD:" + user2Copy.getUserInfo().getMedicalMd());
+
+        // try to update user2 copy
+        user1Copy.getUserInfo().setMedicalMd("updated user2 medical md");
+        userDAO.update(user2Copy);
+        LOG.debug("user2 version:" + user1Copy.getVersion() + " user2 medicalMD:" + user2Copy.getUserInfo().getMedicalMd());
+
+    }
+
 }
