@@ -52,7 +52,7 @@
     }
 
     // get request values
-    String selected = (String) request.getParameter("selected");
+    String tabSelected = (String) request.getParameter("tabSelected");
 
     String action = (String) request.getParameter("action");
 
@@ -260,17 +260,17 @@
         <div style="color:green;"><%=goodMessage%></div>
         <div>
             <h2>Rideout Itinerary <%=rideout.getTitle()%></h2>
-            <form action="listRideouts.jsp?selected=ManageRideouts" method="get">
+            <form action="listRideouts.jsp?tabSelected=ManageRideouts" method="get">
                 <input type="submit" value="Return to Rideout List">
             </form>
             <%if (!lease) {%>
-            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="get">
+            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
                 <input type="hidden" name="action" value="enableEditRideout">
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                 <input type="submit" value="Enable Edit Rideout">
             </form>
             <% } else {%>
-            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="get">
+            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
                 <input type="hidden" name="action" value="disableEditRideout">
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                 <input type="submit" value="Disable Edit Rideout">
@@ -281,7 +281,7 @@
 
         <div class="splitcontentleft" >
             <h2>General Information</h2>
-            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
+            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                 <table>
                     <tr>
                         <td>id </td><td><%=rideout.getId()%></td>
@@ -327,14 +327,14 @@
                 <input type="hidden" name="action" value="updateRideoutGeneralInfo">
                 <input type="submit" value="Update General Information" <%=inputControl%> >
             </form>
-            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
+            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                 <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="hidden" name="action" value="updateRideoutRiders">
                 <input type="submit" value="View and Update Booked Riders" <%=inputControl%> >
             </form>
             <br>
             <h2>Daily overview</h2>
-            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
+            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                 <input type="hidden" name="action" value="addNewRideoutDay">
                 <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="submit" value="Add New Day" <%=inputControl%> >
@@ -346,7 +346,7 @@
             <button class="accordion" id="<%=dayno%>">Day <%=dayno%></button>
             <div class="panel">
                 <p><%=day.getDescriptionMd()%></p>
-                <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post" onsubmit="return confirm('are you sure you want to delete a whole day?')">
+                <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post" onsubmit="return confirm('are you sure you want to delete a whole day?')">
                     <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                     <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
                     <input type="hidden" name="action" value="deleteRideoutDay">
@@ -375,7 +375,7 @@
                 <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
                 <input type="hidden"  name="itemIndex" value ="<%=itemno%>" >
 
-                <a href="./itineraryItemDetails.jsp?selected=ManageRideouts&rideoutId=<%=rideoutId%>&dayIndex=<%=dayno%>&itemIndex=<%=itemno%>"
+                <a href="./itineraryItemDetails.jsp?tabSelected=ManageRideouts&rideoutId=<%=rideoutId%>&dayIndex=<%=dayno%>&itemIndex=<%=itemno%>"
                    method="get" title="click to view or edit details">
                     <h3><%=item.getDescriptionMd()%></h3>
                     <table>
@@ -386,7 +386,7 @@
                     </table>
                 </a>
 
-                <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post" 
+                <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post" 
                       onsubmit="return confirm('are you sure?')">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                     <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
@@ -394,7 +394,7 @@
                     <input type="hidden" name="action" value="deleteRideoutItineraryItem">
                     <input type="submit" value="Delete Item <%=itemno%>" <%=inputControl%> >
                 </form>
-                <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
+                <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                     <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
                     <input type="hidden"  name="itemIndex" value ="<%=itemno%>" >
@@ -435,7 +435,7 @@
                     var item = document.getElementById("day_" + y);
                     item.style.display = 'none';
                 }
-                /* open selected panel */
+                /* open tabSelected panel */
                 var item2 = document.getElementById("day_" + p);
                 item2.style.display = '';
 

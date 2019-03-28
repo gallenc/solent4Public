@@ -52,7 +52,7 @@
     }
 
     // get request values
-    String selected = (String) request.getParameter("selected");
+    String tabSelected = (String) request.getParameter("tabSelected");
 
     String action = (String) request.getParameter("action");
     if (action == null) {
@@ -139,7 +139,7 @@
         <br>
 
         <div class="splitcontentleft">
-            <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="post">
+            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                 <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="hidden"  name="dayIndex" value ="<%=dayIndex%>" >
                 <input type="hidden"  name="itemIndex" value ="<%=itemIndex%>" >
@@ -151,7 +151,7 @@
         <div class="splitcontentright">
 
             <h3><%=item.getDescriptionMd()%></h3>
-            <form action="./itineraryItemDetails.jsp?selected=ManageRideouts" method="post">
+            <form action="./itineraryItemDetails.jsp?tabSelected=ManageRideouts" method="post">
                 <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="hidden"  name="dayIndex" value ="<%=dayIndex%>" >
                 <input type="hidden"  name="itemIndex" value ="<%=itemIndex%>" >

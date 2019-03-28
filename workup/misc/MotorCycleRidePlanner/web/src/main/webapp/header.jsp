@@ -26,7 +26,7 @@
         session.setAttribute("sessionUserRole", sessionUserRole);
     }
 
-    String selected = (String) request.getParameter("selected");
+    String tabSelected = (String) request.getParameter("tabSelected");
 
 %>
 <!-- content from header.jsp -->
@@ -97,23 +97,23 @@
         </div>
         <div id="navigation">
             <ul>
-                <li <%=("Main".equals(selected) ? "class=\"selected\"" : "")%> >
-                    <a href="./mainPage.jsp?selected=Main">Main</a></li>
+                <li <%=("Main".equals(tabSelected) ? "class=\"selected\"" : "")%> >
+                    <a href="./mainPage.jsp?tabSelected=Main">Main</a></li>
 
                 <% if (!Role.ANONYMOUS.equals(sessionUserRole)) {%>
-                <li <%=("MyProfile".equals(selected) ? "class=\"selected\"" : "")%> >
-                    <a href="./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName=<%=sessionUserName%>">My Profile</a></li>
-                <li <%=("ManageRideouts".equals(selected) ? "class=\"selected\"" : "")%> >
-                    <a href="./listRideouts.jsp?selected=ManageRideouts">Manage Rideouts</a></li>
+                <li <%=("MyProfile".equals(tabSelected) ? "class=\"selected\"" : "")%> >
+                    <a href="./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName=<%=sessionUserName%>">My Profile</a></li>
+                <li <%=("ManageRideouts".equals(tabSelected) ? "class=\"selected\"" : "")%> >
+                    <a href="./listRideouts.jsp?tabSelected=ManageRideouts">Manage Rideouts</a></li>
 
                 <% if (Role.ADMIN.equals(sessionUserRole)) {%>
-                <li <%=("ManageUsers".equals(selected) ? "class=\"selected\"" : "")%> > 
-                    <a href="./listUsers.jsp?selected=ManageUsers">Manage Users</a></li>
+                <li <%=("ManageUsers".equals(tabSelected) ? "class=\"selected\"" : "")%> > 
+                    <a href="./listUsers.jsp?tabSelected=ManageUsers">Manage Users</a></li>
 
                 <% }%>
                 <% }%>
-                <li <%=("About".equals(selected) ? "class=\"selected\"" : "")%> >
-                    <a href="./about.jsp?selected=About">About</a></li>
+                <li <%=("About".equals(tabSelected) ? "class=\"selected\"" : "")%> >
+                    <a href="./about.jsp?tabSelected=About">About</a></li>
             </ul>
         </div>
         <!-- end of  content from header.jsp -->

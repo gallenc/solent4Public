@@ -75,7 +75,7 @@
             Role role = serviceFacade.getRoleByUserName(username);
             session.setAttribute("sessionUserRole", role);
             // redirect to own profile
-            response.sendRedirect("./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName="+username);
+            response.sendRedirect("./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName="+username);
         }
 
     } else if ("addNewUser".equals(action)) {
@@ -96,7 +96,7 @@
                session.setAttribute("sessionUserRole", user.getRole());
                
                // redirect to user profile page
-               response.sendRedirect("./userInfo.jsp?selected=MyProfile&action=myProfile&selectedUserName="+username);
+               response.sendRedirect("./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName="+username);
             }
         }
     } else {

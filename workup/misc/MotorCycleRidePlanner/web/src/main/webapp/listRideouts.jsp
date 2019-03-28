@@ -50,7 +50,7 @@
     }
 
     // get request values
-    String selected = (String) request.getParameter("selected");
+    String tabSelected = (String) request.getParameter("tabSelected");
 
     String action = (String) request.getParameter("action");
 
@@ -104,7 +104,7 @@
         <div style="color:red;"><%=errorMessage%></div>
         <h2>Rideouts</h2>
         <div>
-            <form action="./listRideouts.jsp?selected=ManageRideouts" method="post">
+            <form action="./listRideouts.jsp?tabSelected=ManageRideouts" method="post">
                 <% for (RideoutState state : RideoutState.values()) {
                 %>
                 <input type="checkbox" name="<%=state%>" <%=((selectedStates.contains(state)) ? "checked" : "")%> 
@@ -116,7 +116,7 @@
         </div>
         <BR>
         <% if (Role.ADMIN.equals(sessionUserRole)) {%>
-        <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="get">
+        <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
             <div>Rideout Title <input type="text" name="newRideoutName" value ="" required >
                 <input type="submit" value="Add New Rideout">
             </div>
@@ -154,13 +154,13 @@
                 <td><%=rideout.getRideoutstate()%></td>
                 <td><%=rideout.getId()%></td>
                 <td>
-                    <form action="./rideoutdetails.jsp?selected=ManageRideouts" method="get">
+                    <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
                         <input type="hidden" name="action" value="viewRideout">
                         <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                         <input type="submit" value="Details">
                     </form>
                     <% if (Role.ADMIN.equals(sessionUserRole)) {%>
-                    <form action="./listRideouts.jsp?selected=ManageRideouts" method="get" onsubmit="return confirm('are you sure you want to delete this rideout?')">
+                    <form action="./listRideouts.jsp?tabSelected=ManageRideouts" method="get" onsubmit="return confirm('are you sure you want to delete this rideout?')">
                         <input type="hidden" name="action" value="deleteRideout">
                         <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                         <input type="submit" value="Delete">

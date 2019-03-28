@@ -72,11 +72,11 @@
 
     // get request values
     String action = (String) request.getParameter("action");
-    String selectedUserName = (String) request.getParameter("selectedUserName");
+    String selUserName = (String) request.getParameter("selUserName");
 
-    SysUser sysUser = serviceFacade.retrieveByUserName(selectedUserName, sessionUserName);
+    SysUser sysUser = serviceFacade.retrieveByUserName(selUserName, sessionUserName);
     if (sysUser == null) {
-        throw new IllegalStateException("sysUser is null for selectedUserName=" + selectedUserName);
+        throw new IllegalStateException("sysUser is null for selUserName=" + selUserName);
     }
     // this is just to test jsp display
 //    if (sysUser == null) {
@@ -103,9 +103,9 @@
         } else {
             try {
                 if (Role.ADMIN.equals(sessionUserRole)) {
-                    serviceFacade.updatePasswordByUserName(newpassword, selectedUserName, sessionUserName);
+                    serviceFacade.updatePasswordByUserName(newpassword, selUserName, sessionUserName);
                 } else {
-                    serviceFacade.updateOldPasswordByUserName(newpassword, oldpassword, selectedUserName, sessionUserName);
+                    serviceFacade.updateOldPasswordByUserName(newpassword, oldpassword, selUserName, sessionUserName);
                 }
             } catch (Exception ex) {
                 errorMessage = "Error - problem updating password " + ex.getMessage();
@@ -118,7 +118,7 @@
         String role = (String) request.getParameter("role");
         try {
             Role newRole = Role.valueOf(role);
-            serviceFacade.updateUserRoleByUserName(newRole, selectedUserName, sessionUserName);
+            serviceFacade.updateUserRoleByUserName(newRole, selUserName, sessionUserName);
         } catch (Exception ex) {
             errorMessage = "Error - problem updating user role " + ex.getMessage();
             error = true;
@@ -314,7 +314,7 @@
             <BR>
             <h2>Update Password</h2>
             <BR>
-            <form action="userInfo.jsp?selected=userInfo" method="post">
+            <form action="userInfo.jsp?tabSelected=userInfo" method="post">
                 <table>
                     <%
                         if (Role.ADMIN.equals(sessionUserRole)) {
@@ -331,11 +331,11 @@
                     <tr><td>verify new password</td><td><input type="password" id="newpassverify" name="verifypassword" minlength="8" required></td></tr>
                     <tr><td></td><td><input type="submit" value="Change Password"></td></tr>
                 </table>
-                <input type="hidden" name="selectedUserName" value ="<%=sysUser.getUserName()%>">
+                <input type="hidden" name="selUserName" value ="<%=sysUser.getUserName()%>">
                 <input type="hidden" name="action" value="changePassword">
             </form>
             <BR>
-            <form action="userInfo.jsp?selected=userInfo" method="post">
+            <form action="userInfo.jsp?tabSelected=userInfo" method="post">
                 <h2>User Role</h2>
                 <BR>
                 <table>
@@ -349,16 +349,16 @@
                             </select>
                         </td></tr>
                 </table>
-                <input type="hidden"  name="selectedUserName" value ="<%=selectedUserName%>" >
+                <input type="hidden"  name="selUserName" value ="<%=selUserName%>" >
                 <input type="hidden" name="action" value="updateUserRole">
                 <input type="submit" value="Update User Role" <%=rolechangeControl%> >
             </form>
             <BR>
-            <form action="userInfo.jsp?selected=userInfo" method="post">
+            <form action="userInfo.jsp?tabSelected=userInfo" method="post">
                 <h2>User Information</h2>
                 <BR>
                 <table>
-                    <tr><td>username</td><td><%=selectedUserName%></td></tr>
+                    <tr><td>username</td><td><%=selUserName%></td></tr>
                     <tr><td>first name</td><td><input type="text" name="firstname" value ="<%=userInfo.getFirstname()%>" <%=inputControl%>  ></td></tr>
                     <tr><td>surname</td><td><input type="text" name="surname" value ="<%=userInfo.getSurname()%>"<%=inputControl%>  ></td></tr>
                 </table>
@@ -418,12 +418,12 @@
                     </table>
                     <BR>
                 </div>
-                <input type="hidden" name="selectedUserName" value ="<%=selectedUserName%>">
+                <input type="hidden" name="selUserName" value ="<%=selUserName%>">
                 <input type="hidden" name="action" value="updateUserInfo">
                 <input type="submit" value="Update User Information">
             </form>
-            <form action="userInfo.jsp?selected=userInfo" method="post">
-                <input type="hidden" name="selectedUserName" value ="<%=selectedUserName%>">
+            <form action="userInfo.jsp?tabSelected=userInfo" method="post">
+                <input type="hidden" name="selUserName" value ="<%=selUserName%>">
                 <input type="hidden" name="action" value="cancel">
                 <input type="submit" value="Cancel">
             </form>

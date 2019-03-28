@@ -36,7 +36,7 @@
     }
 
     // get request values
-    String selected = (String) request.getParameter("selected");
+    String tabSelected = (String) request.getParameter("tabSelected");
 
     String action = (String) request.getParameter("action");
     if (action==null) action="";
@@ -105,9 +105,9 @@
 
         <div class="splitcontentleft">
 
-            <% if (Role.ADMIN.equals(sessionUserRole) && "ManageUsers".equals(selected)) {%>
+            <% if (Role.ADMIN.equals(sessionUserRole) && "ManageUsers".equals(tabSelected)) {%>
             <h2>Add New User</h2>
-            <form action="listUsers.jsp?selected=ManageUsers" method=post>
+            <form action="listUsers.jsp?tabSelected=ManageUsers" method=post>
                 <p><strong>Create a new User Account: </strong>
                     <input type="text" name="username" size="25" value="<%=username%>">
                 <p><strong>Please Enter A Password: </strong>
@@ -150,16 +150,16 @@
                     <th><%=user.getUserName()%></th>
                     <td><%=user.getRole()%></td>
                     <td>
-                        <form action="userInfo.jsp?selected=userInfo" method="get">
+                        <form action="userInfo.jsp?tabSelected=userInfo" method="get">
                             <input type="hidden" name="action" value="showUser">
-                            <input type="hidden" name="selectedUserName" value="<%=user.getUserName()%>">
+                            <input type="hidden" name="selUserName" value="<%=user.getUserName()%>">
                             <input type="submit" value="Show User">
                         </form>
                         <% if (Role.ADMIN.equals(sessionUserRole)) {%>
-                        <form action="userInfo.jsp?selected=userInfo" method="get">
+                        <form action="userInfo.jsp?tabSelected=userInfo" method="get">
                             <input type="hidden" name="action" value="updateUserRole">
                             <input type="hidden" name="role" value="<%=Role.DEACTIVATED%>">
-                            <input type="hidden" name="selectedUserName" value="<%=user.getUserName()%>">
+                            <input type="hidden" name="selUserName" value="<%=user.getUserName()%>">
                             <input type="submit" value="Deactivate User">
                         </form>
                         <% }%>
