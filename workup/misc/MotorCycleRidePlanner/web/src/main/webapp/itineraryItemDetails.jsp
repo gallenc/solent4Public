@@ -29,6 +29,7 @@
     DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
     // error message string
+    String goodMessage = "";
     String errorMessage = "";
     boolean error = false;
 
@@ -123,7 +124,12 @@
 
     if (RidoutJspConstantsHelper.UPDATE_RIDEOUT_ITINERARY_ITEM_ACTION.equals(action)) {
         item = RidoutJspConstantsHelper.updateItinearyItem(item, request);
-        rideout = serviceFacade.updateRideout(rideout, sessionUserName);
+        if (serviceFacade.userHasLeaseOnRideout(rideout.getId(), sessionUserName)) {
+            rideout = serviceFacade.updateRideout(rideout, sessionUserName);
+            goodMessage=goodMessage+"success rideout updated";
+        } else {
+            errorMessage = errorMessage + "Error: user " + sessionUserName + " does not have editing lease on rideout";
+        }
     }
 
 
@@ -135,6 +141,10 @@
     <!-- current jsp page content -->
     <!--BODY-->
     <div id="content">
+        <!-- print error message if there is one -->
+        <div style="color:red;"><%=errorMessage%></div>
+        <div style="color:green;"><%=goodMessage%></div>
+
         <h2>Rideout <%=rideout.getTitle()%> Day <%=dayIndex%> Itinerary <%=itemIndex%></h2>
         <br>
 
@@ -146,7 +156,7 @@
                 <input type="hidden" name="action" value="<%=RidoutJspConstantsHelper.VIEW_RIDEOUT_ACTION%>">
                 <input type="submit" value="Return to Rideout" <%=inputControl%> >
             </form>
-            
+
         </div>
         <div class="splitcontentright">
 

@@ -258,28 +258,27 @@
         <!-- print error message if there is one -->
         <div style="color:red;"><%=errorMessage%></div>
         <div style="color:green;"><%=goodMessage%></div>
-        <div>
-            <h2>Rideout Itinerary <%=rideout.getTitle()%></h2>
-            <form action="listRideouts.jsp?tabSelected=ManageRideouts" method="get">
-                <input type="submit" value="Return to Rideout List">
-            </form>
-            <%if (!lease) {%>
-            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
-                <input type="hidden" name="action" value="enableEditRideout">
-                <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                <input type="submit" value="Enable Edit Rideout">
-            </form>
-            <% } else {%>
-            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
-                <input type="hidden" name="action" value="disableEditRideout">
-                <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                <input type="submit" value="Disable Edit Rideout">
-            </form>
-            <% }%>
-        </div>
-        <BR>
-
         <div class="splitcontentleft" >
+            <div>
+                <h2>Rideout Itinerary <%=rideout.getTitle()%></h2>
+                <form action="listRideouts.jsp?tabSelected=ManageRideouts" method="get">
+                    <input type="submit" value="Return to Rideout List">
+                </form>
+                <%if (!lease) {%>
+                <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
+                    <input type="hidden" name="action" value="enableEditRideout">
+                    <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
+                    <input type="submit" value="Enable Edit Rideout">
+                </form>
+                <% } else {%>
+                <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="get">
+                    <input type="hidden" name="action" value="disableEditRideout">
+                    <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
+                    <input type="submit" value="Disable Edit Rideout">
+                </form>
+                <% }%>
+            </div>
+            <BR>
             <h2>General Information</h2>
             <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                 <table>
@@ -332,7 +331,8 @@
                 <input type="hidden" name="action" value="updateRideoutRiders">
                 <input type="submit" value="View and Update Booked Riders" <%=inputControl%> >
             </form>
-            <br>
+        </div>
+        <div class="splitcontentright" >
             <h2>Daily overview</h2>
             <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
                 <input type="hidden" name="action" value="addNewRideoutDay">
@@ -356,33 +356,28 @@
             <% }%>
 
         </div>
-        <div class="splitcontentright" >
-            <% for (int dayno = 1; dayno <= days.size(); dayno++) {
-                    RideoutDay day = days.get(dayno - 1);
+
+    </div>
+    <div class="subcontent" >
+        <BR>
+        <BR>
+        <% for (int dayno = 1; dayno <= days.size(); dayno++) {
+                RideoutDay day = days.get(dayno - 1);
+        %>
+        <div id="day_<%=dayno%>">
+            <p>Detailed Day <%=dayno%> Itinerary</p>
+            <% for (int itemno = 1; itemno <= day.getItineraryItems().size(); itemno++) {
+                    ItineraryItem item = day.getItineraryItems().get(itemno - 1);
             %>
-            <div id="day_<%=dayno%>">
-                <h2>Detailed Day <%=dayno%> Itinerary</h2>
-                <% for (int itemno = 1; itemno <= day.getItineraryItems().size(); itemno++) {
-                        ItineraryItem item = day.getItineraryItems().get(itemno - 1);
-
-                %>
-                <!-- <button class="accordion" id="<%=itemno + 100%>">Stage <%=itemno%></button> 
-                <div class="panel">
-                    <p><%=item.getDescriptionMd()%></p>
-                </div> -->
-
-                <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
-                <input type="hidden"  name="itemIndex" value ="<%=itemno%>" >
-
+            <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
+            <input type="hidden"  name="dayIndex" value ="<%=dayno%>" >
+            <input type="hidden"  name="itemIndex" value ="<%=itemno%>" >
+            <div>
                 <a href="./itineraryItemDetails.jsp?tabSelected=ManageRideouts&rideoutId=<%=rideoutId%>&dayIndex=<%=dayno%>&itemIndex=<%=itemno%>"
                    method="get" title="click to view or edit details">
-                    <h3><%=item.getDescriptionMd()%></h3>
                     <table>
-                        <tr><td>type</td><td><%=item.getItineraryItemType()%></td></tr>
-                        <tr><td>description</td><td><%=item.getDescriptionMd()%></td></tr>
-                        <tr><td>start time</td><td><%=item.getStartTime()%></td></tr>
-                        <tr><td>end time</td><td><%=item.getEndTime()%></td></tr>
+                        <tr><td><%=item.getItineraryItemType()%></td><td> <%=item.getStartTime()%> to <%=item.getEndTime()%></td></tr>
+                        <tr><td><%=item.getDescriptionMd()%></td><td></td></tr>
                     </table>
                 </a>
 
@@ -402,13 +397,14 @@
                     <input type="submit" value="Insert New Item" <%=inputControl%> >
                 </form>
                 <br>
-                <% }%>
-
             </div>
             <% }%>
 
         </div>
+        <% }%>
+
     </div>
+
 
     <!-- footer.jsp injected content-->
     <jsp:include page="footer.jsp" />
