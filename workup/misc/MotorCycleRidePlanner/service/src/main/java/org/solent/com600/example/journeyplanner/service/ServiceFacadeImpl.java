@@ -528,4 +528,39 @@ public class ServiceFacadeImpl implements ServiceFacade {
                 + " currentLeaseUser=" + currentLeaseUser);
         return false;
     }
+
+    @Override
+    public void addRideLeaderToRideout(Long rideoutId, String userName, String actingSysUserName) throws AuthenticationException {
+        Rideout rideout = retrieveRideout(rideoutId, actingSysUserName);
+        SysUser sysUser = this.retrieveByUserName(userName, actingSysUserName);
+        if (Role.RIDELEADER.equals(sysUser.getRole()) ||Role.ADMIN.equals(sysUser.getRole())  ){
+            rideout.setRideLeader(sysUser);
+            updateRideout(rideout, actingSysUserName);
+        } else throw new AuthenticationException ("user "+userName + " is not allowed to be a ride leader");
+    }
+
+    @Override
+    public void addRidersToRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addRidersToWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeRidersFromRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void transferRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

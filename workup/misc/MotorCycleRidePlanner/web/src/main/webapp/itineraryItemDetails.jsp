@@ -154,7 +154,7 @@
                 <input type="hidden"  name="dayIndex" value ="<%=dayIndex%>" >
                 <input type="hidden"  name="itemIndex" value ="<%=itemIndex%>" >
                 <input type="hidden" name="action" value="<%=RidoutJspConstantsHelper.VIEW_RIDEOUT_ACTION%>">
-                <input type="submit" value="Return to Rideout" <%=inputControl%> >
+                <input type="submit" value="Return to Rideout" >
             </form>
 
         </div>

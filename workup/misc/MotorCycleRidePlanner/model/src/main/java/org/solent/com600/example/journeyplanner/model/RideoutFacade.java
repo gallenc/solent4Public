@@ -43,4 +43,15 @@ public interface RideoutFacade {
 
     public boolean tryReleaseLeaseOnRideout(Long id, String actingSysUserName) throws AuthenticationException;
 
+    public void addRideLeaderToRideout(Long rideoutId, String userName, String actingSysUserName) throws AuthenticationException;
+
+    public void addRidersToRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
+
+    public void addRidersToWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
+
+    public void removeRidersFromRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
+
+    public void removeRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
+
+    public void transferRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
 }
