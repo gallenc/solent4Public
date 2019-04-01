@@ -284,7 +284,7 @@
                 <form action="./selectRideoutUsers.jsp?tabSelected=ManageRideouts" method="get">
                     <input type="hidden" name="action" value="editRiders">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                    <input type="submit" value="View Riders">
+                    <input type="submit" value="View Rider Lists and Ride Leader">
                 </form>
                 <% }%>
             </div>
@@ -344,11 +344,6 @@
                 <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
                 <input type="hidden" name="action" value="updateRideoutGeneralInfo">
                 <input type="submit" value="Update General Information" <%=inputControl%> >
-            </form>
-            <form action="./rideoutdetails.jsp?tabSelected=ManageRideouts" method="post">
-                <input type="hidden"  name="rideoutId" value ="<%=rideout.getId()%>" >
-                <input type="hidden" name="action" value="updateRideoutRiders">
-                <input type="submit" value="View and Update Booked Riders" <%=inputControl%> >
             </form>
         </div>
         <div class="splitcontentright" >

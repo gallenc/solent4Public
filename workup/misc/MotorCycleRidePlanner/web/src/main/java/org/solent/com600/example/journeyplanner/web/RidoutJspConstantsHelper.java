@@ -45,6 +45,15 @@ public class RidoutJspConstantsHelper {
     public static final String INSERT_RIDEOUT_ITINERARY_ITEM_ACTION = "insertRideoutItineraryItem";
     public static final String DELETE_RIDEOUT_ITINERARY_ITEM_ACTION = "deleteRideoutItineraryItem";
     public static final String UPDATE_RIDEOUT_ITINERARY_ITEM_ACTION = "updateRideoutItineraryItem";
+    
+    public static final String VIEW_RIDERS ="viewRiders";
+    public static final String ADD_RIDE_LEADER = "addRideLeader";
+    public static final String ADD_TO_RIDERS = "addToRiders";
+    public static final String ADD_TO_WAIT_LIST = "addToWaitList";
+    public static final String REMOVE_RIDERS = "removeRiders";
+    public static final String REMOVE_FROM_WAIT_LIST = "removeFromWaitList";
+    public static final String MOVE_TO_RIDERS = "moveToRiders";
+    public static final String MOVE_TO_WAIT_LIST = "moveToWaitList";
 
     // value constants
     // sysuser

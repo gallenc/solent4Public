@@ -76,26 +76,26 @@
 
         if (action == null || "".equals(action)) {
             // do nothing first time at page
-        } else if ("viewRiders".equals(action)) {
+        } else if (RidoutJspConstantsHelper.VIEW_RIDERS.equals(action)) {
             // just show data
-        } else if ("addRideLeader".equals(action)) {
+        } else if (RidoutJspConstantsHelper.ADD_RIDE_LEADER.equals(action)) {
             String userName = userListSelection[0];
             serviceFacade.addRideLeaderToRideout(rideoutId, userName, sessionUserName);
 
-        } else if ("addToRiders".equals(action)) {
+        } else if (RidoutJspConstantsHelper.ADD_TO_RIDERS.equals(action)) {
             serviceFacade.addRidersToRideout(rideoutId, Arrays.asList(userListSelection), sessionUserName);
 
-        } else if ("addToWaitList".equals(action)) {
+        } else if (RidoutJspConstantsHelper.ADD_TO_WAIT_LIST.equals(action)) {
             serviceFacade.addRidersToWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
-        } else if ("removeRiders".equals(action)) {
+        } else if (RidoutJspConstantsHelper.REMOVE_RIDERS.equals(action)) {
             serviceFacade.removeRidersFromRideout(rideoutId, Arrays.asList(userListSelection), sessionUserName);
 
-        } else if ("removeFromWaitList".equals(action)) {
+        } else if (RidoutJspConstantsHelper.REMOVE_FROM_WAIT_LIST.equals(action)) {
             serviceFacade.removeRidersFromWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
 
-        } else if ("moveToRiders".equals(action)) {
+        } else if (RidoutJspConstantsHelper.MOVE_TO_RIDERS.equals(action)) {
             serviceFacade.transferRidersFromWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
-        } else if ("moveToWaitList".equals(action)) {
+        } else if (RidoutJspConstantsHelper.MOVE_TO_WAIT_LIST.equals(action)) {
             serviceFacade.transferRidersToWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
         }else {
             // unknown action
@@ -147,8 +147,8 @@
             <form action="./selectRideoutUsers.jsp?tabSelected=ManageRideouts" method="post" <%=inputControl%> >
                 <h2>Rideout Riders</h2>
                 <select name="action" <%=inputControl%> >
-                    <option value="moveToWaitList" selected>Move to Wait List</option>
-                    <option value="deleteFromRiders" >Delete From Riders</option>
+                    <option value="<%=RidoutJspConstantsHelper.MOVE_TO_WAIT_LIST %>" selected>Move to Wait List</option>
+                    <option value="<%=RidoutJspConstantsHelper.REMOVE_RIDERS %>" >Delete From Riders</option>
                 </select>
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                 <input type="submit" value="Enter">
@@ -182,8 +182,8 @@
             <form action="./selectRideoutUsers.jsp?tabSelected=ManageRideouts" method="post" <%=inputControl%> >
                 <h2>Rideout Wait List</h2>
                 <select name="action" <%=inputControl%> >
-                    <option value="moveToRiders" selected>Add to Wait List</option>
-                    <option value="deleteFromWaitList" >Add To Riders</option>
+                    <option value="<%=RidoutJspConstantsHelper.MOVE_TO_RIDERS %>" selected>Move to Riders List</option>
+                    <option value="<%=RidoutJspConstantsHelper.REMOVE_FROM_WAIT_LIST %>" >Remove From Wait List</option>
                 </select>
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                 <input type="submit" value="Enter">
@@ -217,9 +217,9 @@
             <form action="./selectRideoutUsers.jsp?tabSelected=ManageRideouts" method="post" <%=inputControl%> >
                 <h2>All Users</h2>
                 <select name="action" <%=inputControl%> >
-                    <option value="addToWaitList" selected>Add to Wait List</option>
-                    <option value="addRideLeader" >Add Ride Leader</option>
-                    <option value="addToRiders" >Add To Riders</option>
+                    <option value="<%=RidoutJspConstantsHelper.ADD_TO_WAIT_LIST %>" selected>Add to Wait List</option>
+                    <option value="<%=RidoutJspConstantsHelper.ADD_RIDE_LEADER %>" >Add Ride Leader</option>
+                    <option value="<%=RidoutJspConstantsHelper.ADD_TO_RIDERS %>" >Add To Riders</option>
                 </select>
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                 <input type="submit" value="Enter">
