@@ -77,7 +77,7 @@
         if (action == null || "".equals(action)) {
             // do nothing first time at page
         } else if ("viewRiders".equals(action)) {
-
+            // just show data
         } else if ("addRideLeader".equals(action)) {
             String userName = userListSelection[0];
             serviceFacade.addRideLeaderToRideout(rideoutId, userName, sessionUserName);
@@ -93,9 +93,11 @@
         } else if ("removeFromWaitList".equals(action)) {
             serviceFacade.removeRidersFromWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
 
-        } else if ("transferRidersFromWaitList".equals(action)) {
+        } else if ("moveToRiders".equals(action)) {
             serviceFacade.transferRidersFromWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
-        } else {
+        } else if ("moveToWaitList".equals(action)) {
+            serviceFacade.transferRidersToWaitList(rideoutId, Arrays.asList(userListSelection), sessionUserName);
+        }else {
             // unknown action
             errorMessage = "Error - unknown action called " + action;
         }

@@ -54,4 +54,6 @@ public interface RideoutFacade {
     public void removeRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
 
     public void transferRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
+
+    public void transferRidersToWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException;
 }

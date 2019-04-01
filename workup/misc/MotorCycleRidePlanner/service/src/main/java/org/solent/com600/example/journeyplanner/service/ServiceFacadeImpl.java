@@ -8,6 +8,7 @@ package org.solent.com600.example.journeyplanner.service;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.model.SysUser;
@@ -454,7 +455,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
 
         Rideout rideout = retrieveRideout(id, actingSysUserName);
         String currentLeaseUser = rideout.getLeaseUsername();
-        if (currentLeaseUser!=null && !actingSysUserName.equals(currentLeaseUser)) {
+        if (currentLeaseUser != null && !actingSysUserName.equals(currentLeaseUser)) {
             long now = new Date().getTime();
             if (now - rideout.getLeaseTime().getTime() < LEASE_TIME) {
 
@@ -533,34 +534,100 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public void addRideLeaderToRideout(Long rideoutId, String userName, String actingSysUserName) throws AuthenticationException {
         Rideout rideout = retrieveRideout(rideoutId, actingSysUserName);
         SysUser sysUser = this.retrieveByUserName(userName, actingSysUserName);
-        if (Role.RIDELEADER.equals(sysUser.getRole()) ||Role.ADMIN.equals(sysUser.getRole())  ){
+        if (Role.RIDELEADER.equals(sysUser.getRole()) || Role.ADMIN.equals(sysUser.getRole())) {
             rideout.setRideLeader(sysUser);
             updateRideout(rideout, actingSysUserName);
-        } else throw new AuthenticationException ("user "+userName + " is not allowed to be a ride leader");
-    }
-
-    @Override
-    public void addRidersToRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        } else {
+            throw new AuthenticationException("user " + userName + " is not allowed to be a ride leader");
+        }
     }
 
     @Override
     public void addRidersToWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Rideout rideout = retrieveRideout(rideoutId, actingSysUserName);
+        List<SysUser> waitlist = rideout.getWaitlist();
+        for (String userName : userNames) {
+            SysUser user = retrieveByUserName(userName, actingSysUserName);
+            if (user == null) {
+                throw new IllegalArgumentException("tried to add unknown username=" + userName);
+            }
+            if (Role.DEACTIVATED.equals(user.getRole())) {
+                throw new IllegalArgumentException("tried to add deactivated user username=" + userName);
+            }
+            if (!waitlist.contains(user)) {
+                waitlist.add(user);
+            }
+        }
+        updateRideout(rideout, actingSysUserName);
+    }
+
+    @Override
+    public void addRidersToRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        Rideout rideout = retrieveRideout(rideoutId, actingSysUserName);
+        List<SysUser> riders = rideout.getRiders();
+        if (riders.size() + userNames.size() > rideout.getMaxRiders()) {
+            throw new IllegalArgumentException("Error: you cannot add more than "
+                    + rideout.getMaxRiders() + " riders to the rideout. Current riders=" + riders.size() + " You are trying to add=" + userNames.size());
+        }
+        for (String userName : userNames) {
+            SysUser user = retrieveByUserName(userName, actingSysUserName);
+            if (user == null) {
+                throw new IllegalArgumentException("tried to add unknown username=" + userName);
+            }
+            if (Role.DEACTIVATED.equals(user.getRole())) {
+                throw new IllegalArgumentException("tried to add deactivated user username=" + userName);
+            }
+            if (!riders.contains(user)) {
+                riders.add(user);
+            }
+
+        }
+        updateRideout(rideout, actingSysUserName);
     }
 
     @Override
     public void removeRidersFromRideout(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Rideout rideout = retrieveRideout(rideoutId, actingSysUserName);
+        List<SysUser> riders = rideout.getRiders();
+
+        Iterator<SysUser> userIterator = riders.iterator();
+        while (userIterator.hasNext()) {
+            SysUser user = userIterator.next();
+            if (userNames.contains(user.getUserName())) {
+                userIterator.remove();
+            }
+        }
+        updateRideout(rideout, actingSysUserName);
     }
 
     @Override
     public void removeRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Rideout rideout = retrieveRideout(rideoutId, actingSysUserName);
+        List<SysUser> waitList = rideout.getWaitlist();
+
+        Iterator<SysUser> userIterator = waitList.iterator();
+        while (userIterator.hasNext()) {
+            SysUser user = userIterator.next();
+            if (userNames.contains(user.getUserName())) {
+                userIterator.remove();
+            }
+        }
+        updateRideout(rideout, actingSysUserName);
     }
 
     @Override
     public void transferRidersFromWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // first try to add riders. If this fails then back out
+        addRidersToRideout(rideoutId, userNames, actingSysUserName);
+        // after adding riders, remove the from wait list
+        removeRidersFromWaitList(rideoutId, userNames, actingSysUserName);
+    }
+
+    @Override
+    public void transferRidersToWaitList(Long rideoutId, List<String> userNames, String actingSysUserName) throws AuthenticationException {
+        // first try to add riders to wait list. If this fails then back out
+        addRidersToWaitList(rideoutId, userNames, actingSysUserName);
+        // after adding riders, remove the from riders list
+        removeRidersFromRideout(rideoutId, userNames, actingSysUserName);
     }
 }

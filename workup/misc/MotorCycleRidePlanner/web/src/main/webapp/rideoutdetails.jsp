@@ -308,7 +308,16 @@
                                                  <%=inputControl%> ></td>
                     <tr>
                     <tr>
-                        <td>Leader</td><td><%=rideout.getRideLeader().getUserInfo().getFirstname()+ " "+ rideout.getRideLeader().getUserInfo().getSurname() %></td>
+                        <td>Leader</td>
+                        <% if (rideout.getRideLeader() != null) {%>
+                        <td><%=rideout.getRideLeader().getUserInfo().getFirstname() + " " + rideout.getRideLeader().getUserInfo().getSurname()%></td>
+                        <%
+                        } else {
+                        %>
+                        <td></td>
+                        <%
+                            }
+                        %>
                     <tr>
                     <tr>
                         <td>Spaces</td><td><input type="text" name="rideoutMaxRiders" value ="<%=rideout.getMaxRiders()%>" 
