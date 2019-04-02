@@ -65,8 +65,14 @@
         throw new RuntimeException("cannot parse parameter rideoutId=" + rideoutIdstr + " " + e.getMessage());
     }
 
+    String inputControl = "disabled";
     Rideout rideout = serviceFacade.retrieveRideout(rideoutId, sessionUserName);
     lease = serviceFacade.userHasLeaseOnRideout(rideout.getId(), sessionUserName);
+    if (lease) {
+        inputControl = ""; //or disabled;
+    } else {
+        inputControl = "disabled";
+    }
 
     if (rideout == null) {
         throw new RuntimeException("rideout null for rideoutId " + rideoutId);
@@ -113,7 +119,7 @@
         rideLeader = new SysUser();
     }
 
-    String inputControl = "";
+
 
 %>
 <!DOCTYPE html>
@@ -151,7 +157,7 @@
                     <option value="<%=RidoutJspConstantsHelper.REMOVE_RIDERS %>" >Delete From Riders</option>
                 </select>
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                <input type="submit" value="Enter">
+                <input type="submit" value="Enter" <%=inputControl%> >
                 <table>
                     <tr>
                         <th>selected</th>
@@ -186,7 +192,7 @@
                     <option value="<%=RidoutJspConstantsHelper.REMOVE_FROM_WAIT_LIST %>" >Remove From Wait List</option>
                 </select>
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                <input type="submit" value="Enter">
+                <input type="submit" value="Enter"  <%=inputControl%> >
                 <table>
                     <tr>
                         <th>selected</th>
@@ -222,7 +228,7 @@
                     <option value="<%=RidoutJspConstantsHelper.ADD_TO_RIDERS %>" >Add To Riders</option>
                 </select>
                 <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
-                <input type="submit" value="Enter">
+                <input type="submit" value="Enter"  <%=inputControl%> >
                 <table>
                     <tr>
                         <th>selected</th>

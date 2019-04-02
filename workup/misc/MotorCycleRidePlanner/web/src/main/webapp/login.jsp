@@ -56,7 +56,7 @@
     if (surname == null) {
         surname = "";
     }
-    if(action==null || "".equals(action)){
+    if (action == null || "".equals(action)) {
         // do nothing first time at page
     } else if ("login".equals(action)) {
         // log user in
@@ -70,12 +70,12 @@
                 errorMessage = "Error - you must enter a username" + ex.getMessage();
             }
         }
-        if (authenticated){
+        if (authenticated) {
             session.setAttribute("sessionUserName", username);
             Role role = serviceFacade.getRoleByUserName(username);
             session.setAttribute("sessionUserRole", role);
             // redirect to own profile
-            response.sendRedirect("./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName="+username);
+            response.sendRedirect("./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName=" + username);
         }
 
     } else if ("addNewUser".equals(action)) {
@@ -88,15 +88,15 @@
             errorMessage = "Error - the two password entries must be equal ";
         } else {
             Role role = serviceFacade.getRoleByUserName(username);
-            if (role!=null) {
-                errorMessage = "Error - please choose another user name. user "+username+"already exists";
+            if (role != null) {
+                errorMessage = "Error - please choose another user name. user " + username + "already exists";
             } else {
-               SysUser user = serviceFacade.createUser(username, password, firstname, surname,Role.RIDER, "admin");
-               session.setAttribute("sessionUserName", username);
-               session.setAttribute("sessionUserRole", user.getRole());
-               
-               // redirect to user profile page
-               response.sendRedirect("./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName="+username);
+                SysUser user = serviceFacade.createUser(username, password, firstname, surname, Role.RIDER, "admin");
+                session.setAttribute("sessionUserName", username);
+                session.setAttribute("sessionUserRole", user.getRole());
+
+                // redirect to user profile page
+                response.sendRedirect("./userInfo.jsp?tabSelected=MyProfile&action=myProfile&selUserName=" + username);
             }
         }
     } else {
@@ -116,12 +116,10 @@
     <div id="content">
         <!-- print error message if there is one -->
         <div style="color:red;"><%=errorMessage%></div>
+        <h2>Login Page</h2>
         <div class="splitcontentleft">
-            <h2>Login Page</h2>
-            <br>
+            <p>If you have an account please log in:</p>
 
-            <h2>If you have an account please log in:</h2>
-            <br><br>
             <!--   <form action="j_security_check" method=post>-->
             <form action="login.jsp" method=post>
                 <p><strong>Please Enter Your User Name: </strong>
@@ -136,20 +134,22 @@
         </div>
         <div class="splitcontentright">
             <form action="login.jsp" method=post>
-                <p><strong>Create a new User Account: </strong>
-                    <input type="text" name="username" size="25" value="<%=username%>">
-                <p><strong>Please Enter A Password: </strong>
-                    <input type="password" size="15" name="password">
-                <p><strong>Please re-enter your password: </strong>
-                    <input type="password" size="15" name="verifypassword">
-                <p><strong>Please enter your first name: </strong>
-                    <input type="text" size="25" name="firstname" value="<%=firstname%>">
-                <p><strong>Please enter your surname: </strong>
-                    <input type="text" size="25" name="surname" value="<%=surname%>">
-                    <input type="hidden" name="action" value="addNewUser">
-                    <input type="submit" value="Create New User">
-                    <input type="reset" value="Reset">
+                <p>Create a new User Account:</p>
+                <p><strong>unique username (no spaces)</strong>
+                    <input type="text" name="username" size="25" value="<%=username%>"></p>
+                <p><strong>Please Enter A Password: </strong></p>
+                <input type="password" size="15" name="password"></p>
+                <p><strong>Please re-enter your password: </strong></p>
+                <input type="password" size="15" name="verifypassword"></p>
+                <p><strong>Please enter your first name: </strong></p>
+                <input type="text" size="25" name="firstname" value="<%=firstname%>">
+                <p><strong>Please enter your surname: </strong></p>
+                <input type="text" size="25" name="surname" value="<%=surname%>">
+                <input type="hidden" name="action" value="addNewUser">
+                <input type="submit" value="Create New User">
+                <input type="reset" value="Reset">
             </form>
+            <BR>
         </div>
     </div>
 

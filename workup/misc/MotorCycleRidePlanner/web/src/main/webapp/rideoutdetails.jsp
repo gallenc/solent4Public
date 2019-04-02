@@ -282,7 +282,7 @@
                     <input type="submit" value="Disable Edit Rideout">
                 </form>
                 <form action="./selectRideoutUsers.jsp?tabSelected=ManageRideouts" method="get">
-                    <input type="hidden" name="action" value="editRiders">
+                    <input type="hidden" name="action" value="viewRiders">
                     <input type="hidden"  name="rideoutId" value ="<%=rideoutId%>" >
                     <input type="submit" value="View Rider Lists and Ride Leader">
                 </form>

@@ -67,7 +67,7 @@ public class Rideout {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = false
     )
     @JoinTable(name = "riders")
     @OrderBy("userName ASC")
@@ -105,7 +105,7 @@ public class Rideout {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = false
     )
     @JoinTable(name = "waitlist")
     @OrderBy("userName ASC")
