@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="jpaExampleClassDiagram">
+  <ClassDiagramComponents>
+    <Class name="Actor" package="org.solent.com504.project.model.dto" visibility="public" xPosition="666.0" yPosition="858.0">
+      <Fields>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="firstName" type="String" visibility="private"/>
+        <Field name="secondName" type="String" visibility="private"/>
+        <Field name="role" type="Role" visibility="private"/>
+        <Field name="address" type="String" visibility="private"/>
+        <Field name="status" type="Status" visibility="private"/>
+        <Field name="uuid" type="String" visibility="private"/>
+        <Field name="represents" type="Actor" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ReplyMessage" package="org.solent.com504.project.model.dto" visibility="public" xPosition="80.0" yPosition="858.0">
+      <Fields>
+        <Field name="code" type="Integer" visibility="private"/>
+        <Field name="debugMessage" type="String" visibility="private"/>
+        <Field name="stringList" type="List&lt;String&gt;" visibility="private"/>
+        <Field name="personList" type="List&lt;Actor&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ViewController" package="org.solent.com504.project.model.web" visibility="public" xPosition="824.0" yPosition="203.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Address" package="org.solent.com504.project.model.dto" visibility="public" xPosition="931.0" yPosition="881.0">
+      <Fields>
+        <Field name="number" type="String" visibility="private"/>
+        <Field name="addressLine1" type="String" visibility="private"/>
+        <Field name="addressLine2" type="String" visibility="private"/>
+        <Field name="County" type="String" visibility="private"/>
+        <Field name="Country" type="String" visibility="private"/>
+        <Field name="postcode" type="String" visibility="private"/>
+        <Field name="latitude" type="double" visibility="private"/>
+        <Field name="longitude" type="double" visibility="private"/>
+        <Field name="telephone" type="String" visibility="private"/>
+        <Field name="mobile" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Interface name="ActorDAO" package="org.solent.com504.project.model.dao" visibility="public" xPosition="376.0" yPosition="485.0">
+      <Methods>
+        <Method name="findById" returnType="Actor" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="save" returnType="Actor" visibility="public">
+          <Argument type="Actor" name="actor"/>
+        </Method>
+        <Method name="findAll" returnType="List&lt;Actor&gt;" visibility="public"/>
+        <Method name="deleteById" returnType="void" visibility="public">
+          <Argument type="long" name="id"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="public">
+          <Argument type="Actor" name="actor"/>
+        </Method>
+        <Method name="deleteAll" returnType="void" visibility="public"/>
+        <Method name="findByRole" returnType="List&lt;Actor&gt;" visibility="public">
+          <Argument type="Role" name="role"/>
+        </Method>
+        <Method name="findByName" returnType="List&lt;Actor&gt;" visibility="public">
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="secondName"/>
+        </Method>
+        <Method name="findByTemplate" returnType="List&lt;Actor&gt;" visibility="public">
+          <Argument type="Actor" name="template"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="ServiceFacade" package="org.solent.com504.project.model.service" visibility="public" xPosition="447.0" yPosition="232.0">
+      <Methods>
+        <Method name="getHeartbeat" returnType="String" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="JSP_Pages_do_not_generate" package="org.solent.com504.project.model.web" visibility="public" xPosition="798.0" yPosition="61.0">
+      <Methods/>
+    </Interface>
+    <Interface name="RestService" package="org.solent.com504.project.model.rest" visibility="public" xPosition="117.0" yPosition="172.0">
+      <Methods>
+        <Method name="getHeartbeat" returnType="ReplyMessage" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="RestClient" package="org.solent.com504.project.model.rest" visibility="public" xPosition="-8.0" yPosition="332.0">
+      <Methods/>
+    </Interface>
+    <Enum name="Role" package="org.solent.com504.project.model.dto" visibility="public" xPosition="375.0" yPosition="1002.0">
+      <Literals>
+        <Literal name="GLOBALADMIN"/>
+        <Literal name="USER"/>
+        <Literal name="ANONYMOUS"/>
+        <Literal name="GROUPADMIN"/>
+      </Literals>
+    </Enum>
+    <Enum name="Status" package="org.solent.com504.project.model.dto" visibility="public" xPosition="376.0" yPosition="858.0">
+      <Literals>
+        <Literal name="ACTIVE"/>
+        <Literal name="DISABLED"/>
+      </Literals>
+    </Enum>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="hasRole" source="org.solent.com504.project.model.dto.Actor" target="org.solent.com504.project.model.dto.Role" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="ViewController" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.web.JSP_Pages_do_not_generate" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesPersonDAO" source="org.solent.com504.project.model.service.ServiceFacade" target="org.solent.com504.project.model.dao.ActorDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasAddress" source="org.solent.com504.project.model.dto.Actor" target="org.solent.com504.project.model.dto.Address" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasStatus" source="org.solent.com504.project.model.dto.Actor" target="org.solent.com504.project.model.dto.Status" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="restInteraceUsesReplyMessage" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.dto.ReplyMessage" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesPerson" source="org.solent.com504.project.model.dao.ActorDAO" target="org.solent.com504.project.model.dto.Actor" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="org.solent.com504.project.model.rest.RestClient" target="org.solent.com504.project.model.rest.RestService" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
