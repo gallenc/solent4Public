@@ -10,11 +10,13 @@ To build any of these projects you will need [Apache maven](https://maven.apache
 University PCs do not have maven by default so a work around is to run the script as described in 
 [maven-setup](../master/maven-setup)
 
-# MotorCycleRidePlanner
-This years project is a Motor Cycle Ride Planner which is designed to help orchestrate rideouts from a Motorcycel Dealership.
+# 2018 MotorCycleRidePlanner
+Year 2018 project is a Motor Cycle Ride Planner which is designed to help orchestrate rideouts from a Motorcycel Dealership.
 Ths project is being constructed by he instructor as the term proceeds and the ongoing work can be seen in
 
-[MotorCycleRidePlanner](../master/MotorCycleRidePlanner)
+[MotorCycleRidePlanner-partial](../master/2018-RidePlanner/MotorCycleRidePlanner-partial)
+
+[MotorCycleRidePlanner-complete](../master/2018-RidePlanner/MotorCycleRidePlanner-complete)
 
 # Examples
 The [examples](../master/examples) folder contains various examples, archetypes and prototypes discussed in class.
