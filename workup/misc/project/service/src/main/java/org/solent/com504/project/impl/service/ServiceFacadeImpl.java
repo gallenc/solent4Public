@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.Role;
+import org.solent.com504.project.model.dto.PartyRole;
 import org.solent.com504.project.model.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,11 +37,11 @@ public class ServiceFacadeImpl implements ServiceFacade {
     }
 
     @Override
-    public List<Party> findByRole(Role role) {
-        if (role == null) {
+    public List<Party> findByPartyRole(PartyRole partyRole) {
+        if (partyRole == null) {
             return partyDao.findAll();
         } else {
-            return partyDao.findByRole(role);
+            return partyDao.findByPartyRole(partyRole);
         }
     }
 

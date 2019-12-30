@@ -23,7 +23,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.ReplyMessage;
-import org.solent.com504.project.model.dto.Role;
+import org.solent.com504.project.model.dto.PartyRole;
 import org.solent.com504.project.model.service.ServiceFacade;
 
 /**
@@ -70,7 +70,7 @@ public class ServiceRestClientImpl implements ServiceFacade {
     }
 
     @Override
-    public List<Party> findByRole(Role role) {
+    public List<Party> findByPartyRole(PartyRole partyRole) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

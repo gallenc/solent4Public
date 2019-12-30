@@ -1,5 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
@@ -8,7 +9,9 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/mvc
-           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	   http://www.springframework.org/schema/security
+	   http://www.springframework.org/schema/security/spring-security.xsd">
     
     <!-- this allows the dispatcher to handle other content -->
     <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
@@ -20,7 +23,7 @@
                
     <!-- this allows annotations to be picked up by configuration -->
     <!-- Scans for components that will be auto-registered as Spring beans -->
-    <context:component-scan base-package="org.solent.com504.project.impl.rest, org.solent.com504.project.impl.web" />
+    <context:component-scan base-package="org.solent.com504.project.impl.rest, org.solent.com504.project.impl.web, org.solent.com504.project.impl.validator" />
    
     <!-- Activates various annotations to be detected in bean classes e.g: @Autowired -->
     <context:annotation-config/>
@@ -37,5 +40,19 @@
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
+    
+    
+    <!--spring security-->  
+    <!--initialise db add role types--> 
+    <bean id="dBInitialise " class="org.solent.com504.project.impl.web.DBInitialise " init-method="init" />
+    
+    
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/resources/**" access="permitAll" />
+        <security:intercept-url pattern="/welcome" access="hasRole('ROLE_USER')"/>
+        <security:form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
+        <security:logout logout-success-url="/login?logout" />
+    </security:http>
 
 </beans>

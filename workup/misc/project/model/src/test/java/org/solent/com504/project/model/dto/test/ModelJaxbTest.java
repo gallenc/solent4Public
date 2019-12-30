@@ -20,8 +20,8 @@ import org.junit.Test;
 import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Address;
 import org.solent.com504.project.model.dto.ReplyMessage;
-import org.solent.com504.project.model.dto.Role;
-import org.solent.com504.project.model.dto.Status;
+import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.dto.PartyStatus;
 
 public class ModelJaxbTest {
 
@@ -49,8 +49,8 @@ public class ModelJaxbTest {
             List<Party> partyList = new ArrayList<Party>();
             replyMessage.setPartyList(partyList);
             Party party = new Party();
-            party.setStatus(Status.ACTIVE);
-            party.setRole(Role.USER);
+            party.setPartyStatus(PartyStatus.ACTIVE);
+            party.setPartyRole(PartyRole.USER);
             Address address = new Address();
             address.setAddressLine1("home for me");
             party.setAddress(address);

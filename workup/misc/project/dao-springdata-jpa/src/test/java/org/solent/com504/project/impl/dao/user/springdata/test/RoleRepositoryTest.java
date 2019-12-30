@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.model.dao.springdata.test;
+package org.solent.com504.project.impl.dao.user.springdata.test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,12 +11,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Party;
+import org.solent.com504.project.model.user.dto.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.solent.com504.project.model.dao.springdata.PartyDAOSpringData;
+import org.solent.com504.project.impl.dao.user.springdata.RoleRepository;
 
 /**
  *
@@ -24,17 +24,17 @@ import org.solent.com504.project.model.dao.springdata.PartyDAOSpringData;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring.xml"})
-public class PartyDAOSpringDataTest {
+public class RoleRepositoryTest {
 
-    final static Logger LOG = LogManager.getLogger(PartyDAOSpringDataTest.class);
+    final static Logger LOG = LogManager.getLogger(RoleRepositoryTest.class);
 
     @Autowired
-    private PartyDAOSpringData partyDAOspring = null;
+    private RoleRepository roleRepository = null;
 
     @Before
     public void before() {
         LOG.debug("before test running");
-        assertNotNull(partyDAOspring);
+        assertNotNull(roleRepository);
         LOG.debug("before test complete");
     }
 
@@ -44,13 +44,13 @@ public class PartyDAOSpringDataTest {
     public void test1() {
         LOG.debug("start of test1");
 
-        Party party1 = new Party();
-        party1 = partyDAOspring.save(party1);
-        System.out.println("party1=" + party1);
+        Role role1 = new Role();
+        role1 = roleRepository.save(role1);
+        System.out.println("role1=" + role1);
 
-        Long id = party1.getId();
-        Party party2 = partyDAOspring.getOne(id);
-        System.out.println("party2=" + party2);
+        Long id = role1.getId();
+        Role role2 = roleRepository.getOne(id);
+        System.out.println("role2=" + role2);
         LOG.debug("end of test1");
     }
 }

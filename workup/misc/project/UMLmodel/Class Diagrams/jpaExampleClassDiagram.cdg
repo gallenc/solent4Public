@@ -7,9 +7,9 @@
         <Field name="id" type="Long" visibility="private"/>
         <Field name="firstName" type="String" visibility="private"/>
         <Field name="secondName" type="String" visibility="private"/>
-        <Field name="role" type="Role" visibility="private"/>
+        <Field name="partyRole" type="PartyRole" visibility="private"/>
         <Field name="address" type="String" visibility="private"/>
-        <Field name="status" type="Status" visibility="private"/>
+        <Field name="partyStatus" type="PartyStatus" visibility="private"/>
         <Field name="uuid" type="String" visibility="private"/>
         <Field name="represents" type="Party" visibility="private"/>
       </Fields>
@@ -49,28 +49,28 @@
     </Class>
     <Interface name="PartyDAO" package="org.solent.com504.project.model.dao" visibility="public" xPosition="376.0" yPosition="485.0">
       <Methods>
-        <Method name="findById" returnType="Party" visibility="public">
+        <Method name="findById" returnType="Long" visibility="public">
           <Argument type="Long" name="id"/>
         </Method>
         <Method name="save" returnType="Party" visibility="public">
           <Argument type="Party" name="party"/>
         </Method>
         <Method name="findAll" returnType="List&lt;Party&gt;" visibility="public"/>
-        <Method name="deleteById" returnType="void" visibility="public">
+        <Method name="deleteById" returnType="long" visibility="public">
           <Argument type="long" name="id"/>
         </Method>
-        <Method name="delete" returnType="void" visibility="public">
+        <Method name="delete" returnType="Party" visibility="public">
           <Argument type="Party" name="party"/>
         </Method>
         <Method name="deleteAll" returnType="void" visibility="public"/>
-        <Method name="findByRole" returnType="List&lt;Party&gt;" visibility="public">
+        <Method name="findByRole" returnType="Role" visibility="public">
           <Argument type="Role" name="role"/>
         </Method>
-        <Method name="findByName" returnType="List&lt;Party&gt;" visibility="public">
+        <Method name="findByName" returnType="String" visibility="public">
           <Argument type="String" name="firstName"/>
           <Argument type="String" name="secondName"/>
         </Method>
-        <Method name="findByTemplate" returnType="List&lt;Party&gt;" visibility="public">
+        <Method name="findByTemplate" returnType="Party" visibility="public">
           <Argument type="Party" name="template"/>
         </Method>
       </Methods>
@@ -91,7 +91,7 @@
     <Interface name="RestClient" package="org.solent.com504.project.model.rest" visibility="public" xPosition="-8.0" yPosition="332.0">
       <Methods/>
     </Interface>
-    <Enum name="Role" package="org.solent.com504.project.model.dto" visibility="public" xPosition="375.0" yPosition="1002.0">
+    <Enum name="PartyRole" package="org.solent.com504.project.model.dto" visibility="public" xPosition="375.0" yPosition="1002.0">
       <Literals>
         <Literal name="GLOBALADMIN"/>
         <Literal name="USER"/>
@@ -99,7 +99,7 @@
         <Literal name="GROUPADMIN"/>
       </Literals>
     </Enum>
-    <Enum name="Status" package="org.solent.com504.project.model.dto" visibility="public" xPosition="376.0" yPosition="858.0">
+    <Enum name="PartyStatus" package="org.solent.com504.project.model.dto" visibility="public" xPosition="376.0" yPosition="858.0">
       <Literals>
         <Literal name="ACTIVE"/>
         <Literal name="DISABLED"/>
@@ -107,15 +107,15 @@
     </Enum>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="hasRole" source="org.solent.com504.project.model.dto.Party" target="org.solent.com504.project.model.dto.Role" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="ViewController" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.web.JSP_Pages_do_not_generate" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="usesPartyDAO" source="org.solent.com504.project.model.service.ServiceFacade" target="org.solent.com504.project.model.dao.PartyDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="ViewController" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.web.JSP_Pages_do_not_generate" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasRole" source="org.solent.com504.project.model.dto.Party" target="org.solent.com504.project.model.dto.PartyRole" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasStatus" source="org.solent.com504.project.model.dto.Party" target="org.solent.com504.project.model.dto.PartyStatus" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="usesParty" source="org.solent.com504.project.model.dao.PartyDAO" target="org.solent.com504.project.model.dto.Party" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="org.solent.com504.project.model.rest.RestClient" target="org.solent.com504.project.model.rest.RestService" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="restInteraceUsesReplyMessage" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.dto.ReplyMessage" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="hasAddress" source="org.solent.com504.project.model.dto.Party" target="org.solent.com504.project.model.dto.Address" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="hasStatus" source="org.solent.com504.project.model.dto.Party" target="org.solent.com504.project.model.dto.Status" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="restInteraceUsesReplyMessage" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.dto.ReplyMessage" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="usesParty" source="org.solent.com504.project.model.dao.PartyDAO" target="org.solent.com504.project.model.dto.Party" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="org.solent.com504.project.model.rest.RestClient" target="org.solent.com504.project.model.rest.RestService" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

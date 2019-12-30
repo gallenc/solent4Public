@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.Role;
+import org.solent.com504.project.model.dto.PartyRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -55,7 +55,7 @@ public class PartyDAOTest {
             p.setAddress(a);
             p.setFirstName("firstName_A_" + i);
             p.setSecondName("secondName_A_" + i);
-            p.setRole(Role.GLOBALADMIN);
+            p.setPartyRole(PartyRole.GLOBALADMIN);
             partyDao.save(p);
         }
         // add 5 anonymous
@@ -66,7 +66,7 @@ public class PartyDAOTest {
             p.setAddress(a);
             p.setFirstName("firstName_B_" + i);
             p.setSecondName("secondName_B_" + i);
-            p.setRole(Role.ANONYMOUS);
+            p.setPartyRole(PartyRole.ANONYMOUS);
             partyDao.save(p);
         }
     }
@@ -150,7 +150,7 @@ public class PartyDAOTest {
 
     //@Transactional
     @Test
-    public void findByRoleTest() {
+    public void findByPartyRoleTest() {
         LOG.debug("start of findByIdTest()");
 
         init();
@@ -159,11 +159,11 @@ public class PartyDAOTest {
         partyList = partyDao.findAll();
         assertFalse(partyList.isEmpty());
 
-        partyList = partyDao.findByRole(Role.GLOBALADMIN);
+        partyList = partyDao.findByPartyRole(PartyRole.GLOBALADMIN);
         assertNotNull(partyList);
         assertEquals(5, partyList.size());
 
-        partyList = partyDao.findByRole(Role.ANONYMOUS);
+        partyList = partyDao.findByPartyRole(PartyRole.ANONYMOUS);
         assertNotNull(partyList);
         assertEquals(6, partyList.size());
 

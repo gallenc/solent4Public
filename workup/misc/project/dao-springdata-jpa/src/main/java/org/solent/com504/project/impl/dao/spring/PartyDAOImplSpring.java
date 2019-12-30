@@ -6,12 +6,12 @@
 package org.solent.com504.project.impl.dao.spring;
 
 import java.util.List;
-import org.solent.com504.project.model.dao.springdata.PartyDAOSpringData;
 import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.Role;
+import org.solent.com504.project.model.dto.PartyRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.solent.com504.project.model.dao.PartyDAO;
+import org.solent.com504.project.model.dao.springdata.PartyRepository;
 
 
 /**
@@ -22,7 +22,7 @@ import org.solent.com504.project.model.dao.PartyDAO;
 public class PartyDAOImplSpring implements PartyDAO {
     
     @Autowired
-    private PartyDAOSpringData partyDAOspring = null;
+    private PartyRepository partyDAOspring = null;
 
     @Override
     public Party findById(Long id) {
@@ -56,8 +56,8 @@ public class PartyDAOImplSpring implements PartyDAO {
     }
 
     @Override
-    public List<Party> findByRole(Role role) {
-        return partyDAOspring.findByRole(role);
+    public List<Party> findByPartyRole(PartyRole partyRole) {
+        return partyDAOspring.findByPartyRole(partyRole);
     }
 
     @Override

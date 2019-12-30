@@ -22,11 +22,11 @@ public class Party {
 
     private String secondName;
 
-    private Role role;
+    private PartyRole partyRole;
 
     private Address address = new Address(); // need not null initial value
 
-    private Status status;
+    private PartyStatus partystatus;
 
     private String uuid;
 
@@ -60,12 +60,12 @@ public class Party {
         this.secondName = secondName;
     }
 
-    public Role getRole() {
-        return role;
+    public PartyRole getPartyRole() {
+        return partyRole;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setPartyRole(PartyRole partyRole) {
+        this.partyRole = partyRole;
     }
 
     @Embedded
@@ -77,12 +77,12 @@ public class Party {
         this.address = address;
     }
 
-    public Status getStatus() {
-        return status;
+    public PartyStatus getPartyStatus() {
+        return partystatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setPartyStatus(PartyStatus partystatus) {
+        this.partystatus = partystatus;
     }
 
     public String getUuid() {
@@ -112,7 +112,7 @@ public class Party {
 
     @Override
     public String toString() {
-        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", role=" + role + ", address=" + address + ", status=" + status + ", uuid=" + uuid + ", password=" + password + ", represents=" + represents + '}';
+        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", partyRole=" + partyRole + ", address=" + address + ", partystatus=" + partystatus + ", uuid=" + uuid + ", password=" + password + ", represents=" + represents + '}';
     }
 
 

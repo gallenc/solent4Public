@@ -2,7 +2,7 @@ package org.solent.com504.project.model.dao;
 
 import java.util.List;
 import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.Role;
+import org.solent.com504.project.model.dto.PartyRole;
 
 public interface PartyDAO {
 
@@ -18,7 +18,7 @@ public interface PartyDAO {
 
     public void deleteAll();
 
-    public List<Party> findByRole(Role role);
+    public List<Party> findByPartyRole(PartyRole partyRole);
 
     public List<Party> findByName(String firstName, String secondName);
 }
