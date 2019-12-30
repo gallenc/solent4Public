@@ -8,10 +8,16 @@
     <name>Account Registration Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>4.2.2.RELEASE</spring.version>
-        <spring-security.version>4.0.2.RELEASE</spring-security.version>
-        <spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <!--<spring.version>4.2.2.RELEASE</spring.version>-->
+        <!--<spring-security.version>4.0.2.RELEASE</spring-security.version>-->
+        <!--<spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>-->
+        <!--<hibernate.version>4.3.11.Final</hibernate.version>-->
+
+        <spring.version>5.2.1.RELEASE</spring.version>
+        <spring-security.version>5.2.1.RELEASE</spring-security.version>
+        <spring-data-jpa.version>2.2.3.RELEASE</spring-data-jpa.version>
+        <hibernate.version>5.2.17.Final</hibernate.version>
+
         <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
         <mysql-connector.version>5.1.36</mysql-connector.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
@@ -21,6 +27,11 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <hsqldb.version>2.2.4</hsqldb.version>
+        
+        
+        <!-- You can copy and paste the single properties, into the pom.xml file and the Netbeans will pick them up. -->
+        <org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_j2eeVersion>1.6-web</org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_j2eeVersion>
+        <org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_deploy_2e_server>Tomcat</org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_deploy_2e_server>
     </properties>
 
     <dependencies>
