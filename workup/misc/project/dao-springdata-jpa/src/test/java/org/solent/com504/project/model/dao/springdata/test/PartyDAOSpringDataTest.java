@@ -11,12 +11,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Actor;
+import org.solent.com504.project.model.dto.Party;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.solent.com504.project.model.dao.springdata.ActorDAOSpringData;
+import org.solent.com504.project.model.dao.springdata.PartyDAOSpringData;
 
 /**
  *
@@ -24,17 +24,17 @@ import org.solent.com504.project.model.dao.springdata.ActorDAOSpringData;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring.xml"})
-public class ActorDAOSpringDataTest {
+public class PartyDAOSpringDataTest {
 
-    final static Logger LOG = LogManager.getLogger(ActorDAOSpringDataTest.class);
+    final static Logger LOG = LogManager.getLogger(PartyDAOSpringDataTest.class);
 
     @Autowired
-    private ActorDAOSpringData actorDAOspring = null;
+    private PartyDAOSpringData partyDAOspring = null;
 
     @Before
     public void before() {
         LOG.debug("before test running");
-        assertNotNull(actorDAOspring);
+        assertNotNull(partyDAOspring);
         LOG.debug("before test complete");
     }
 
@@ -44,13 +44,13 @@ public class ActorDAOSpringDataTest {
     public void test1() {
         LOG.debug("start of test1");
 
-        Actor actor1 = new Actor();
-        actor1 = actorDAOspring.save(actor1);
-        System.out.println("actor1=" + actor1);
+        Party party1 = new Party();
+        party1 = partyDAOspring.save(party1);
+        System.out.println("party1=" + party1);
 
-        Long id = actor1.getId();
-        Actor actor2 = actorDAOspring.getOne(id);
-        System.out.println("actor2=" + actor2);
+        Long id = party1.getId();
+        Party party2 = partyDAOspring.getOne(id);
+        System.out.println("party2=" + party2);
         LOG.debug("end of test1");
     }
 }

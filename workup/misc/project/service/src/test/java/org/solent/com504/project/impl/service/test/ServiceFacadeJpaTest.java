@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Actor;
+import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Role;
 import org.solent.com504.project.model.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,10 @@ public class ServiceFacadeJpaTest {
 
     @Test
     public void testFactory() {
-        System.out.println("start ServiceFacadeTest testFactory");
+        System.out.println("start ServiceFacadeTest testFpartyy");
         assertNotNull(serviceFacade);
 
-        System.out.println("end ServiceFacadeTest testFactory");
+        System.out.println("end ServiceFacadeTest testFpartyy");
     }
 
     @Test
@@ -52,11 +52,11 @@ public class ServiceFacadeJpaTest {
     public void testGetAllByRole() {
 
         // you may want to create people first but you need to add this to the facade :)
-        List<Actor> actorList = serviceFacade.findByRole(null);
-        assertNotNull(actorList);
+        List<Party> partyList = serviceFacade.findByRole(null);
+        assertNotNull(partyList);
 
-        actorList = serviceFacade.findByRole(Role.ANONYMOUS);
-        assertNotNull(actorList);
+        partyList = serviceFacade.findByRole(Role.ANONYMOUS);
+        assertNotNull(partyList);
 
     }
 

@@ -17,7 +17,7 @@ import javax.xml.bind.Unmarshaller;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-import org.solent.com504.project.model.dto.Actor;
+import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Address;
 import org.solent.com504.project.model.dto.ReplyMessage;
 import org.solent.com504.project.model.dto.Role;
@@ -36,7 +36,7 @@ public class ModelJaxbTest {
             System.out.println("writing test file to " + file.getAbsolutePath());
 
             // this contains a list of Jaxb annotated classes for the context to parse
-            // NOTE you must also have a jaxb.index or ObjectFactory in the same classpath
+            // NOTE you must also have a jaxb.index or ObjectFpartyy in the same classpath
             JAXBContext jaxbContext = JAXBContext.newInstance("org.solent.com504.project.model.dto");
 
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -46,15 +46,15 @@ public class ModelJaxbTest {
 
             ReplyMessage replyMessage = new ReplyMessage();
 
-            List<Actor> actorList = new ArrayList<Actor>();
-            replyMessage.setActorList(actorList);
-            Actor actor = new Actor();
-            actor.setStatus(Status.ACTIVE);
-            actor.setRole(Role.USER);
+            List<Party> partyList = new ArrayList<Party>();
+            replyMessage.setPartyList(partyList);
+            Party party = new Party();
+            party.setStatus(Status.ACTIVE);
+            party.setRole(Role.USER);
             Address address = new Address();
             address.setAddressLine1("home for me");
-            actor.setAddress(address);
-            actorList.add(actor);
+            party.setAddress(address);
+            partyList.add(party);
 
             // create XML from the object
             // marshal the object lists to system out, a file and a stringWriter

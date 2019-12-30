@@ -19,9 +19,9 @@ public class ReplyMessage {
     @XmlElement(name = "string")
     private List<String> stringList = null;
 
-    @XmlElementWrapper(name = "actorlist")
-    @XmlElement(name = "actor")
-    private List<Actor> actorList = null;
+    @XmlElementWrapper(name = "partylist")
+    @XmlElement(name = "party")
+    private List<Party> partyList = null;
 
   
 
@@ -49,12 +49,12 @@ public class ReplyMessage {
         this.stringList = stringList;
     }
 
-    public List<Actor> getActorList() {
-        return actorList;
+    public List<Party> getPartyList() {
+        return partyList;
     }
 
-    public void setActorList(List<Actor> actorList) {
-        this.actorList = actorList;
+    public void setPartyList(List<Party> partyList) {
+        this.partyList = partyList;
     }
 
    

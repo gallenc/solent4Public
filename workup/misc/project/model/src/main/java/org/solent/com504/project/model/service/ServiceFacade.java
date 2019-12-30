@@ -1,7 +1,7 @@
 package org.solent.com504.project.model.service;
 
 import java.util.List;
-import org.solent.com504.project.model.dto.Actor;
+import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Role;
 
 public interface ServiceFacade {
@@ -9,11 +9,11 @@ public interface ServiceFacade {
     public String getHeartbeat();
 
     /**
-     * find all actors in database by role if role is null return all actors
+     * find all partys in database by role if role is null return all partys
      *
      * @param role
-     * @return list of actor objects
+     * @return list of party objects
      */
-    public List<Actor> findByRole(Role role);
+    public List<Party> findByRole(Role role);
 
 }

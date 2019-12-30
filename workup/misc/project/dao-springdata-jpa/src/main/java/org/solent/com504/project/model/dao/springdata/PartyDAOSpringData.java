@@ -6,7 +6,7 @@
 package org.solent.com504.project.model.dao.springdata;
 
 import java.util.List;
-import org.solent.com504.project.model.dto.Actor;
+import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Repository;
  * @author gallenc
  */
 @Repository
-public interface ActorDAOSpringData extends JpaRepository<Actor, Long> {
+public interface PartyDAOSpringData extends JpaRepository<Party, Long> {
 
-    @Query("select p from Actor p where p.role = :role")
-    public List<Actor> findByRole(@Param("role") Role role);
+    @Query("select p from Party p where p.role = :role")
+    public List<Party> findByRole(@Param("role") Role role);
 
-    @Query("select p from Actor p where p.firstName = :firstName and p.secondName = :secondName")
-    public List<Actor> findByName(@Param("firstName") String firstName, @Param("secondName") String secondName);
+    @Query("select p from Party p where p.firstName = :firstName and p.secondName = :secondName")
+    public List<Party> findByName(@Param("firstName") String firstName, @Param("secondName") String secondName);
 
 }

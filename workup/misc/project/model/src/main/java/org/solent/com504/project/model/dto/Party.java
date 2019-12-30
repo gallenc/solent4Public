@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Entity
-public class Actor {
+public class Party {
 
     private Long id;
 
@@ -32,7 +32,7 @@ public class Actor {
 
     private String password;
 
-    private Actor represents;
+    private Party represents;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,11 +94,11 @@ public class Actor {
     }
 
     @OneToOne
-    public Actor getRepresents() {
+    public Party getRepresents() {
         return represents;
     }
 
-    public void setRepresents(Actor represents) {
+    public void setRepresents(Party represents) {
         this.represents = represents;
     }
 
@@ -112,7 +112,7 @@ public class Actor {
 
     @Override
     public String toString() {
-        return "Actor{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", role=" + role + ", address=" + address + ", status=" + status + ", uuid=" + uuid + ", password=" + password + ", represents=" + represents + '}';
+        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", role=" + role + ", address=" + address + ", status=" + status + ", uuid=" + uuid + ", password=" + password + ", represents=" + represents + '}';
     }
 
 

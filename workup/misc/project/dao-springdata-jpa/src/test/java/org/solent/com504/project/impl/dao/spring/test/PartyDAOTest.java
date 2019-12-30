@@ -12,13 +12,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Actor;
+import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.solent.com504.project.model.dao.ActorDAO;
+import org.solent.com504.project.model.dao.PartyDAO;
 import org.solent.com504.project.model.dto.Address;
 
 /**
@@ -29,45 +29,45 @@ import org.solent.com504.project.model.dto.Address;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring.xml"})
-public class ActorDAOTest {
+public class PartyDAOTest {
 
-    final static Logger LOG = LogManager.getLogger(ActorDAOTest.class);
+    final static Logger LOG = LogManager.getLogger(PartyDAOTest.class);
 
     @Autowired
-    private ActorDAO actorDao = null;
+    private PartyDAO partyDao = null;
 
     @Before
     public void before() {
-        assertNotNull(actorDao);
+        assertNotNull(partyDao);
     }
 
     // initialises database for each test
     private void init() {
         // delete all in database
 
-        actorDao.deleteAll();
+        partyDao.deleteAll();
 
         // add 5 admin
         for (int i = 1; i < 6; i++) {
-            Actor p = new Actor();
+            Party p = new Party();
             Address a = new Address();
             a.setAddressLine1("address_A_" + i);
             p.setAddress(a);
             p.setFirstName("firstName_A_" + i);
             p.setSecondName("secondName_A_" + i);
             p.setRole(Role.GLOBALADMIN);
-            actorDao.save(p);
+            partyDao.save(p);
         }
         // add 5 anonymous
         for (int i = 1; i < 7; i++) {
-            Actor p = new Actor();
+            Party p = new Party();
             Address a = new Address();
             a.setAddressLine1("address_B_" + i);
             p.setAddress(a);
             p.setFirstName("firstName_B_" + i);
             p.setSecondName("secondName_B_" + i);
             p.setRole(Role.ANONYMOUS);
-            actorDao.save(p);
+            partyDao.save(p);
         }
     }
 
@@ -75,10 +75,10 @@ public class ActorDAOTest {
     // https://www.marcobehler.com/2014/06/25/should-my-tests-be-transactional 
     //@Transactional
     @Test
-    public void createActorDAOTest() {
-        LOG.debug("start of createActorDAOTest");
+    public void createPartyDAOTest() {
+        LOG.debug("start of createPartyDAOTest");
         // this test simply runs the before method
-        LOG.debug("end of createActorDAOTest");
+        LOG.debug("end of createPartyDAOTest");
     }
 
     //@Transactional
@@ -105,16 +105,16 @@ public class ActorDAOTest {
         LOG.debug("start of findAllTest()");
 
         init();
-        List<Actor> actorList = actorDao.findAll();
-        assertNotNull(actorList);
+        List<Party> partyList = partyDao.findAll();
+        assertNotNull(partyList);
 
         // init should insert 11 people
-        assertEquals(11, actorList.size());
+        assertEquals(11, partyList.size());
 
         // print out result
         String msg = "";
-        for (Actor actor : actorList) {
-            msg = msg + "\n   " + actor.toString();
+        for (Party party : partyList) {
+            msg = msg + "\n   " + party.toString();
         }
         LOG.debug("findAllTest() retrieved:" + msg);
 
@@ -155,17 +155,17 @@ public class ActorDAOTest {
 
         init();
 
-        List<Actor> actorList = null;
-        actorList = actorDao.findAll();
-        assertFalse(actorList.isEmpty());
+        List<Party> partyList = null;
+        partyList = partyDao.findAll();
+        assertFalse(partyList.isEmpty());
 
-        actorList = actorDao.findByRole(Role.GLOBALADMIN);
-        assertNotNull(actorList);
-        assertEquals(5, actorList.size());
+        partyList = partyDao.findByRole(Role.GLOBALADMIN);
+        assertNotNull(partyList);
+        assertEquals(5, partyList.size());
 
-        actorList = actorDao.findByRole(Role.ANONYMOUS);
-        assertNotNull(actorList);
-        assertEquals(6, actorList.size());
+        partyList = partyDao.findByRole(Role.ANONYMOUS);
+        assertNotNull(partyList);
+        assertEquals(6, partyList.size());
 
         LOG.debug("end of findByIdTest()");
     }
@@ -176,24 +176,24 @@ public class ActorDAOTest {
         LOG.debug("start of findByNameTest()");
 
         init();
-        List<Actor> actorList = null;
-        actorList = actorDao.findAll();
-        assertFalse(actorList.isEmpty());
+        List<Party> partyList = null;
+        partyList = partyDao.findAll();
+        assertFalse(partyList.isEmpty());
 
-        // choose from actorList
-        int i = actorList.size() / 2;
-        Actor actor1 = actorList.get(i);
-        LOG.debug("Selecting Actor " + i + " actor=" + actor1);
-        String firstName = actor1.getFirstName();
-        String secondName = actor1.getSecondName();
+        // choose from partyList
+        int i = partyList.size() / 2;
+        Party party1 = partyList.get(i);
+        LOG.debug("Selecting Party " + i + " party=" + party1);
+        String firstName = party1.getFirstName();
+        String secondName = party1.getSecondName();
 
-        actorList = actorDao.findByName(firstName, secondName);
-        assertFalse(actorList.isEmpty());
+        partyList = partyDao.findByName(firstName, secondName);
+        assertFalse(partyList.isEmpty());
 
-        Actor actor2 = actorList.get(0);
-        LOG.debug("Finding actor by name Actor " + actor2);
+        Party party2 = partyList.get(0);
+        LOG.debug("Finding party by name Party " + party2);
 
-        assertTrue(actor1.toString().equals(actor2.toString()));
+        assertTrue(party1.toString().equals(party2.toString()));
 
         LOG.debug("end of findByNameTest())");
 
