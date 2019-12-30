@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.impl.web;
-
+package org.solent.com504.project.impl.user.service;
 
 import org.solent.com504.project.impl.dao.user.springdata.RoleRepository;
 import org.solent.com504.project.model.user.dto.Role;
