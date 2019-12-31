@@ -69,32 +69,6 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-    
-        <!--spring security-->  
-    <!--initialise db add role types--> 
-    <bean id="dBInitialise " class="org.solent.com504.project.impl.user.service.DBInitialise " init-method="init" />
-    
-    <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref="userDetailsServiceImpl">
-            <security:password-encoder ref="encoder"></security:password-encoder>
-        </security:authentication-provider>
-    </security:authentication-manager>
-
-    <bean id="userDetailsServiceImpl" class="org.solent.com504.project.impl.user.service.UserDetailsServiceImpl">
-    </bean>
-
-    <bean id="encoder"
-          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <constructor-arg name="strength" value="11"/>
-    </bean>
-    
-        
-    <security:http auto-config="true">
-        <security:intercept-url pattern="/mvc/**" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/resources/**" access="permitAll" />
-        <security:intercept-url pattern="/welcome" access="hasRole('ROLE_USER')"/>
-        <security:form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
-        <security:logout logout-success-url="/login?logout" />
-    </security:http>
 
 </beans>
+
