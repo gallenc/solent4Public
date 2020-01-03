@@ -16,6 +16,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.solent.com504.project.model.dto.Party;
 import org.solent.com504.project.model.dto.Address;
@@ -25,6 +27,8 @@ import org.solent.com504.project.model.dto.PartyStatus;
 
 public class ModelJaxbTest {
 
+    final static Logger LOG = LogManager.getLogger(ModelJaxbTest.class);
+
     @Test
     public void testTransactionJaxb() {
 
@@ -33,7 +37,7 @@ public class ModelJaxbTest {
             // test file we will write and read. 
             // Note in target folder so that will be deleted on each run and will not be saved to git
             File file = new File("target/testTransactionData.xml");
-            System.out.println("writing test file to " + file.getAbsolutePath());
+            LOG.debug("writing test file to " + file.getAbsolutePath());
 
             // this contains a list of Jaxb annotated classes for the context to parse
             // NOTE you must also have a jaxb.index or ObjectFpartyy in the same classpath

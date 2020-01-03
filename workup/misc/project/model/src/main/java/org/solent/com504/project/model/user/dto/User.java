@@ -11,6 +11,9 @@ public class User {
     private String username;
     private String password;
     private String passwordConfirm;
+    private String firstName;
+    private String secondName;
+
     private Set<Role> roles;
 
     @Id
@@ -29,6 +32,22 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+       public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getPassword() {

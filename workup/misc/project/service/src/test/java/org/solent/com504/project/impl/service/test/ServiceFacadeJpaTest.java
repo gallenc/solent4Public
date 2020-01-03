@@ -6,6 +6,8 @@
 package org.solent.com504.project.impl.service.test;
 
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -25,27 +27,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"/appconfig-service.xml"})
 public class ServiceFacadeJpaTest {
 
+    final static Logger LOG = LogManager.getLogger(ServiceFacadeJpaTest.class);
+
     @Autowired
     ServiceFacade serviceFacade = null;
 
     @Test
     public void testFactory() {
-        System.out.println("start ServiceFacadeTest testFpartyy");
+        LOG.debug("start ServiceFacadeTest testFpartyy");
         assertNotNull(serviceFacade);
 
-        System.out.println("end ServiceFacadeTest testFpartyy");
+        LOG.debug("end ServiceFacadeTest testFpartyy");
     }
 
     @Test
     public void testGetHeartbeat() {
-        System.out.println("start ServiceFacadeTest testGetHeartbeat()");
+        LOG.debug("start ServiceFacadeTest testGetHeartbeat()");
         assertNotNull(serviceFacade);
 
         String heartbeat = serviceFacade.getHeartbeat();
-        System.out.println("recieved heartbeat: " + heartbeat);
+        LOG.debug("recieved heartbeat: " + heartbeat);
         assertNotNull(heartbeat);
 
-        System.out.println("end FarmFacadeTest testGetHeartbeat()");
+        LOG.debug("end FarmFacadeTest testGetHeartbeat()");
     }
 
     @Test

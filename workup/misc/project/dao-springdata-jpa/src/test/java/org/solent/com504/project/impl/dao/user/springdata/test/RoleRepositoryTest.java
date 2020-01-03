@@ -5,6 +5,8 @@
  */
 package org.solent.com504.project.impl.dao.user.springdata.test;
 
+import java.util.List;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -38,19 +40,40 @@ public class RoleRepositoryTest {
         LOG.debug("before test complete");
     }
 
-    
     @Transactional
     @Test
     public void test1() {
         LOG.debug("start of test1");
 
+        String rolename1 = "testrole1";
         Role role1 = new Role();
-        role1 = roleRepository.save(role1);
-        System.out.println("role1=" + role1);
+        role1.setName(rolename1);
 
+        role1 = roleRepository.save(role1);
+        LOG.debug("role1 id=" + role1.getId() + " " + role1.getName());
+
+        String rolename2 = "testrole2";
+        Role role2 = new Role();
+        role2.setName(rolename2);
+
+        role2 = roleRepository.save(role2);
+        LOG.debug("role2 id=" + role2.getId() + " " + role2.getName());
+
+        // find by ID
         Long id = role1.getId();
-        Role role2 = roleRepository.getOne(id);
-        System.out.println("role2=" + role2);
+        Optional<Role> o = roleRepository.findById(id);
+        Role role3 = o.get();
+        LOG.debug("found role3 id="  + role3.getId() + " " + role3.getName());
+
+        // find by name
+        List<Role> roles = roleRepository.findByName(rolename1);
+        LOG.debug("findByName("+rolename1+ ") found " + roles.size());
+        for (Role r : roles) {
+            LOG.debug("found role id  " + r.getId() +  " name " + r.getName());
+        }
+        
+        assertEquals(role1.getName(),roles.get(0).getName());
+
         LOG.debug("end of test1");
     }
 }
