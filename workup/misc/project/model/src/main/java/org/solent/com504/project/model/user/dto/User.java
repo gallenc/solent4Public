@@ -1,12 +1,21 @@
 package org.solent.com504.project.model.user.dto;
 
-
+import java.util.HashSet;
 import javax.persistence.*;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 
 @Entity
 @Table(name = "user")
 public class User {
+
     private Long id;
     private String username;
     private String password;
@@ -14,7 +23,9 @@ public class User {
     private String firstName;
     private String secondName;
 
-    private Set<Role> roles;
+    @XmlElementWrapper(name = "roles")
+    @XmlElement(name = "role")
+    private Set<Role> roles = new HashSet<Role>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,8 +44,8 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    
-       public String getFirstName() {
+
+    public String getFirstName() {
         return firstName;
     }
 
@@ -75,5 +86,15 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
     }
 }

@@ -33,6 +33,14 @@
         <property name="message" value="mvc-dispatcher-servlet" />
     </bean>
 
+    <!-- validation message source  -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:validation</value>
+            </list>
+        </property>
+    </bean>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources  -->
     <!--	in the /WEB-INF/views directory -->
