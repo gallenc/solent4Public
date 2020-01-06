@@ -1,5 +1,6 @@
 package org.solent.com504.project.model.user.service;
 
+import java.util.List;
 import org.solent.com504.project.model.user.dto.User;
 
 public interface UserService {
@@ -7,5 +8,6 @@ public interface UserService {
 
     User findByUsername(String username);
      
+    List<User> findAll();
     
 }

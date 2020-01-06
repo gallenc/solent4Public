@@ -1,6 +1,8 @@
 package org.solent.com504.project.impl.web;
 
-
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.service.SecurityService;
@@ -15,6 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
+
+    final static Logger LOG = LogManager.getLogger(UserController.class);
+
+    {
+        LOG.debug("UserController created");
+    }
+
     @Autowired
     private UserService userService;
 
@@ -48,11 +57,13 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
-        if (error != null)
+        if (error != null) {
             model.addAttribute("error", "Your username and password is invalid.");
+        }
 
-        if (logout != null)
+        if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully.");
+        }
 
         return "login";
     }
@@ -60,5 +71,20 @@ public class UserController {
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
+    }
+
+    @RequestMapping(value = {"/users"}, method = RequestMethod.GET)
+    public String users(Model model) {
+        List<User> userList = userService.findAll();
+
+        LOG.debug("users called:");
+        for(User user:userList){
+           LOG.debug(" user:"+user);
+        }
+ 
+        model.addAttribute("userListSize", userList.size());
+        model.addAttribute("userList", userList);
+
+        return "users";
     }
 }
