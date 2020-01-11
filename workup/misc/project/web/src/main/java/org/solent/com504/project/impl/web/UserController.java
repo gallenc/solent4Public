@@ -1,9 +1,11 @@
 package org.solent.com504.project.impl.web;
 
+import java.util.Arrays;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
+import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.service.SecurityService;
 import org.solent.com504.project.model.user.service.UserService;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -78,13 +81,66 @@ public class UserController {
         List<User> userList = userService.findAll();
 
         LOG.debug("users called:");
-        for(User user:userList){
-           LOG.debug(" user:"+user);
+        for (User user : userList) {
+            LOG.debug(" user:" + user);
         }
- 
+
         model.addAttribute("userListSize", userList.size());
         model.addAttribute("userList", userList);
 
         return "users";
+    }
+
+    @RequestMapping(value = {"/viewModifyUser"}, method = RequestMethod.GET)
+    public String modifyuser(Model model,
+            @RequestParam(value = "username", required = true) String username) {
+        User user = userService.findByUsername(username);
+
+        LOG.debug("viewUser called for username=" + username + " user=" + user);
+        model.addAttribute("user", user);
+        
+        
+        List<String> availableRoles= userService.getAvailableUserRoleNames();
+        model.addAttribute("availableRoles", availableRoles);
+        
+
+        return "viewModifyUser";
+    }
+
+    @RequestMapping(value = {"/viewModifyUser"}, method = RequestMethod.POST)
+    public String updateuser(Model model,
+            @RequestParam(value = "username", required = true) String username,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "secondName", required = false) String secondName,
+            @RequestParam(value = "roles", required = false) String roles
+    ) {
+        LOG.debug("updateUser called for username=" + username);
+        User user = userService.findByUsername(username);
+
+        if (firstName != null) {
+            user.setFirstName(firstName);
+        }
+        if (secondName != null) {
+            user.setSecondName(secondName);
+        }
+        
+        user = userService.save(user);
+        
+        // update roles
+        if(roles != null){
+            List<String> roleNames = Arrays.asList(roles.split(","));
+            user = userService.updateUserRoles(username, roleNames);
+        }
+
+        model.addAttribute("user", user);
+        
+        List<String> availableRoles= userService.getAvailableUserRoleNames();
+        model.addAttribute("availableRoles", availableRoles);
+        
+        // add message if there are any 
+        model.addAttribute("errorMessage", "");
+        model.addAttribute("message", "User "+user.getUsername() +" updated successfully");
+
+        return "viewModifyUser";
     }
 }

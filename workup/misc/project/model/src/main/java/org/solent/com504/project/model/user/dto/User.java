@@ -97,4 +97,12 @@ public class User {
         roles.remove(role);
         role.getUsers().remove(this);
     }
+
+    // Note Password and roles omitted from tostring
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id
+                + ", username=" + username + ", firstName=" + firstName + ", secondName=" + secondName + "PASSWORD ROLES omitted }";
+    }
+
 }
