@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         user.getRoles().clear();
         user.getRoles().addAll(newRoles);
 
-        user = userRepository.save(user);
+        user = userRepository.saveAndFlush(user);
 
         return user;
 

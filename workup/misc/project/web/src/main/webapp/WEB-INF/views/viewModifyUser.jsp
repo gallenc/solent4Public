@@ -44,18 +44,37 @@
                     <td>|<c:forEach var="role" items="${user.roles}"> ${role.name} |</c:forEach></td>
                     </tr>
 
-                </tbody
+                </tbody>
 
             </table>
-            <input type="hidden" name="username" value="${user.username}"/>
+            <div>
+                <p>User Roles </p>
+                <table class="table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="entry" items="${selectedRolesMap}">
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" 
+                                           id="${entry.key}" name="selectedRoles" value="${entry.key}" checked="${entry.value}">
+                                    <label class="custom-control-label" for="${entry.key}">${entry.key}</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <input type="hidden" name="username" value="${user.username}"/>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <button  type="submit" >Update ${user.username}</button>
     </form>
     <form action="./users">
         <button  type="submit" >Return To Users</button>
     </form> 
-    
-    <p>available roles <c:forEach var="rolename" items="${availableRoles}"> ${rolename} |</c:forEach></p>
+
 </div>
 
 

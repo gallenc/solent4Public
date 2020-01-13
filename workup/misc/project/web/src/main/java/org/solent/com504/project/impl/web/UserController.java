@@ -1,7 +1,12 @@
 package org.solent.com504.project.impl.web;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
@@ -98,11 +103,14 @@ public class UserController {
 
         LOG.debug("viewUser called for username=" + username + " user=" + user);
         model.addAttribute("user", user);
-        
-        
-        List<String> availableRoles= userService.getAvailableUserRoleNames();
-        model.addAttribute("availableRoles", availableRoles);
-        
+
+        Map<String, String> selectedRolesMap = selectedRolesMap(user);
+
+        for (Entry entry : selectedRolesMap.entrySet()) {
+            LOG.debug(username + " role:" + entry.getKey() + " selected:" + entry.getValue());
+        }
+
+        model.addAttribute("selectedRolesMap", selectedRolesMap);
 
         return "viewModifyUser";
     }
@@ -112,7 +120,7 @@ public class UserController {
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "secondName", required = false) String secondName,
-            @RequestParam(value = "roles", required = false) String roles
+            @RequestParam(value = "selectedRoles", required = false) List<String> selectedRolesIn
     ) {
         LOG.debug("updateUser called for username=" + username);
         User user = userService.findByUsername(username);
@@ -123,24 +131,46 @@ public class UserController {
         if (secondName != null) {
             user.setSecondName(secondName);
         }
-        
+
         user = userService.save(user);
-        
-        // update roles
-        if(roles != null){
-            List<String> roleNames = Arrays.asList(roles.split(","));
-            user = userService.updateUserRoles(username, roleNames);
+
+        // update roles if roles in list
+        if (selectedRolesIn != null) {
+            user = userService.updateUserRoles(username, selectedRolesIn);
         }
 
+        Map<String, String> selectedRolesMap = selectedRolesMap(user);
+
         model.addAttribute("user", user);
-        
-        List<String> availableRoles= userService.getAvailableUserRoleNames();
-        model.addAttribute("availableRoles", availableRoles);
-        
+
+        model.addAttribute("selectedRolesMap", selectedRolesMap);
+
         // add message if there are any 
         model.addAttribute("errorMessage", "");
-        model.addAttribute("message", "User "+user.getUsername() +" updated successfully");
+        model.addAttribute("message", "User " + user.getUsername() + " updated successfully");
 
         return "viewModifyUser";
     }
+
+    private Map<String, String> selectedRolesMap(User user) {
+
+        List<String> availableRoles = userService.getAvailableUserRoleNames();
+        List<String> selectedRoles = new ArrayList();
+        for (Role role : user.getRoles()) {
+            selectedRoles.add(role.getName());
+        }
+
+        Map<String, String> selectedRolesMap = new LinkedHashMap();
+        for (String availableRole : availableRoles) {
+            if (selectedRoles.contains(availableRole)) {
+                selectedRolesMap.put(availableRole, "true");
+            } else {
+                selectedRolesMap.put(availableRole, "false");
+            }
+        }
+
+        return selectedRolesMap;
+
+    }
+
 }
