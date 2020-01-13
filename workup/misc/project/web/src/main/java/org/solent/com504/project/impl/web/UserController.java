@@ -155,17 +155,25 @@ public class UserController {
     private Map<String, String> selectedRolesMap(User user) {
 
         List<String> availableRoles = userService.getAvailableUserRoleNames();
+        
+        
         List<String> selectedRoles = new ArrayList();
         for (Role role : user.getRoles()) {
             selectedRoles.add(role.getName());
+            LOG.debug("user "+user.toString() 
+                    + "roles from database:"+role.getName());
         }
 
         Map<String, String> selectedRolesMap = new LinkedHashMap();
         for (String availableRole : availableRoles) {
             if (selectedRoles.contains(availableRole)) {
                 selectedRolesMap.put(availableRole, "true");
+                LOG.debug("availableRole "+availableRole
+                        + " user "+user.toString() + " available role:true");
             } else {
                 selectedRolesMap.put(availableRole, "false");
+                LOG.debug("availableRole "+availableRole
+                        + " user "+user.toString() + " available role:false");
             }
         }
 
