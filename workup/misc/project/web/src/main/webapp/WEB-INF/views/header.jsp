@@ -6,7 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
+<!-- start of header.jsp -->
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -46,30 +49,40 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
-                            </li>
+
+                            <!-- this jstl should work but problems with multiple if statements -->
+                            <!-- selected page = ${selectedPage} home ${'home'.equals(selectedPage) } about ${'about'.equals(selectedPage) } contact ${'contact'.equals(selectedPage) }-->
+                            <!--<li <c:if test="${'home'.equals(selectedPage) }"> class="active"  </c:if> ><a href="${contextPath}/home">Home</a></li>--> 
+
+                                <!-- this raw java code works !! -->
+                                <li <% if ("home".equals(request.getAttribute("selectedPage"))) {%> class="active"  <% } %> ><a href="${contextPath}/home">Home</a></li> 
+                            <li <% if ("about".equals(request.getAttribute("selectedPage"))) {%>  class="active"  <% } %> ><a href="${contextPath}/about">About</a></li> 
+                            <li <% if ("contact".equals(request.getAttribute("selectedPage"))) {%>  class="active"  <% }%> ><a href="${contextPath}/contact">Contact</a></li>                          
+
+                            <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
+                                <li class="dropdown" >
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admin <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="${contextPath}/users">Manage Users</a></li>
+                                    </ul>
+                                </li>
+                            </sec:authorize>
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                                 <form id="logoutForm" method="POST" action="${contextPath}/logout">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 </form>
-                                <li>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
+                                <form id="profile" method="GET" action="${contextPath}/viewModifyUser">
+                                    <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}"/>
+                                </form>
+                                Welcome ${pageContext.request.userPrincipal.name}<BR>
+                                <a onclick="document.forms['logoutForm'].submit()">Logout</a><BR>
+                                <a onclick="document.forms['profile'].submit()">User Profile</a>
                             </c:if>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </nav>
+            <!-- end of header.jsp -->

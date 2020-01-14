@@ -60,7 +60,7 @@ public class UserController {
 
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/viewModifyUser?username="+userForm.getUsername();
+        return "redirect:/viewModifyUser?username=" + userForm.getUsername();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -76,9 +76,19 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "welcome";
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    public String home(Model model) {
+        return "home";
+    }
+
+    @RequestMapping(value = {"/about"}, method = RequestMethod.GET)
+    public String about(Model model) {
+        return "about";
+    }
+
+    @RequestMapping(value = {"/contact"}, method = RequestMethod.GET)
+    public String contact(Model model) {
+        return "contact";
     }
 
     @RequestMapping(value = {"/users"}, method = RequestMethod.GET)
@@ -155,25 +165,24 @@ public class UserController {
     private Map<String, String> selectedRolesMap(User user) {
 
         List<String> availableRoles = userService.getAvailableUserRoleNames();
-        
-        
+
         List<String> selectedRoles = new ArrayList();
         for (Role role : user.getRoles()) {
             selectedRoles.add(role.getName());
-            LOG.debug("user "+user.toString() 
-                    + "roles from database:"+role.getName());
+            LOG.debug("user " + user.toString()
+                    + "roles from database:" + role.getName());
         }
 
         Map<String, String> selectedRolesMap = new LinkedHashMap();
         for (String availableRole : availableRoles) {
             if (selectedRoles.contains(availableRole)) {
                 selectedRolesMap.put(availableRole, "checked");
-                LOG.debug("availableRole "+availableRole
-                        + " user "+user.toString() + " available role:checked");
+                LOG.debug("availableRole " + availableRole
+                        + " user " + user.toString() + " available role:checked");
             } else {
                 selectedRolesMap.put(availableRole, "");
-                LOG.debug("availableRole "+availableRole
-                        + " user "+user.toString() + " available role:not checked");
+                LOG.debug("availableRole " + availableRole
+                        + " user " + user.toString() + " available role:not checked");
             }
         }
 

@@ -53,6 +53,17 @@
             <artifactId>spring-webmvc</artifactId>
             <scope>compile</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- to allow jersey to work with spring as a component -->
         <!-- note if not present need to have jersey-hk2 on classpath -->
@@ -93,7 +104,7 @@
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <scope>compile</scope>
         </dependency>
         
         

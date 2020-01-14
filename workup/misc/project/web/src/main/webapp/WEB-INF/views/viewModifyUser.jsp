@@ -3,11 +3,12 @@
     Created on : Jan 4, 2020, 11:19:47 AM
     Author     : cgallen
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="org.solent.com504.project.model.user.dto.User"%>
 <%@page import="org.solent.com504.project.model.user.dto.UserRoles"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var = "selectedPage" value = "users" scope="request"/>
 <jsp:include page="header.jsp" />
 
 
@@ -48,32 +49,36 @@
 
             </table>
             <div>
-                <p>User Roles </p>
+            <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
+                <p>Manage User Roles </p>
                 <table class="table">
                     <thead>
                     </thead>
                     <tbody>
-                    <c:forEach var="entry" items="${selectedRolesMap}">
-                        <tr>
-                            <td>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" 
-                                           id="${entry.key}" name="selectedRoles" value="${entry.key}" ${entry.value} >
-                                    <label class="custom-control-label" for="${entry.key}">${entry.key}</label>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                        <c:forEach var="entry" items="${selectedRolesMap}">
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" 
+                                               id="${entry.key}" name="selectedRoles" value="${entry.key}" ${entry.value} >
+                                        <label class="custom-control-label" for="${entry.key}">${entry.key}</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </sec:authorize>  
         </div>
         <input type="hidden" name="username" value="${user.username}"/>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <button  type="submit" >Update ${user.username}</button>
     </form>
-    <form action="./users">
-        <button  type="submit" >Return To Users</button>
-    </form> 
+    <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
+        <form action="./users">
+            <button  type="submit" >Return To Users</button>
+        </form> 
+    </sec:authorize> 
 
 </div>
 

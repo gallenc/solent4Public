@@ -36,6 +36,14 @@ public class ViewController {
     @Qualifier("serviceFacade")
     ServiceFacade serviceFacade = null;
     
+    
+    
+    
+    
+    
+    
+    
+    
     @RequestMapping("/testHeartbeat")
     public String testHeartbeat(Model m) {
 
@@ -55,6 +63,7 @@ public class ViewController {
         // render view with jsp
         return "testHeartbeat";
     }
+    
     
 
 //    @RequestMapping("/farmhome")

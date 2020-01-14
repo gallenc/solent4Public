@@ -5,13 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="org.solent.com504.project.model.user.dto.User"%>
 <%@page import="org.solent.com504.project.model.user.dto.UserRoles"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var = "selectedPage" value = "admin" scope="request"/>
 <jsp:include page="header.jsp" />
 
-
+<!-- start of users.jsp selectedPage=${selectedPage}-->
 <div>
+    <h1>Manage Users</h1>
     <p>showing ${userListSize} users: </p>
     <table class="table">
         <thead>
