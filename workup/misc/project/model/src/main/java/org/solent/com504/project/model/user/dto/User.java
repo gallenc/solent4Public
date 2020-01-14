@@ -88,16 +88,6 @@ public class User {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
-        role.getUsers().add(this);
-    }
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-        role.getUsers().remove(this);
-    }
-
     // Note Password and roles omitted from tostring
     @Override
     public String toString() {

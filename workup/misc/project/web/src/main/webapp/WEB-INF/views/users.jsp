@@ -25,24 +25,27 @@
             </tr>
         </thead>
         <tbody>
-        <c:forEach var="user" items="${userList}">
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.username}</td>
-                <td>${user.firstName}</td>
-                <td>${user.secondName}</td>
-                <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
-                          <td>
-                        <form action="./viewModifyUser" method="get">
-                            <input type="hidden" name="username" value="${user.username}">
+            <c:forEach var="user" items="${userList}">
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.firstName}</td>
+                    <td>${user.secondName}</td>
+                    <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
+                        <td>
+                            <form action="./viewModifyUser" method="get">
+                                <input type="hidden" name="username" value="${user.username}">
                             <button type="submit" >Modify User</button>
                         </form> 
                     </td>
-            </tr>
-        </c:forEach>
+                </tr>
+            </c:forEach>
 
         </tbody>
     </table>
+    <form action="./registration">
+        <button  type="submit" >Add User</button>
+    </form> 
 </div>
 
 

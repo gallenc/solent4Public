@@ -60,7 +60,7 @@ public class UserController {
 
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/viewModifyUser?username="+userForm.getUsername();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

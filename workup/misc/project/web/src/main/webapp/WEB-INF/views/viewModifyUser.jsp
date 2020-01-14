@@ -12,7 +12,7 @@
 
 
 <div>
-    <H1>Modify User</H1>
+    <H1>User Details</H1>
     <!-- print error message if there is one -->
     <div style="color:red;">${errorMessage}</div>
     <div style="color:green;">${message}</div>

@@ -5,12 +5,17 @@
  */
 package org.solent.com504.project.impl.user.service;
 
+import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.dao.user.springdata.RoleRepository;
+import org.solent.com504.project.impl.dao.user.springdata.UserRepository;
 import org.solent.com504.project.model.user.dto.Role;
+import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.dto.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -23,10 +28,16 @@ public class DBInitialise {
     @Autowired
     private RoleRepository roleRepository;
 
-    public void init() {
-        if (roleRepository.findAll().isEmpty()) {
+    @Autowired
+    private UserRepository userRepository;
 
-            // add all roles in model to database note need to convert enum to correct values
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public void init() {
+
+        // add all roles in model to database
+        if (roleRepository.findAll().isEmpty()) {
             UserRoles[] allRoles = UserRoles.values();
             for (int i = 0; i < allRoles.length; i++) {
                 String roleName = allRoles[i].name();
@@ -35,8 +46,35 @@ public class DBInitialise {
                 role.setName(roleName);
                 roleRepository.saveAndFlush(role);
             }
-
         }
+
+        // add admin and simple user to database by default
+        if (userRepository.findAll().isEmpty()) {
+            User adminUser = new User();
+            adminUser.setFirstName("globaladmin");
+            adminUser.setSecondName("globaladmin");
+            adminUser.setUsername("globaladmin");
+            adminUser.setPassword(bCryptPasswordEncoder.encode("globaladmin"));
+
+            HashSet roles = new HashSet<>();
+            roles.addAll(roleRepository.findByName(UserRoles.ROLE_USER.toString()));
+            roles.addAll(roleRepository.findByName(UserRoles.ROLE_GLOBAL_ADMIN.toString()));
+
+            adminUser.setRoles(roles);
+            userRepository.saveAndFlush(adminUser);
+
+            User basicUser = new User();
+            basicUser.setFirstName("basicuser");
+            basicUser.setSecondName("basicuser");
+            basicUser.setUsername("basicuser");
+            basicUser.setPassword(bCryptPasswordEncoder.encode("basicuser"));
+            roles = new HashSet<>();
+            roles.addAll(roleRepository.findByName(UserRoles.ROLE_USER.toString()));
+
+            basicUser.setRoles(roles);
+            userRepository.saveAndFlush(basicUser);
+        }
+
     }
 
 }

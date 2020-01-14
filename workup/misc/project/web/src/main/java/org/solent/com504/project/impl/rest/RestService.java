@@ -51,7 +51,7 @@ public class RestService {
     /**
      * this is a very simple rest test message which only returns a string
      *
-     * http://localhost:8084/projectfacadeweb/rest/appointmentService/
+     * http://localhost:8084/projectweb/rest/appointmentService/
      *
      * @return String simple message
      */
@@ -64,7 +64,7 @@ public class RestService {
     /**
      * get heartbeat
      *
-     * http://localhost:8084/projectfacadeweb/rest/appointmentService/getHeartbeat
+     * http://localhost:8084/projectweb/rest/appointmentService/getHeartbeat
      *
      * @return Response OK and heartbeat in debug message
      */

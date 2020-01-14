@@ -34,7 +34,7 @@ public class ServiceRestClientImpl implements ServiceFacade {
 
     final static Logger LOG = LogManager.getLogger(ServiceRestClientImpl.class);
 
-    String baseUrl = "http://localhost:8084/projectfacadeweb/rest/appointmentService";
+    String baseUrl = "http://localhost:8084/projectweb/rest/appointmentService";
 
     public ServiceRestClientImpl(String baseUrl) {
         this.baseUrl = baseUrl;

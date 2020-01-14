@@ -114,7 +114,7 @@ public class ModelJaxbTest {
             // create objects to marshal
             User user = new User();
             Role role1 = new Role(UserRoles.ROLE_USER);
-            Role role2 = new Role(UserRoles.ROLE_ADMIN);
+            Role role2 = new Role(UserRoles.ROLE_GLOBAL_ADMIN);
             user.setFirstName("firstName");
             user.setSecondName("secondName");
             user.setPassword("password");
