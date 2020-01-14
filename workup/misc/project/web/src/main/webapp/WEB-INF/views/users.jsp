@@ -31,7 +31,7 @@
                 <td>${user.username}</td>
                 <td>${user.firstName}</td>
                 <td>${user.secondName}</td>
-                <td>|<c:forEach var="role" items="${user.roles}"> ${role.name} |<br></c:forEach></td>
+                <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
                           <td>
                         <form action="./viewModifyUser" method="get">
                             <input type="hidden" name="username" value="${user.username}">

@@ -15,10 +15,8 @@ import org.solent.com504.project.model.dao.PartyDAO;
 @Component("serviceFacade")
 public class ServiceFacadeImpl implements ServiceFacade {
 
-        @Autowired
+    @Autowired
     private PartyDAO partyDao = null;
-
-
 
     // used to concurently count heartbeat requests
     private static AtomicInteger heartbeatRequests = new AtomicInteger();
@@ -27,7 +25,6 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public void setPartyDao(PartyDAO partyDao) {
         this.partyDao = partyDao;
     }
-
 
     // Service facade methods
     @Override

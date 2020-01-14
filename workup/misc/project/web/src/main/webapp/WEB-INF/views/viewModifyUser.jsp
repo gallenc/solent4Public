@@ -58,7 +58,7 @@
                             <td>
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" 
-                                           id="${entry.key}" name="selectedRoles" value="${entry.key}" checked="${entry.value}">
+                                           id="${entry.key}" name="selectedRoles" value="${entry.key}" ${entry.value} >
                                     <label class="custom-control-label" for="${entry.key}">${entry.key}</label>
                                 </div>
                             </td>

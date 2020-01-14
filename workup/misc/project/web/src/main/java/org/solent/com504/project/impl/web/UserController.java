@@ -167,13 +167,13 @@ public class UserController {
         Map<String, String> selectedRolesMap = new LinkedHashMap();
         for (String availableRole : availableRoles) {
             if (selectedRoles.contains(availableRole)) {
-                selectedRolesMap.put(availableRole, "true");
+                selectedRolesMap.put(availableRole, "checked");
                 LOG.debug("availableRole "+availableRole
-                        + " user "+user.toString() + " available role:true");
+                        + " user "+user.toString() + " available role:checked");
             } else {
-                selectedRolesMap.put(availableRole, "false");
+                selectedRolesMap.put(availableRole, "");
                 LOG.debug("availableRole "+availableRole
-                        + " user "+user.toString() + " available role:false");
+                        + " user "+user.toString() + " available role:not checked");
             }
         }
 
