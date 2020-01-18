@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
+import org.solent.com504.project.model.dto.Address;
 import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.service.SecurityService;
@@ -131,9 +132,21 @@ public class UserController {
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "secondName", required = false) String secondName,
             @RequestParam(value = "selectedRoles", required = false) List<String> selectedRolesIn,
-            @RequestParam(value = "userEnabled", required = false) String userEnabled  
+            @RequestParam(value = "userEnabled", required = false) String userEnabled,
+            @RequestParam(value = "number", required = false) String number,
+            @RequestParam(value = "addressLine1", required = false) String addressLine1,
+            @RequestParam(value = "addressLine2", required = false) String addressLine2,
+            @RequestParam(value = "county", required = false) String county,
+            @RequestParam(value = "country", required = false) String country,
+            @RequestParam(value = "postcode", required = false) String postcode,
+            @RequestParam(value = "latitude", required = false) String latitude,
+            @RequestParam(value = "longitude", required = false) String longitude,
+            @RequestParam(value = "telephone", required = false) String telephone,
+            @RequestParam(value = "mobile", required = false) String mobile
     ) {
         LOG.debug("updateUser called for username=" + username);
+        String errorMessage = "";
+
         User user = userService.findByUsername(username);
 
         if (firstName != null) {
@@ -142,11 +155,29 @@ public class UserController {
         if (secondName != null) {
             user.setSecondName(secondName);
         }
-        if (userEnabled != null){
+        if (userEnabled != null) {
             user.setEnabled(Boolean.TRUE);
         } else {
             user.setEnabled(Boolean.FALSE);
         }
+
+        Address address = new Address();
+        address.setNumber(number);
+        address.setAddressLine1(addressLine1);
+        address.setAddressLine2(addressLine2);
+        address.setCountry(country);
+        address.setCounty(county);
+        address.setPostcode(postcode);
+        address.setMobile(mobile);
+        address.setTelephone(telephone);
+        try {
+            address.setLatitude(Double.parseDouble(latitude));
+            address.setLongitude(Double.parseDouble(longitude));
+        } catch (Exception ex) {
+            errorMessage = "problem parsing latitude=" + latitude
+                    + " or longitude=" + longitude;
+        }
+        user.setAddress(address);
 
         user = userService.save(user);
 
@@ -162,7 +193,7 @@ public class UserController {
         model.addAttribute("selectedRolesMap", selectedRolesMap);
 
         // add message if there are any 
-        model.addAttribute("errorMessage", "");
+        model.addAttribute("errorMessage", errorMessage);
         model.addAttribute("message", "User " + user.getUsername() + " updated successfully");
 
         return "viewModifyUser";

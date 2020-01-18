@@ -10,25 +10,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class Address {
 
-    private String number;
+    private String number="";
 
-    private String addressLine1;
+    private String addressLine1="";
 
-    private String addressLine2;
+    private String addressLine2="";
 
-    private String County;
+    private String county="";
 
-    private String Country;
+    private String country="";
 
-    private String postcode;
+    private String postcode="";
 
-    private double latitude;
+    private Double latitude=0.0;
 
-    private double longitude;
+    private Double longitude=0.0;
 
-    private String telephone;
+    private String telephone="";
 
-    private String mobile;
+    private String mobile="";
 
     public String getNumber() {
         return number;
@@ -55,19 +55,19 @@ public class Address {
     }
 
     public String getCounty() {
-        return County;
+        return county;
     }
 
-    public void setCounty(String County) {
-        this.County = County;
+    public void setCounty(String county) {
+        this.county = county;
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
-    public void setCountry(String Country) {
-        this.Country = Country;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getPostcode() {
@@ -78,19 +78,19 @@ public class Address {
         this.postcode = postcode;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -112,7 +112,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address{" + "number=" + number + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", County=" + County + ", Country=" + Country + ", postcode=" + postcode + ", latitude=" + latitude + ", longitude=" + longitude + ", telephone=" + telephone + ", mobile=" + mobile + '}';
+        return "Address{" + "number=" + number + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", County=" + county + ", Country=" + country + ", postcode=" + postcode + ", latitude=" + latitude + ", longitude=" + longitude + ", telephone=" + telephone + ", mobile=" + mobile + '}';
     }
 
 }

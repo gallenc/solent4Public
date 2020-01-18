@@ -43,6 +43,45 @@
                         <td><input type="text" name="secondName" value="${user.secondName}" /></td>
                     </tr>
                     <tr>
+                        <td>House Number</td>
+                        <td><input type="text" name="number" value="${user.address.number}" /></td>
+                    </tr>
+                    <tr>
+                        <td>Address Line 1</td>
+                        <td><input type="text" name="number" value="${user.address.addressLine1}" /></td>
+                    </tr>
+                    <tr>
+                        <td>Address Line 2</td>
+                        <td><input type="text" name="number" value="${user.address.addressLine2}" /></td>
+                    </tr>
+                    <tr>
+                        <td>county</td>
+                        <td><input type="text" name="county" value="${user.address.county}" /></td>
+                    </tr>
+                    <tr>
+                        <td>country</td>
+                        <td><input type="text" name="country" value="${user.address.country}" /></td>
+                    </tr>
+                    <tr>
+                        <td>postcode</td>
+                        <td><input type="text" name="postcode" value="${user.address.postcode}" /></td>
+                    </tr>
+                    <tr>
+                        <td>latitude</td>
+                        <td><input type="text" name="lattude" value="${user.address.latitude}" /></td>
+                    </tr>
+                    <tr>
+                        <td>longitude</td>
+                        <td><input type="text" name="longitude" value="${user.address.longitude}" /></td>
+                    </tr>                      <tr>
+                        <td>telephone</td>
+                        <td><input type="text" name="telephone" value="${user.address.telephone}" /></td>
+                    </tr>
+                    <tr>
+                        <td>mobile</td>
+                        <td><input type="text" name="mobile" value="${user.address.mobile}" /></td>
+                    </tr>
+                    <tr>
                         <td>Roles</td>
                         <td>|<c:forEach var="role" items="${user.roles}"> ${role.name} |</c:forEach></td>
                         </tr>
@@ -63,17 +102,17 @@
                                         <input type="checkbox" class="custom-control-input" 
                                                id="userEnabled" name="userEnabled" 
                                                value="true" <c:if test="${user.enabled}">checked</c:if> > 
-                                        <label class="custom-control-label" for="userEnabled">USER ENABLED</label>
+                                               <label class="custom-control-label" for="userEnabled">USER ENABLED</label>
                                         </div>
                                     </td>
                                 </tr>
-                        </tbody>
-                    </table>
-                    <p>Manage User Roles </p>
-                    <table class="table">
-                        <thead>
-                        </thead>
-                        <tbody>
+                            </tbody>
+                        </table>
+                        <p>Manage User Roles </p>
+                        <table class="table">
+                            <thead>
+                            </thead>
+                            <tbody>
                             <c:forEach var="entry" items="${selectedRolesMap}">
                                 <tr>
                                     <td>

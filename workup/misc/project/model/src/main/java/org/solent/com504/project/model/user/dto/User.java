@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.solent.com504.project.model.dto.Address;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -22,6 +23,7 @@ public class User {
     private String passwordConfirm;
     private String firstName;
     private String secondName;
+    private Address address = new Address(); // need not null initial value
     private Boolean enabled = true;
 
     @XmlElementWrapper(name = "roles")
@@ -97,12 +99,24 @@ public class User {
         this.enabled = enabled;
     }
 
+    @Embedded
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
+
     // Note Password and roles omitted from tostring
+
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", username=" + username 
                 + ", firstName=" + firstName + ", secondName=" 
-                + secondName + ", enabled=" + enabled + "PASSWORD ROLES omitted }";
+                + secondName + ", address=" + address 
+                + ", enabled=" + enabled + "PASSWORD ROLES omitted }";
     }
 
 }
