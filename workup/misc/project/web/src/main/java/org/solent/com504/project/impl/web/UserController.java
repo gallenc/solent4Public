@@ -130,7 +130,8 @@ public class UserController {
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "secondName", required = false) String secondName,
-            @RequestParam(value = "selectedRoles", required = false) List<String> selectedRolesIn
+            @RequestParam(value = "selectedRoles", required = false) List<String> selectedRolesIn,
+            @RequestParam(value = "userEnabled", required = false) String userEnabled  
     ) {
         LOG.debug("updateUser called for username=" + username);
         User user = userService.findByUsername(username);
@@ -140,6 +141,11 @@ public class UserController {
         }
         if (secondName != null) {
             user.setSecondName(secondName);
+        }
+        if (userEnabled != null){
+            user.setEnabled(Boolean.TRUE);
+        } else {
+            user.setEnabled(Boolean.FALSE);
         }
 
         user = userService.save(user);

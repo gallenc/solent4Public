@@ -46,17 +46,45 @@
                         <td>Roles</td>
                         <td>|<c:forEach var="role" items="${user.roles}"> ${role.name} |</c:forEach></td>
                         </tr>
-
                     </tbody>
 
                 </table>
                 <div>
                 <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
+                    <p>Manage User Status </p>
+                    <table class="table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <!-- user.isEnabled= ${user.enabled} -->
+                                        <input type="checkbox" class="custom-control-input" 
+                                               id="userEnabled" name="userEnabled" 
+                                               value="true" <c:if test="${user.enabled}">checked</c:if> > 
+                                        <label class="custom-control-label" for="userEnabled">USER ENABLED</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
                     <p>Manage User Roles </p>
                     <table class="table">
                         <thead>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <!-- user.isEnabled= ${user.enabled} -->
+                                        <input type="checkbox" class="custom-control-input" 
+                                               id="userEnabled" name="userEnabled" 
+                                               value="true" <c:if test="${user.enabled}">checked</c:if> > 
+                                        <label class="custom-control-label" for="userEnabled">USER ENABLED</label>
+                                        </div>
+                                    </td>
+                                </tr>
                             <c:forEach var="entry" items="${selectedRolesMap}">
                                 <tr>
                                     <td>

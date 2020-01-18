@@ -25,6 +25,7 @@
                     <th scope="col">Username</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Second Name</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Roles</th>
                     <th></th>
                 </tr>
@@ -36,6 +37,8 @@
                         <td>${user.username}</td>
                         <td>${user.firstName}</td>
                         <td>${user.secondName}</td>
+                        <!-- user.enabled=${user.enabled}-->
+                        <td><c:if test="${user.enabled}">ENABLED</c:if><c:if test="${!user.enabled}">DISABLED</c:if></td>
                         <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
                             <td>
                                 <form action="./viewModifyUser" method="get">

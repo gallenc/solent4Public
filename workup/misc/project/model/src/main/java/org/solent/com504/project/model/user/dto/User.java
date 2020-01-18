@@ -22,6 +22,7 @@ public class User {
     private String passwordConfirm;
     private String firstName;
     private String secondName;
+    private Boolean enabled = true;
 
     @XmlElementWrapper(name = "roles")
     @XmlElement(name = "role")
@@ -88,11 +89,20 @@ public class User {
         this.roles = roles;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     // Note Password and roles omitted from tostring
     @Override
     public String toString() {
-        return "User{" + "id=" + id
-                + ", username=" + username + ", firstName=" + firstName + ", secondName=" + secondName + "PASSWORD ROLES omitted }";
+        return "User{" + "id=" + id + ", username=" + username 
+                + ", firstName=" + firstName + ", secondName=" 
+                + secondName + ", enabled=" + enabled + "PASSWORD ROLES omitted }";
     }
 
 }
