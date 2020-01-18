@@ -10,45 +10,48 @@
 <%@page import="org.solent.com504.project.model.user.dto.UserRoles"%>
 <c:set var = "selectedPage" value = "admin" scope="request"/>
 <jsp:include page="header.jsp" />
-
 <!-- start of users.jsp selectedPage=${selectedPage}-->
-<div>
-    <h1>Manage Users</h1>
-    <p>showing ${userListSize} users: </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Username</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Second Name</th>
-                <th scope="col">Roles</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="user" items="${userList}">
+
+<!-- Begin page content -->
+<main role="main" class="container">
+
+    <div>
+        <h1>Manage Users</h1>
+        <p>showing ${userListSize} users: </p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>${user.id}</td>
-                    <td>${user.username}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.secondName}</td>
-                    <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
-                        <td>
-                            <form action="./viewModifyUser" method="get">
-                                <input type="hidden" name="username" value="${user.username}">
-                            <button type="submit" >Modify User</button>
-                        </form> 
-                    </td>
+                    <th scope="col">Id</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Second Name</th>
+                    <th scope="col">Roles</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
+            </thead>
+            <tbody>
+                <c:forEach var="user" items="${userList}">
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.firstName}</td>
+                        <td>${user.secondName}</td>
+                        <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
+                            <td>
+                                <form action="./viewModifyUser" method="get">
+                                    <input type="hidden" name="username" value="${user.username}">
+                                <button class="btn" type="submit" >Modify User</button>
+                            </form> 
+                        </td>
+                    </tr>
+                </c:forEach>
 
-        </tbody>
-    </table>
-    <form action="./registration">
-        <button  type="submit" >Add User</button>
-    </form> 
-</div>
-
+            </tbody>
+        </table>
+        <form action="./registration">
+            <button class="btn" type="submit" >Add User</button>
+        </form> 
+    </div>
+</main>
 
 <jsp:include page="footer.jsp" />

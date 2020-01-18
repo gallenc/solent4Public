@@ -9,6 +9,9 @@
 <!-- start of about.jsp selectedPage=${selectedPage}-->
 <jsp:include page="header.jsp" />
 
-<H1>About</H1>
+<!-- Begin page content -->
+<main role="main" class="container">
+    <H1>About</H1>
+</main>
 
 <jsp:include page="footer.jsp" />

@@ -9,6 +9,10 @@
 <!-- start of contact.jsp selectedPage=${selectedPage}-->
 <jsp:include page="header.jsp" />
 
-<H1>Contact</H1>
+<!-- Begin page content -->
+<main role="main" class="container">
+    <H1>Contact</H1>
+</main>
+
 
 <jsp:include page="footer.jsp" />

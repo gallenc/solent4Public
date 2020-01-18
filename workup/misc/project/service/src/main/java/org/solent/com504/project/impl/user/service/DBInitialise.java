@@ -50,6 +50,7 @@ public class DBInitialise {
 
         // add admin and simple user to database by default
         if (userRepository.findAll().isEmpty()) {
+            LOG.debug("new database initialising default globaladmin and basicuser");
             User adminUser = new User();
             adminUser.setFirstName("globaladmin");
             adminUser.setSecondName("globaladmin");

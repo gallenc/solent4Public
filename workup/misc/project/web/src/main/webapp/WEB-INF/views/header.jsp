@@ -33,7 +33,7 @@
 
     <body>
 
-        <div class="container">
+        <header>
 
             <!-- Static navbar -->
             <nav class="navbar navbar-default">
@@ -77,12 +77,13 @@
                                 <form id="profile" method="GET" action="${contextPath}/viewModifyUser">
                                     <input type="hidden" name="username" value="${pageContext.request.userPrincipal.name}"/>
                                 </form>
-                                Welcome ${pageContext.request.userPrincipal.name}<BR>
+                                <p class="text-muted"> Welcome ${pageContext.request.userPrincipal.name}&nbsp;&nbsp;
                                 <a onclick="document.forms['logoutForm'].submit()">Logout</a><BR>
-                                <a onclick="document.forms['profile'].submit()">User Profile</a>
+                                <a onclick="document.forms['profile'].submit()">User Profile</a></p>
                             </c:if>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </nav>
-            <!-- end of header.jsp -->
+        </header>
+        <!-- end of header.jsp -->
