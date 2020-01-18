@@ -74,17 +74,6 @@
                         <thead>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-switch">
-                                        <!-- user.isEnabled= ${user.enabled} -->
-                                        <input type="checkbox" class="custom-control-input" 
-                                               id="userEnabled" name="userEnabled" 
-                                               value="true" <c:if test="${user.enabled}">checked</c:if> > 
-                                        <label class="custom-control-label" for="userEnabled">USER ENABLED</label>
-                                        </div>
-                                    </td>
-                                </tr>
                             <c:forEach var="entry" items="${selectedRolesMap}">
                                 <tr>
                                     <td>

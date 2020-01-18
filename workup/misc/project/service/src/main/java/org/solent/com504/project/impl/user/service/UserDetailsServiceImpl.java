@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -24,10 +25,32 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         User user = userRepository.findByUsername(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
+        for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+        boolean enabled = true;
+        // set login enabled depending upon user enabled status
+        if (user.getEnabled() == null || !user.getEnabled()) {
+            enabled = false;
+        }
+
+        // User(java.lang.String username, java.lang.String password, 
+        // boolean enabled, 
+        // boolean accountNonExpired,
+        // boolean credentialsNonExpired,
+        // boolean accountNonLocked, 
+        // java.util.Collection<? extends GrantedAuthority> authorities)
+        org.springframework.security.core.userdetails.User userDetailsUser
+                = new org.springframework.security.core.userdetails.User(
+                        user.getUsername(),
+                        user.getPassword(),
+                        enabled,
+                        true,
+                        true,
+                        true,
+                        grantedAuthorities);
+
+        return userDetailsUser;
     }
 }
