@@ -48,11 +48,11 @@
                     </tr>
                     <tr>
                         <td>Address Line 1</td>
-                        <td><input type="text" name="number" value="${user.address.addressLine1}" /></td>
+                        <td><input type="text" name="addressLine1" value="${user.address.addressLine1}" /></td>
                     </tr>
                     <tr>
                         <td>Address Line 2</td>
-                        <td><input type="text" name="number" value="${user.address.addressLine2}" /></td>
+                        <td><input type="text" name="addressLine2" value="${user.address.addressLine2}" /></td>
                     </tr>
                     <tr>
                         <td>county</td>
@@ -68,7 +68,7 @@
                     </tr>
                     <tr>
                         <td>latitude</td>
-                        <td><input type="text" name="lattude" value="${user.address.latitude}" /></td>
+                        <td><input type="text" name="latitude" value="${user.address.latitude}" /></td>
                     </tr>
                     <tr>
                         <td>longitude</td>
