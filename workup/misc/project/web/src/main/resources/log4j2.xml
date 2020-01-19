@@ -63,7 +63,12 @@
             <AppenderRef ref="appLog"/>
         </Logger>
         
-
+                <!-- log swagger -->
+        <Logger name="io.swagger"  additivity="false" level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="appLog"/>
+        </Logger>
+        
         <!-- this logs to  the Consol (System.out) -->
         <Root level="DEBUG">
             <AppenderRef ref="Console"/>

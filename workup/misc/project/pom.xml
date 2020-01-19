@@ -21,6 +21,8 @@
         <spring-security.version>5.2.1.RELEASE</spring-security.version>
         <hibernate.version>5.2.17.Final</hibernate.version>
         <hsqldb.version>2.2.4</hsqldb.version>
+        <swagger.version>2.0.0</swagger.version>
+        <swagger-ui.version>3.24.3</swagger-ui.version>
         <maven.surefire.plugin.version>2.18</maven.surefire.plugin.version>
 
     </properties>
@@ -74,6 +76,12 @@
                 <artifactId>jersey-media-json-jackson</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-multipart</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            
             <!-- to allow jersey to be wired as a spring component --> 
             <!-- see https://medium.com/@shask9/developing-restful-web-services-using-jax-rs-jersey-and-spring-b4e1eb8e2467 -->        
             <dependency>
@@ -87,6 +95,41 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-jaxrs2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            
+            <!-- unpack into war -->
+            <!-- https://mvnrepository.com/artifact/org.webjars/swagger-ui -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>swagger-ui</artifactId>
+                <version>${swagger-ui.version}</version>
+            </dependency>
+            
+            <!--            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-jersey2-jaxrs</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.glassfish.jersey.containers</groupId>
+                        <artifactId>jersey-container-servlet-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.glassfish.jersey.media</groupId>
+                        <artifactId>jersey-media-multipart</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>-->
         
             <!-- logging dependencies -->
             
