@@ -5,7 +5,6 @@
  */
 package org.solent.com504.project.impl.dao.user.springdata.test;
 
-import org.solent.com504.project.model.dao.springdata.test.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;

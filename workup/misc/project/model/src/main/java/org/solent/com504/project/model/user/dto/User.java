@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.solent.com504.project.model.dto.Address;
+import org.solent.com504.project.model.party.dto.Address;
+import org.solent.com504.project.model.party.dto.Party;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -29,6 +30,10 @@ public class User {
     @XmlElementWrapper(name = "roles")
     @XmlElement(name = "role")
     private Set<Role> roles = new HashSet<Role>();
+
+    @XmlElementWrapper(name = "parties")
+    @XmlElement(name = "party")
+    private Set<Party> parties = new HashSet<Party>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -107,15 +112,23 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
-    
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_party", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "party_id"))
+    public Set<Party> getParties() {
+        return parties;
+    }
+
+    public void setParties(Set<Party> parties) {
+        this.parties = parties;
+    }
 
     // Note Password and roles omitted from tostring
-
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username=" + username 
-                + ", firstName=" + firstName + ", secondName=" 
-                + secondName + ", address=" + address 
+        return "User{" + "id=" + id + ", username=" + username
+                + ", firstName=" + firstName + ", secondName="
+                + secondName + ", address=" + address
                 + ", enabled=" + enabled + "PASSWORD ROLES omitted }";
     }
 

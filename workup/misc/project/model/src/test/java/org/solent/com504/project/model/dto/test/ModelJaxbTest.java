@@ -26,11 +26,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 
-import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.Address;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.Address;
 import org.solent.com504.project.model.dto.ReplyMessage;
-import org.solent.com504.project.model.dto.PartyRole;
-import org.solent.com504.project.model.dto.PartyStatus;
+import org.solent.com504.project.model.party.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.PartyStatus;
 import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.dto.UserRoles;
@@ -44,9 +44,12 @@ public class ModelJaxbTest {
     @Before
     public void setup() {
         // this contains a list of Jaxb annotated classes for the context to parse, seperated by :
-        // NOTE you must also have a jaxb.index or ObjectFpartyy in the same classpath
+        // NOTE you must also have a jaxb.index or jaxb ObjectFactory in the same classpath
         try {
-            jaxbContext = JAXBContext.newInstance("org.solent.com504.project.model.dto:org.solent.com504.project.model.user.dto");
+            jaxbContext = JAXBContext.newInstance(
+                    "org.solent.com504.project.model.dto"
+                    + ":org.solent.com504.project.model.user.dto"
+                    + ":org.solent.com504.project.model.party.dto");
         } catch (JAXBException e) {
             throw new RuntimeException("problem creating jaxb context", e);
         }
@@ -73,7 +76,7 @@ public class ModelJaxbTest {
             replyMessage.setPartyList(partyList);
             Party party = new Party();
             party.setPartyStatus(PartyStatus.ACTIVE);
-            party.setPartyRole(PartyRole.USER);
+            party.setPartyRole(PartyRole.UNDEFINED);
             Address address = new Address();
             address.setAddressLine1("home for me");
             party.setAddress(address);
@@ -121,7 +124,6 @@ public class ModelJaxbTest {
             user.setPasswordConfirm("password");
             Set<Role> roles = new HashSet(Arrays.asList(role1, role2));
             user.setRoles(roles);
-            
 
             // string writer is used to compare received object
             StringWriter sw1 = new StringWriter();

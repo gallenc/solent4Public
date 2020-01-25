@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.model.dao.springdata.test;
+package org.solent.com504.project.impl.dao.party.springdata.test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,12 +11,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Party;
+import org.solent.com504.project.model.party.dto.Party;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.solent.com504.project.model.dao.springdata.PartyRepository;
+import org.solent.com504.project.impl.dao.party.springdata.PartyRepository;
 
 /**
  *

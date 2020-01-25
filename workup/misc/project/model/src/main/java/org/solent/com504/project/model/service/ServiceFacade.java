@@ -1,8 +1,8 @@
 package org.solent.com504.project.model.service;
 
 import java.util.List;
-import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.PartyRole;
 
 public interface ServiceFacade {
 

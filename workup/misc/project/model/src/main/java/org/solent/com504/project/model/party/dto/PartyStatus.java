@@ -1,4 +1,4 @@
-package org.solent.com504.project.model.dto;
+package org.solent.com504.project.model.party.dto;
 
 public enum PartyStatus {
 

@@ -6,20 +6,24 @@
 package org.solent.com504.project.impl.dao.spring.test;
 
 import java.util.List;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.PartyRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.solent.com504.project.model.dao.PartyDAO;
-import org.solent.com504.project.model.dto.Address;
+import org.solent.com504.project.model.party.dao.PartyDAO;
+import org.solent.com504.project.model.party.dto.Address;
+import org.solent.com504.project.model.user.dao.RoleDAO;
+import org.solent.com504.project.model.user.dao.UserDAO;
+import org.solent.com504.project.model.user.dto.User;
 
 /**
  * NOTE tests cannot be @transactional if you are using the id of an entity which has not been saveAndFlush'ed this could be an eclipselink problem or a
@@ -36,9 +40,16 @@ public class PartyDAOTest {
     @Autowired
     private PartyDAO partyDao = null;
 
+    @Autowired
+    private UserDAO userDao = null;
+
+    @Autowired
+    private RoleDAO roleDao = null;
+
     @Before
     public void before() {
         assertNotNull(partyDao);
+        assertNotNull(userDao);
     }
 
     // initialises database for each test
@@ -46,28 +57,52 @@ public class PartyDAOTest {
         // delete all in database
 
         partyDao.deleteAll();
+        userDao.deleteAll();
 
-        // add 5 admin
         for (int i = 1; i < 6; i++) {
-            Party p = new Party();
+            User user = new User();
             Address a = new Address();
             a.setAddressLine1("address_A_" + i);
-            p.setAddress(a);
-            p.setFirstName("firstName_A_" + i);
-            p.setSecondName("secondName_A_" + i);
-            p.setPartyRole(PartyRole.GLOBALADMIN);
-            partyDao.save(p);
+            user.setAddress(a);
+            user.setUsername("username_A_" + i);
+            user.setFirstName("userfirstName_A_" + i);
+            user.setSecondName("usersecondName_A_" + i);
+            user = userDao.save(user);
+            LOG.debug("created test user:"+user);
         }
-        // add 5 anonymous
-        for (int i = 1; i < 7; i++) {
-            Party p = new Party();
+
+        List<User> users = userDao.findAll();
+        assertEquals(5, users.size());
+
+        // add 5 buyer
+        for (int i = 1; i < 6; i++) {
+            Party party = new Party();
+            Address a = new Address();
+            a.setAddressLine1("address_A_" + i);
+            party.setAddress(a);
+            party.setFirstName("partyfirstName_A_" + i);
+            party.setSecondName("partysecondName_A_" + i);
+            party.setPartyRole(PartyRole.BUYER);
+
+            party.getUsers().add(users.get(i-1));
+
+            party = partyDao.save(party);
+            LOG.debug("created test party:"+party);
+        }
+        // add 5 undefined
+        for (int i = 1; i < 6; i++) {
+            Party party = new Party();
             Address a = new Address();
             a.setAddressLine1("address_B_" + i);
-            p.setAddress(a);
-            p.setFirstName("firstName_B_" + i);
-            p.setSecondName("secondName_B_" + i);
-            p.setPartyRole(PartyRole.ANONYMOUS);
-            partyDao.save(p);
+            party.setAddress(a);
+            party.setFirstName("partyfirstName_B_" + i);
+            party.setSecondName("partysecondName_B_" + i);
+            party.setPartyRole(PartyRole.UNDEFINED);
+
+            party.getUsers().add(users.get(i-1));
+
+            party = partyDao.save(party);
+            LOG.debug("created test party:"+party);
         }
     }
 
@@ -108,8 +143,8 @@ public class PartyDAOTest {
         List<Party> partyList = partyDao.findAll();
         assertNotNull(partyList);
 
-        // init should insert 11 people
-        assertEquals(11, partyList.size());
+        // init should insert 10 people
+        assertEquals(10, partyList.size());
 
         // print out result
         String msg = "";
@@ -159,13 +194,13 @@ public class PartyDAOTest {
         partyList = partyDao.findAll();
         assertFalse(partyList.isEmpty());
 
-        partyList = partyDao.findByPartyRole(PartyRole.GLOBALADMIN);
+        partyList = partyDao.findByPartyRole(PartyRole.BUYER);
         assertNotNull(partyList);
         assertEquals(5, partyList.size());
 
-        partyList = partyDao.findByPartyRole(PartyRole.ANONYMOUS);
+        partyList = partyDao.findByPartyRole(PartyRole.UNDEFINED);
         assertNotNull(partyList);
-        assertEquals(6, partyList.size());
+        assertEquals(5, partyList.size());
 
         LOG.debug("end of findByIdTest()");
     }

@@ -11,7 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dao.PartyDAO;
+import org.solent.com504.project.model.party.dao.PartyDAO;
 import org.solent.com504.project.model.user.dao.RoleDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

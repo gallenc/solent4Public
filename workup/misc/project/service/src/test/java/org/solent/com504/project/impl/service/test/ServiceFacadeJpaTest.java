@@ -12,8 +12,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.PartyRole;
 import org.solent.com504.project.model.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -59,7 +59,7 @@ public class ServiceFacadeJpaTest {
         List<Party> partyList = serviceFacade.findByPartyRole(null);
         assertNotNull(partyList);
 
-        partyList = serviceFacade.findByPartyRole(PartyRole.ANONYMOUS);
+        partyList = serviceFacade.findByPartyRole(PartyRole.UNDEFINED);
         assertNotNull(partyList);
 
     }

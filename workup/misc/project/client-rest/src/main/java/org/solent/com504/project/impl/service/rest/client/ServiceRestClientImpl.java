@@ -21,9 +21,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
-import org.solent.com504.project.model.dto.Party;
+import org.solent.com504.project.model.party.dto.Party;
 import org.solent.com504.project.model.dto.ReplyMessage;
-import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.PartyRole;
 import org.solent.com504.project.model.service.ServiceFacade;
 
 /**

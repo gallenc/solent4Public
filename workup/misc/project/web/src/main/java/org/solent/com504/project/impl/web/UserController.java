@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
-import org.solent.com504.project.model.dto.Address;
+import org.solent.com504.project.model.party.dto.Address;
 import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.dto.UserRoles;

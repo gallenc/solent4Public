@@ -1,14 +1,20 @@
-package org.solent.com504.project.model.dto;
+package org.solent.com504.project.model.party.dto;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.solent.com504.project.model.user.dto.User;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -26,13 +32,15 @@ public class Party {
 
     private Address address = new Address(); // need not null initial value
 
-    private PartyStatus partystatus;
+    private PartyStatus partyStatus;
 
     private String uuid;
 
-    private String password;
+    private Boolean enabled = true;
 
-    private Party represents;
+    @XmlElementWrapper(name = "users")
+    @XmlElement(name = "user")
+    private Set<User> users = new HashSet();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,11 +86,11 @@ public class Party {
     }
 
     public PartyStatus getPartyStatus() {
-        return partystatus;
+        return partyStatus;
     }
 
     public void setPartyStatus(PartyStatus partystatus) {
-        this.partystatus = partystatus;
+        this.partyStatus = partystatus;
     }
 
     public String getUuid() {
@@ -93,28 +101,26 @@ public class Party {
         this.uuid = uuid;
     }
 
-    @OneToOne
-    public Party getRepresents() {
-        return represents;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setRepresents(Party represents) {
-        this.represents = represents;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public String getPassword() {
-        return password;
+    @ManyToMany(mappedBy = "parties")
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override
     public String toString() {
-        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", partyRole=" + partyRole + ", address=" + address + ", partystatus=" + partystatus + ", uuid=" + uuid + ", password=" + password + ", represents=" + represents + '}';
+        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", partyRole=" + partyRole + ", address=" + address + ", partyStatus=" + partyStatus + ", uuid=" + uuid + ", enabled=" + enabled + '}';
     }
-
-
 
 }

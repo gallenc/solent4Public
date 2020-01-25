@@ -1,8 +1,8 @@
-package org.solent.com504.project.model.dao;
+package org.solent.com504.project.model.party.dao;
 
 import java.util.List;
-import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.PartyRole;
 
 public interface PartyDAO {
 
@@ -14,7 +14,7 @@ public interface PartyDAO {
 
     public void deleteById(long id);
 
-    public Party delete(Party party);
+    public void delete(Party party);
 
     public void deleteAll();
 

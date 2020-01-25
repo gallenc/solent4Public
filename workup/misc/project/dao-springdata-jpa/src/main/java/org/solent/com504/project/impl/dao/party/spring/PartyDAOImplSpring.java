@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.impl.dao.spring;
+package org.solent.com504.project.impl.dao.party.spring;
 
 import java.util.List;
-import org.solent.com504.project.model.dto.Party;
-import org.solent.com504.project.model.dto.PartyRole;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.PartyRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.solent.com504.project.model.dao.PartyDAO;
-import org.solent.com504.project.model.dao.springdata.PartyRepository;
+import org.solent.com504.project.model.party.dao.PartyDAO;
+import org.solent.com504.project.impl.dao.party.springdata.PartyRepository;
 
 
 /**
@@ -22,47 +22,47 @@ import org.solent.com504.project.model.dao.springdata.PartyRepository;
 public class PartyDAOImplSpring implements PartyDAO {
     
     @Autowired
-    private PartyRepository partyDAOspring = null;
+    private PartyRepository partyRepository = null;
 
     @Override
     public Party findById(Long id) {
-        return partyDAOspring.getOne(id);
+        return partyRepository.getOne(id);
     }
 
     @Override
     public Party save(Party party) {
-        return partyDAOspring.save(party);
+        return partyRepository.save(party);
     }
 
     @Override
     public List<Party> findAll() {
-        return partyDAOspring.findAll();
+        return partyRepository.findAll();
     }
 
     @Override
     public void deleteById(long id) {
-        partyDAOspring.deleteById(id);
+        partyRepository.deleteById(id);
     }
 
     @Override
-    public Party delete(Party party) {
-        partyDAOspring.delete(party);
-        return null; // TODO SHOULD CHANGE INTERFACE TO RETURN NULL
+    public void delete(Party party) {
+        partyRepository.delete(party);
     }
 
     @Override
     public void deleteAll() {
-        partyDAOspring.deleteAll();
+        partyRepository.deleteAll();
     }
 
     @Override
     public List<Party> findByPartyRole(PartyRole partyRole) {
-        return partyDAOspring.findByPartyRole(partyRole);
+        return partyRepository.findByPartyRole(partyRole);
     }
 
     @Override
     public List<Party> findByName(String firstName, String secondName) {
-        return partyDAOspring.findByName(firstName, secondName);
+        return partyRepository.findByName(firstName, secondName);
     }
+    
     
 }
