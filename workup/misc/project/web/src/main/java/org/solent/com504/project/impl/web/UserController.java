@@ -1,14 +1,11 @@
 package org.solent.com504.project.impl.web;
 
-import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
@@ -53,6 +50,28 @@ public class UserController {
         model.addAttribute("userForm", new User());
 
         return "registration";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
+        userService.create(userForm);
+
+        // if not logged in then log in as new user
+        // if logged in, stay as present user (e.g. global admin)
+        if (!hasRole(UserRoles.ROLE_USER.name())) {
+            LOG.debug("creating new user and logging in : "+userForm);
+            securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
+        } else {
+            LOG.debug("creating new user : "+userForm);
+        }
+
+        return "redirect:/viewModifyUser?username=" + userForm.getUsername();
     }
 
     @RequestMapping(value = "/denied", method = {RequestMethod.GET, RequestMethod.POST})
@@ -108,15 +127,15 @@ public class UserController {
             @RequestParam(value = "username", required = true) String username, Authentication authentication) {
 
         // security check if user is allowed to access or modify this user
-        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())){
-            if(!username.equals(authentication.getName())) {
-            LOG.warn("security warning without permissions, modifyuser called for username=" + username);
-            return ("denied");
+        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
+            if (!username.equals(authentication.getName())) {
+                LOG.warn("security warning without permissions, modifyuser called for username=" + username);
+                return ("denied");
             }
         }
 
         User user = userService.findByUsername(username);
-        if(user==null){
+        if (user == null) {
             LOG.warn("security warning modifyuser called for unknown username=" + username);
             return ("denied");
         }
@@ -157,15 +176,15 @@ public class UserController {
         LOG.debug("updateUser called for username=" + username);
 
         // security check if user is allowed to access or modify this user
-        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())){
-            if(!username.equals(authentication.getName())) {
-            LOG.warn("security warning without permissions, updateUser called for username=" + username);
-            return ("denied");
+        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
+            if (!username.equals(authentication.getName())) {
+                LOG.warn("security warning without permissions, updateUser called for username=" + username);
+                return ("denied");
             }
         }
-        
+
         User user = userService.findByUsername(username);
-        if(user==null){
+        if (user == null) {
             LOG.warn("security warning updateUser called for unknown username=" + username);
             return ("denied");
         }
