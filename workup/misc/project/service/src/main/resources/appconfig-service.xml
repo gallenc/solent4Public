@@ -25,7 +25,8 @@
 
     <!-- Scans for components that will be auto-registered as Spring beans -->
     <context:component-scan base-package="org.solent.com504.project.impl.service,
-                org.solent.com504.project.impl.user.service" />
+                org.solent.com504.project.impl.user.service,
+                org.solent.com504.project.impl.party.service" />
 
 </beans>
 

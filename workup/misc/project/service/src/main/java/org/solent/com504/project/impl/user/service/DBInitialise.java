@@ -6,10 +6,13 @@
 package org.solent.com504.project.impl.user.service;
 
 import java.util.HashSet;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.solent.com504.project.impl.dao.party.springdata.PartyRepository;
 import org.solent.com504.project.impl.dao.user.springdata.RoleRepository;
 import org.solent.com504.project.impl.dao.user.springdata.UserRepository;
+import org.solent.com504.project.model.party.dto.Party;
 import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.dto.UserRoles;
@@ -30,6 +33,9 @@ public class DBInitialise {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PartyRepository partyRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -74,8 +80,28 @@ public class DBInitialise {
 
             basicUser.setRoles(roles);
             userRepository.saveAndFlush(basicUser);
+
+        }
+
+        // create a first basic Party
+        if (partyRepository.findAll().isEmpty()) {
+            LOG.debug("new database initialising first party owned by basic user");
+
+            Party party = new Party();
+            party.setFirstName("default_party");
+            party.setSecondName("default_party");
+            party = partyRepository.saveAndFlush(party);
+
+            User user = userRepository.findByUsername("basicuser");
+            LOG.debug("adding to party user:" + user);
+            Set<User> users = new HashSet();
+            users.add(user);
+            party.setUsers(users);
+
+            party = partyRepository.saveAndFlush(party);
+            LOG.debug("added party to database:" + party);
+
         }
 
     }
-
 }

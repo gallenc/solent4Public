@@ -1,9 +1,11 @@
 package org.solent.com504.project.model.party.dto;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,13 +30,14 @@ public class Party {
 
     private String secondName;
 
-    private PartyRole partyRole;
+    private PartyRole partyRole = PartyRole.UNDEFINED;
 
     private Address address = new Address(); // need not null initial value
 
-    private PartyStatus partyStatus;
+    private PartyStatus partyStatus = PartyStatus.ACTIVE;
 
-    private String uuid;
+    // unique UUID created for every Party
+    private String uuid = Long.toHexString(new Date().getTime()) ;
 
     private Boolean enabled = true;
 
@@ -109,7 +112,7 @@ public class Party {
         this.enabled = enabled;
     }
 
-    @ManyToMany(mappedBy = "parties")
+    @ManyToMany(mappedBy = "parties", fetch = FetchType.EAGER)
     public Set<User> getUsers() {
         return users;
     }

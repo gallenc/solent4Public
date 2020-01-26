@@ -11,14 +11,16 @@ import org.solent.com504.project.model.party.dto.Party;
 import org.solent.com504.project.model.party.dto.PartyRole;
 import org.solent.com504.project.model.party.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author cgallen
  */
+@Service
 public class PartyServiceImpl implements PartyService {
-    
-      @Autowired
+
+    @Autowired
     private PartyDAO partyDao;
 
     @Override
@@ -60,5 +62,5 @@ public class PartyServiceImpl implements PartyService {
     public List<Party> findByName(String firstName, String secondName) {
         return partyDao.findByName(firstName, secondName);
     }
-    
+
 }

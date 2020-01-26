@@ -64,6 +64,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admin <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="${contextPath}/users">Manage Users</a></li>
+                                        <li><a href="${contextPath}/partys">Manage Partys</a></li>
                                     </ul>
                                 </li>
                             </sec:authorize>

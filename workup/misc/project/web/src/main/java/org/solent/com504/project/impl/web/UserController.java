@@ -10,6 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
 import org.solent.com504.project.model.party.dto.Address;
+import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.service.PartyService;
 import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
 import org.solent.com504.project.model.user.dto.UserRoles;
@@ -40,6 +42,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private PartyService partyService;
+
+    @Autowired
     private SecurityService securityService;
 
     @Autowired
@@ -62,13 +67,13 @@ public class UserController {
 
         userService.create(userForm);
 
-        // if not logged in then log in as new user
-        // if logged in, stay as present user (e.g. global admin)
+        // if not logged in then log in as new party
+        // if logged in, stay as present party (e.g. global admin)
         if (!hasRole(UserRoles.ROLE_USER.name())) {
-            LOG.debug("creating new user and logging in : "+userForm);
+            LOG.debug("creating new user and logging in : " + userForm);
             securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
         } else {
-            LOG.debug("creating new user : "+userForm);
+            LOG.debug("creating new user : " + userForm);
         }
 
         return "redirect:/viewModifyUser?username=" + userForm.getUsername();
@@ -126,7 +131,7 @@ public class UserController {
     public String modifyuser(Model model,
             @RequestParam(value = "username", required = true) String username, Authentication authentication) {
 
-        // security check if user is allowed to access or modify this user
+        // security check if party is allowed to access or modify this party
         if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
             if (!username.equals(authentication.getName())) {
                 LOG.warn("security warning without permissions, modifyuser called for username=" + username);
@@ -175,7 +180,7 @@ public class UserController {
     ) {
         LOG.debug("updateUser called for username=" + username);
 
-        // security check if user is allowed to access or modify this user
+        // security check if party is allowed to access or modify this party
         if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
             if (!username.equals(authentication.getName())) {
                 LOG.warn("security warning without permissions, updateUser called for username=" + username);
@@ -270,7 +275,7 @@ public class UserController {
     }
 
     /**
-     * returns true if the user has the role specified
+     * returns true if the party has the role specified
      *
      * @param role
      * @return
@@ -286,6 +291,24 @@ public class UserController {
             }
         }
         return hasRole;
+    }
+
+    
+   // PARTY MANAGEMENT
+    
+    @RequestMapping(value = {"/partys"}, method = RequestMethod.GET)
+    public String partys(Model model) {
+        List<Party> partyList = partyService.findAll();
+
+        LOG.debug("partys called:");
+        for (Party party : partyList) {
+            LOG.debug(" party:" + party+" users.size="+party.getUsers().size());
+        }
+
+        model.addAttribute("partyListSize", partyList.size());
+        model.addAttribute("partyList", partyList);
+
+        return "partys";
     }
 
 }
