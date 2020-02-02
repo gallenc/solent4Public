@@ -5,6 +5,7 @@
  */
 package org.solent.com504.project.impl.dao.spring.test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ import org.solent.com504.project.model.user.dto.User;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring.xml"})
+@Transactional
 public class PartyDAOTest {
 
     final static Logger LOG = LogManager.getLogger(PartyDAOTest.class);
@@ -84,7 +86,9 @@ public class PartyDAOTest {
             party.setSecondName("partysecondName_A_" + i);
             party.setPartyRole(PartyRole.BUYER);
 
-            party.getUsers().add(users.get(i-1));
+            Set<User> userset = new HashSet();
+            userset.add(users.get(i-1));
+            party.setUsers(userset);
 
             party = partyDao.save(party);
             LOG.debug("created test party:"+party);
@@ -99,7 +103,9 @@ public class PartyDAOTest {
             party.setSecondName("partysecondName_B_" + i);
             party.setPartyRole(PartyRole.UNDEFINED);
 
-            party.getUsers().add(users.get(i-1));
+            Set<User> userset = new HashSet();
+            userset.add(users.get(i-1));
+            party.setUsers(userset);
 
             party = partyDao.save(party);
             LOG.debug("created test party:"+party);

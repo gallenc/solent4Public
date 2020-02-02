@@ -12,12 +12,14 @@ import org.solent.com504.project.model.party.dto.PartyRole;
 import org.solent.com504.project.model.party.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author cgallen
  */
 @Service
+@Transactional
 public class PartyServiceImpl implements PartyService {
 
     @Autowired

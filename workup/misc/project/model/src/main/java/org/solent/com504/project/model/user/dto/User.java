@@ -113,7 +113,7 @@ public class User {
         this.address = address;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,  cascade={CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinTable(name = "user_party", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "party_id"))
     public Set<Party> getParties() {
         return parties;

@@ -3,6 +3,7 @@ package org.solent.com504.project.model.party.dto;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +44,7 @@ public class Party {
 
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")
-    private Set<User> users = new HashSet();
+    private Set<User> users;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -112,7 +113,8 @@ public class Party {
         this.enabled = enabled;
     }
 
-    @ManyToMany(mappedBy = "parties", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "parties", fetch = FetchType.LAZY,
+            cascade={CascadeType.PERSIST, CascadeType.MERGE} )
     public Set<User> getUsers() {
         return users;
     }

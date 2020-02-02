@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -297,18 +298,25 @@ public class UserController {
    // PARTY MANAGEMENT
     
     @RequestMapping(value = {"/partys"}, method = RequestMethod.GET)
+    @Transactional
     public String partys(Model model) {
+        
+        LOG.debug("partys called:");
         List<Party> partyList = partyService.findAll();
 
-        LOG.debug("partys called:");
         for (Party party : partyList) {
-            LOG.debug(" party:" + party+" users.size="+party.getUsers().size());
+            LOG.debug(" party:" + party+" users.size="
+                    +((party.getUsers()==null)? "null" : party.getUsers().size()));
         }
 
         model.addAttribute("partyListSize", partyList.size());
         model.addAttribute("partyList", partyList);
 
         return "partys";
+    }
+    
+    public void clearinitdb(){
+        
     }
 
 }

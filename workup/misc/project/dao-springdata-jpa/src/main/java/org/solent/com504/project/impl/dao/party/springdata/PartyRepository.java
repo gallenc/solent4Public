@@ -21,10 +21,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PartyRepository extends JpaRepository<Party, Long> {
     
-    @Query("select p from Party p where p.partyRole = :partyRole")
+    @Query("select p from Party p LEFT JOIN FETCH p.users where p.partyRole = :partyRole")
     public List<Party> findByPartyRole(@Param("partyRole") PartyRole partyRole);
 
-    @Query("select p from Party p where p.firstName = :firstName and p.secondName = :secondName")
+    @Query("select p from Party p LEFT JOIN FETCH p.users where p.firstName = :firstName and p.secondName = :secondName")
     public List<Party> findByName(@Param("firstName") String firstName, @Param("secondName") String secondName);
-
+    
+    @Query("select p from Party p LEFT JOIN FETCH p.users")
+    public List<Party> findAll();
+    
 }

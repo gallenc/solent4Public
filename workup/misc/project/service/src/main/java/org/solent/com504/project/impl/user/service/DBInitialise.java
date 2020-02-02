@@ -29,10 +29,10 @@ public class DBInitialise {
     final static Logger LOG = LogManager.getLogger(DBInitialise.class);
 
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private PartyRepository partyRepository;
