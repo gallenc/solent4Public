@@ -11,7 +11,7 @@
            http://www.springframework.org/schema/mvc
            http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	   http://www.springframework.org/schema/security
-	   http://www.springframework.org/schema/security/spring-security.xsd">
+	   https://www.springframework.org/schema/security/spring-security.xsd">
     
     <!-- this allows the dispatcher to handle other content -->
     <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />

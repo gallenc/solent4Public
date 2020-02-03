@@ -16,13 +16,11 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security.xsd">
+	https://www.springframework.org/schema/security/spring-security.xsd">
 
 
     <!--spring security-->  
-    <!--initialise db add role types--> 
-    <bean id="dBInitialise " class="org.solent.com504.project.impl.user.service.DBInitialise " init-method="init" />
-    
+   
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="userDetailsServiceImpl">
             <security:password-encoder ref="encoder"></security:password-encoder>
