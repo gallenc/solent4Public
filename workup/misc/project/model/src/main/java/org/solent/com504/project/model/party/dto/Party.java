@@ -2,6 +2,7 @@ package org.solent.com504.project.model.party.dto;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -10,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,13 +41,13 @@ public class Party {
     private PartyStatus partyStatus = PartyStatus.ACTIVE;
 
     // unique UUID created for every Party
-    private String uuid = Long.toHexString(new Date().getTime()) ;
+    private String uuid = Long.toHexString(new Date().getTime());
 
     private Boolean enabled = true;
 
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")
-    private Set<User> users;
+    private Set<User> users = new HashSet();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,8 +116,10 @@ public class Party {
         this.enabled = enabled;
     }
 
-    @ManyToMany(mappedBy = "parties", fetch = FetchType.LAZY,
-            cascade={CascadeType.PERSIST, CascadeType.MERGE} )
+    // party owns relationship
+    // see https://vladmihalcea.com/the-best-way-to-use-the-manytomany-annotation-with-jpa-and-hibernate/
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_party", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "party_id"))
     public Set<User> getUsers() {
         return users;
     }
@@ -123,9 +128,48 @@ public class Party {
         this.users = users;
     }
 
+    // note ad remove depend upon identity
+    public void addUser(User user){
+        this.users.add(user);
+        user.getParties().add(this);
+    }
+    
+    public void removeUser(User user){
+        this.users.remove(user);
+        user.getParties().remove(this);
+    }
+
     @Override
     public String toString() {
         return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", partyRole=" + partyRole + ", address=" + address + ", partyStatus=" + partyStatus + ", uuid=" + uuid + ", enabled=" + enabled + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.uuid);
+        return hash;
+    }
+
+    // uuid is unique for identity
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Party other = (Party) obj;
+        if (!Objects.equals(this.uuid, other.uuid)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

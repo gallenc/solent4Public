@@ -1,6 +1,7 @@
 package org.solent.com504.project.model.user.dto;
 
 import java.util.HashSet;
+import java.util.Objects;
 import javax.persistence.*;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -113,8 +114,10 @@ public class User {
         this.address = address;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER,  cascade={CascadeType.PERSIST, CascadeType.MERGE} )
-    @JoinTable(name = "user_party", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "party_id"))
+    // parties owns the relationship
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+//   @ManyToMany(fetch = FetchType.EAGER,  cascade={CascadeType.PERSIST, CascadeType.MERGE} )
+//    @JoinTable(name = "user_party", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "party_id"))
     public Set<Party> getParties() {
         return parties;
     }
@@ -131,5 +134,33 @@ public class User {
                 + secondName + ", address=" + address
                 + ", enabled=" + enabled + "PASSWORD ROLES omitted }";
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.username);
+        return hash;
+    }
+
+    // username is unique for identity
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }
