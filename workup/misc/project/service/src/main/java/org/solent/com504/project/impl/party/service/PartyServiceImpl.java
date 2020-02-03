@@ -65,4 +65,9 @@ public class PartyServiceImpl implements PartyService {
         return partyDao.findByName(firstName, secondName);
     }
 
+    @Override
+    public Party findByUuid(String uuid) {
+         return partyDao.findByUuid(uuid);
+    }
+
 }

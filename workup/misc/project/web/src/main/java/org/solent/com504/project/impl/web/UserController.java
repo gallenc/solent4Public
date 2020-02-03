@@ -2,6 +2,7 @@ package org.solent.com504.project.impl.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -294,19 +295,17 @@ public class UserController {
         return hasRole;
     }
 
-    
-   // PARTY MANAGEMENT
-    
+    // PARTY MANAGEMENT
     @RequestMapping(value = {"/partys"}, method = RequestMethod.GET)
     @Transactional
     public String partys(Model model) {
-        
+
         LOG.debug("partys called:");
         List<Party> partyList = partyService.findAll();
 
         for (Party party : partyList) {
-            LOG.debug(" party:" + party+" users.size="
-                    +((party.getUsers()==null)? "null" : party.getUsers().size()));
+            LOG.debug(" party:" + party + " users.size="
+                    + ((party.getUsers() == null) ? "null" : party.getUsers().size()));
         }
 
         model.addAttribute("partyListSize", partyList.size());
@@ -314,9 +313,123 @@ public class UserController {
 
         return "partys";
     }
-    
-    public void clearinitdb(){
-        
+
+    @RequestMapping(value = {"/viewModifyParty"}, method = RequestMethod.GET)
+    public String reviewParty(Model model,
+            @RequestParam(value = "partyuuid", required = true) String uuid, Authentication authentication) {
+
+        LOG.debug("viewModifyParty called for uuid=" + uuid);
+
+        // security check if party is allowed to access or modify this party
+//        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
+//            if (!uuid.equals(authentication.getName())) {
+//                LOG.warn("security warning without permissions, modifyuser called for uuid=" + uuid);
+//                return ("denied");
+//            }
+//        }
+
+        Party party = partyService.findByUuid(uuid);
+        if (party == null) {
+            LOG.warn("security warning modifyparty called for unknown uuid=" + uuid);
+            return ("denied");
+        }
+
+        LOG.debug("viewUser called for uuid=" + uuid + " party=" + party);
+        model.addAttribute("party", party);
+
+        Map<String, String> selectedRolesMap = new HashMap(); // = selectedRolesMap(party);
+        //for (Entry entry : selectedRolesMap.entrySet()) {
+        //   LOG.debug(uuid + " role:" + entry.getKey() + " selected:" + entry.getValue());
+        // }
+        model.addAttribute("selectedRolesMap", selectedRolesMap);
+        return "viewModifyParty";
+    }
+
+    @RequestMapping(value = {"/viewModifyParty"}, method = RequestMethod.POST)
+    public String updateParty(Model model,
+            @RequestParam(value = "username", required = true) String partyuuid,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "secondName", required = false) String secondName,
+            @RequestParam(value = "selectedRoles", required = false) List<String> selectedRolesIn,
+            @RequestParam(value = "userEnabled", required = false) String userEnabled,
+            @RequestParam(value = "number", required = false) String number,
+            @RequestParam(value = "addressLine1", required = false) String addressLine1,
+            @RequestParam(value = "addressLine2", required = false) String addressLine2,
+            @RequestParam(value = "county", required = false) String county,
+            @RequestParam(value = "country", required = false) String country,
+            @RequestParam(value = "postcode", required = false) String postcode,
+            @RequestParam(value = "latitude", required = false) String latitude,
+            @RequestParam(value = "longitude", required = false) String longitude,
+            @RequestParam(value = "telephone", required = false) String telephone,
+            @RequestParam(value = "mobile", required = false) String mobile,
+            Authentication authentication
+    ) {
+        LOG.debug("updateUser called for username=" + partyuuid);
+
+        // security check if party is allowed to access or modify this party
+        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
+            if (!partyuuid.equals(authentication.getName())) {
+                LOG.warn("security warning without permissions, updateUser called for username=" + partyuuid);
+                return ("denied");
+            }
+        }
+
+        User user = userService.findByUsername(partyuuid);
+        if (user == null) {
+            LOG.warn("security warning updateUser called for unknown username=" + partyuuid);
+            return ("denied");
+        }
+
+        String errorMessage = "";
+
+        if (firstName != null) {
+            user.setFirstName(firstName);
+        }
+        if (secondName != null) {
+            user.setSecondName(secondName);
+        }
+        if (userEnabled != null) {
+            user.setEnabled(Boolean.TRUE);
+        } else {
+            user.setEnabled(Boolean.FALSE);
+        }
+
+        Address address = new Address();
+        address.setNumber(number);
+        address.setAddressLine1(addressLine1);
+        address.setAddressLine2(addressLine2);
+        address.setCountry(country);
+        address.setCounty(county);
+        address.setPostcode(postcode);
+        address.setMobile(mobile);
+        address.setTelephone(telephone);
+        try {
+            address.setLatitude(Double.parseDouble(latitude));
+            address.setLongitude(Double.parseDouble(longitude));
+        } catch (Exception ex) {
+            errorMessage = "problem parsing latitude=" + latitude
+                    + " or longitude=" + longitude;
+        }
+        user.setAddress(address);
+
+        user = userService.save(user);
+
+        // update roles if roles in list
+        if (selectedRolesIn != null) {
+            user = userService.updateUserRoles(partyuuid, selectedRolesIn);
+        }
+
+        Map<String, String> selectedRolesMap = selectedRolesMap(user);
+
+        model.addAttribute("user", user);
+
+        model.addAttribute("selectedRolesMap", selectedRolesMap);
+
+        // add message if there are any 
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("message", "User " + user.getUsername() + " updated successfully");
+
+        return "viewModifyParty";
     }
 
 }

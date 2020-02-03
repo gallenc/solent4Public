@@ -63,6 +63,12 @@ public class PartyDAOImplSpring implements PartyDAO {
     public List<Party> findByName(String firstName, String secondName) {
         return partyRepository.findByName(firstName, secondName);
     }
+
+    @Override
+    public Party findByUuid(String uuid) {
+        return new Party();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

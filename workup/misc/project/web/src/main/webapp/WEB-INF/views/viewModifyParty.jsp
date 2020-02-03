@@ -8,7 +8,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="org.solent.com504.project.model.user.dto.User"%>
 <%@page import="org.solent.com504.project.model.user.dto.UserRoles"%>
-<c:set var = "selectedPage" value = "users" scope="request"/>
+<c:set var = "selectedPage" value = "partys" scope="request"/>
 <jsp:include page="header.jsp" />
 
 <!-- Begin page content -->
@@ -28,62 +28,62 @@
                 <tbody>
                     <tr>
                         <td>User ID</td>
-                        <td>${user.id}</td>
+                        <td>${party.id}</td>
                     </tr>
                     <tr>
-                        <td>username</td>
-                        <td>${user.username}</td>
+                        <td>uuid</td>
+                        <td>${party.uuid}</td>
                     </tr>
                     <tr>
                         <td>First Name</td>
-                        <td><input type="text" name="firstName" value="${user.firstName}" /></td>
+                        <td><input type="text" name="firstName" value="${party.firstName}" /></td>
                     </tr>
                     <tr>
                         <td>Second Name</td>
-                        <td><input type="text" name="secondName" value="${user.secondName}" /></td>
+                        <td><input type="text" name="secondName" value="${party.secondName}" /></td>
                     </tr>
                     <tr>
                         <td>House Number</td>
-                        <td><input type="text" name="number" value="${user.address.number}" /></td>
+                        <td><input type="text" name="number" value="${party.address.number}" /></td>
                     </tr>
                     <tr>
                         <td>Address Line 1</td>
-                        <td><input type="text" name="addressLine1" value="${user.address.addressLine1}" /></td>
+                        <td><input type="text" name="addressLine1" value="${party.address.addressLine1}" /></td>
                     </tr>
                     <tr>
                         <td>Address Line 2</td>
-                        <td><input type="text" name="addressLine2" value="${user.address.addressLine2}" /></td>
+                        <td><input type="text" name="addressLine2" value="${party.address.addressLine2}" /></td>
                     </tr>
                     <tr>
                         <td>county</td>
-                        <td><input type="text" name="county" value="${user.address.county}" /></td>
+                        <td><input type="text" name="county" value="${party.address.county}" /></td>
                     </tr>
                     <tr>
                         <td>country</td>
-                        <td><input type="text" name="country" value="${user.address.country}" /></td>
+                        <td><input type="text" name="country" value="${party.address.country}" /></td>
                     </tr>
                     <tr>
                         <td>postcode</td>
-                        <td><input type="text" name="postcode" value="${user.address.postcode}" /></td>
+                        <td><input type="text" name="postcode" value="${party.address.postcode}" /></td>
                     </tr>
                     <tr>
                         <td>latitude</td>
-                        <td><input type="text" name="latitude" value="${user.address.latitude}" /></td>
+                        <td><input type="text" name="latitude" value="${party.address.latitude}" /></td>
                     </tr>
                     <tr>
                         <td>longitude</td>
-                        <td><input type="text" name="longitude" value="${user.address.longitude}" /></td>
+                        <td><input type="text" name="longitude" value="${party.address.longitude}" /></td>
                     </tr>                      <tr>
                         <td>telephone</td>
-                        <td><input type="text" name="telephone" value="${user.address.telephone}" /></td>
+                        <td><input type="text" name="telephone" value="${party.address.telephone}" /></td>
                     </tr>
                     <tr>
                         <td>mobile</td>
-                        <td><input type="text" name="mobile" value="${user.address.mobile}" /></td>
+                        <td><input type="text" name="mobile" value="${party.address.mobile}" /></td>
                     </tr>
                     <tr>
                         <td>Roles</td>
-                        <td>|<c:forEach var="role" items="${user.roles}"> ${role.name} |</c:forEach></td>
+                        <td>|<c:forEach var="role" items="${party.roles}"> ${role.name} |</c:forEach></td>
                         </tr>
                     </tbody>
 
@@ -98,11 +98,11 @@
                             <tr>
                                 <td>
                                     <div class="custom-control custom-switch">
-                                        <!-- user.isEnabled= ${user.enabled} -->
+                                        <!-- party.isEnabled= ${party.enabled} -->
                                         <input type="checkbox" class="custom-control-input" 
-                                               id="userEnabled" name="userEnabled" 
-                                               value="true" <c:if test="${user.enabled}">checked</c:if> > 
-                                               <label class="custom-control-label" for="userEnabled">USER ENABLED</label>
+                                               id="partyEnabled" name="partyEnabled" 
+                                               value="true" <c:if test="${party.enabled}">checked</c:if> > 
+                                               <label class="custom-control-label" for="partyEnabled">USER ENABLED</label>
                                         </div>
                                     </td>
                                 </tr>
@@ -128,14 +128,14 @@
                     </table>
                 </sec:authorize>  
             </div>
-            <input type="hidden" name="username" value="${user.username}"/>
+            <input type="hidden" name="uuid" value="${party.uuid}"/>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn" type="submit" >Update ${user.username}</button>
+            <button class="btn" type="submit" >Update ${party.uuid}</button>
         </form>
         <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
             <BR>
-            <form action="./users">
-                <button class="btn" type="submit" >Return To Users</button>
+            <form action="./partys">
+                <button class="btn" type="submit" >Return To Partys</button>
             </form> 
         </sec:authorize> 
 
