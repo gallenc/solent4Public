@@ -39,7 +39,7 @@
                         <td>${party.uuid}</td>
                         <td>${party.firstName}</td>
                         <td>${party.secondName}</td>
-                        <td>${party.role}</td>
+                        <td>${party.partyRole}</td>
                         <!-- party.enabled=${party.enabled}-->
                         <td><c:if test="${party.enabled}">ENABLED</c:if><c:if test="${!party.enabled}">DISABLED</c:if></td>
                         <td><c:forEach var="user" items="${party.users}"> | ${user.username} |<br></c:forEach></td>

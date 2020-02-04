@@ -1,6 +1,7 @@
 package org.solent.com504.project.impl.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.validator.UserValidator;
 import org.solent.com504.project.model.party.dto.Address;
 import org.solent.com504.project.model.party.dto.Party;
+import org.solent.com504.project.model.party.dto.PartyRole;
 import org.solent.com504.project.model.party.service.PartyService;
 import org.solent.com504.project.model.user.dto.Role;
 import org.solent.com504.project.model.user.dto.User;
@@ -316,9 +318,20 @@ public class UserController {
 
     @RequestMapping(value = {"/viewModifyParty"}, method = RequestMethod.GET)
     public String reviewParty(Model model,
-            @RequestParam(value = "partyuuid", required = true) String uuid, Authentication authentication) {
+            @RequestParam(value = "partyuuid") String uuid, Authentication authentication) {
 
-        LOG.debug("viewModifyParty called for uuid=" + uuid);
+        Party party = null;
+        if (uuid == null || uuid.isEmpty()) {
+            party = new Party();
+            LOG.debug("viewModifyParty get called to create Party uuid=" + party.getUuid());
+        } else {
+            LOG.debug("viewModifyParty called for uuid=" + uuid);
+            party = partyService.findByUuid(uuid);
+            if (party == null) {
+                LOG.warn("security warning modifyparty called for unknown uuid=" + uuid);
+                return ("denied");
+            }
+        }
 
         // security check if party is allowed to access or modify this party
 //        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
@@ -327,15 +340,16 @@ public class UserController {
 //                return ("denied");
 //            }
 //        }
-
-        Party party = partyService.findByUuid(uuid);
-        if (party == null) {
-            LOG.warn("security warning modifyparty called for unknown uuid=" + uuid);
-            return ("denied");
-        }
-
         LOG.debug("viewUser called for uuid=" + uuid + " party=" + party);
         model.addAttribute("party", party);
+
+        // find selected party role
+        List<PartyRole> availablePartyRoles = partyService.getAvailablePartyRoles();
+        Map<String, String> availablePartyRolesMap = new LinkedHashMap();
+        for (PartyRole prole : availablePartyRoles) {
+            availablePartyRolesMap.put(prole.name(), ((prole.equals(party.getPartyRole()) ? "selected" : "")));
+        }
+        model.addAttribute("availablePartyRolesMap", availablePartyRolesMap);
 
         Map<String, String> selectedRolesMap = new HashMap(); // = selectedRolesMap(party);
         //for (Entry entry : selectedRolesMap.entrySet()) {

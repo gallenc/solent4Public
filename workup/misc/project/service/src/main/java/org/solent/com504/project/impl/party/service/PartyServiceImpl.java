@@ -5,6 +5,7 @@
  */
 package org.solent.com504.project.impl.party.service;
 
+import java.util.Arrays;
 import java.util.List;
 import org.solent.com504.project.model.party.dao.PartyDAO;
 import org.solent.com504.project.model.party.dto.Party;
@@ -68,6 +69,11 @@ public class PartyServiceImpl implements PartyService {
     @Override
     public Party findByUuid(String uuid) {
          return partyDao.findByUuid(uuid);
+    }
+
+    @Override
+    public List<PartyRole> getAvailablePartyRoles() {
+        return Arrays.asList(PartyRole.values());
     }
 
 }

@@ -21,6 +21,11 @@
         <div style="color:green;">${message}</div>
 
         <form action="./viewModifyUser" method="post">
+            <div>
+                <input type="hidden" name="uuid" value="${party.uuid}"/>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button class="btn" type="submit" >Update ${party.uuid}</button>
+            </div>
             <table class="table">
                 <thead>
                 </thead>
@@ -33,6 +38,16 @@
                     <tr>
                         <td>uuid</td>
                         <td>${party.uuid}</td>
+                    </tr>
+                    <tr>
+                        <td>Party Role</td>
+                        <td>
+                            <select name="partyRole">
+                                <c:forEach var="entry" items="${availablePartyRolesMap}">
+                                    <option value="${entry.key}" ${entry.value} >${entry.key}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>First Name</td>
@@ -83,63 +98,72 @@
                     </tr>
                     <tr>
                         <td>Users</td>
-                        <td>|<c:forEach var="user" items="${party.users}"> ${user.username} |</c:forEach></td>
+                        <td><c:forEach var="user" items="${party.users}">| ${user.username} |</c:forEach></td>
                         </tr>
                     </tbody>
 
                 </table>
-                <div>
-                <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
-                    <p>Manage User Status </p>
+
+            </form>
+            <div>
+            <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
+                <p>Manage Party Status </p>
+                <table class="table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    <!-- party.isEnabled= ${party.enabled} -->
+                                    <input type="checkbox" class="custom-control-input" 
+                                           id="partyEnabled" name="partyEnabled" 
+                                           value="true" <c:if test="${party.enabled}">checked</c:if> > 
+                                           <label class="custom-control-label" for="partyEnabled">PARTY ENABLED</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Manage Users Associated with Party </p>
                     <table class="table">
                         <thead>
                         </thead>
                         <tbody>
+                        <c:forEach var="user" items="${party.users}">
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-switch">
-                                        <!-- party.isEnabled= ${party.enabled} -->
-                                        <input type="checkbox" class="custom-control-input" 
-                                               id="partyEnabled" name="partyEnabled" 
-                                               value="true" <c:if test="${party.enabled}">checked</c:if> > 
-                                               <label class="custom-control-label" for="partyEnabled">PARTY ENABLED</label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>Manage Users Associated with Party </p>
-                        <table class="table">
-                            <thead>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="entry" items="${selectedUsersMap}">
-                                <tr>
+                                <td>${user.id}</td>
+                                <td>${user.username}</td>
+                                <td>${user.firstName}</td>
+                                <td>${user.secondName}</td>
+                                <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
                                     <td>
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" 
-                                                   id="${entry.key}" name="selectedRoles" value="${entry.key}" ${entry.value} >
-                                            <label class="custom-control-label" for="${entry.key}">${entry.key}</label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </sec:authorize>  
-            </div>
-            <input type="hidden" name="uuid" value="${party.uuid}"/>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn" type="submit" >Update ${party.uuid}</button>
-        </form>
-        <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
-            <BR>
-            <form action="./partys">
-                <button class="btn" type="submit" >Return To Partys</button>
-            </form> 
-        </sec:authorize> 
+                                        <form action="./viewModifyParty" method="get">
+                                            <input type="hidden" name="deleteUsername" value="${user.username}">
+                                        <button class="btn" type="submit" >Delete User</button>
+                                    </form> 
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
 
-    </div>
+                <div>
+                    <form action="./addUsersToParty" method="get">
+                        <input type="hidden" name="uuid" value="${party.uuid}"/>
+                        <input type="hidden" name="addUser" value="true">
+                        <button class="btn" type="submit" >Add Users</button>
+                    </form>
+                </div>
+                <div>
+                    <BR>
+                    <form action="./partys">
+                        <button class="btn" type="submit" >Return To Partys</button>
+                    </form> 
+                </div>
+            </sec:authorize> 
+
+        </div>
 
 </main>
 

@@ -32,4 +32,7 @@ public interface PartyService {
     public List<Party> findByName(String firstName, String secondName);
     
     public Party findByUuid(String uuid);
+    
+    public List<PartyRole> getAvailablePartyRoles();
+    
 }
