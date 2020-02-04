@@ -27,6 +27,9 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
     @Query("select p from Party p LEFT JOIN FETCH p.users where p.firstName = :firstName and p.secondName = :secondName")
     public List<Party> findByName(@Param("firstName") String firstName, @Param("secondName") String secondName);
     
+    @Query("select p from Party p LEFT JOIN FETCH p.users where p.uuid = :uuid")
+    public List<Party> findByUuid(@Param("uuid") String uuid);
+    
     @Query("select p from Party p LEFT JOIN FETCH p.users")
     public List<Party> findAll();
     

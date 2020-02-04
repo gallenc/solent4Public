@@ -15,7 +15,7 @@
 <main role="main" class="container">
 
     <div>
-        <H1>User Details</H1>
+        <H1>Party Details</H1>
         <!-- print error message if there is one -->
         <div style="color:red;">${errorMessage}</div>
         <div style="color:green;">${message}</div>
@@ -27,7 +27,7 @@
 
                 <tbody>
                     <tr>
-                        <td>User ID</td>
+                        <td>Party ID</td>
                         <td>${party.id}</td>
                     </tr>
                     <tr>
@@ -43,7 +43,7 @@
                         <td><input type="text" name="secondName" value="${party.secondName}" /></td>
                     </tr>
                     <tr>
-                        <td>House Number</td>
+                        <td>Building Number</td>
                         <td><input type="text" name="number" value="${party.address.number}" /></td>
                     </tr>
                     <tr>
@@ -55,35 +55,35 @@
                         <td><input type="text" name="addressLine2" value="${party.address.addressLine2}" /></td>
                     </tr>
                     <tr>
-                        <td>county</td>
+                        <td>County</td>
                         <td><input type="text" name="county" value="${party.address.county}" /></td>
                     </tr>
                     <tr>
-                        <td>country</td>
+                        <td>Country</td>
                         <td><input type="text" name="country" value="${party.address.country}" /></td>
                     </tr>
                     <tr>
-                        <td>postcode</td>
+                        <td>Postcode</td>
                         <td><input type="text" name="postcode" value="${party.address.postcode}" /></td>
                     </tr>
                     <tr>
-                        <td>latitude</td>
+                        <td>Latitude</td>
                         <td><input type="text" name="latitude" value="${party.address.latitude}" /></td>
                     </tr>
                     <tr>
-                        <td>longitude</td>
+                        <td>Longitude</td>
                         <td><input type="text" name="longitude" value="${party.address.longitude}" /></td>
                     </tr>                      <tr>
-                        <td>telephone</td>
+                        <td>Telephone</td>
                         <td><input type="text" name="telephone" value="${party.address.telephone}" /></td>
                     </tr>
                     <tr>
-                        <td>mobile</td>
+                        <td>Mobile</td>
                         <td><input type="text" name="mobile" value="${party.address.mobile}" /></td>
                     </tr>
                     <tr>
-                        <td>Roles</td>
-                        <td>|<c:forEach var="role" items="${party.roles}"> ${role.name} |</c:forEach></td>
+                        <td>Users</td>
+                        <td>|<c:forEach var="user" items="${party.users}"> ${user.username} |</c:forEach></td>
                         </tr>
                     </tbody>
 
@@ -102,18 +102,18 @@
                                         <input type="checkbox" class="custom-control-input" 
                                                id="partyEnabled" name="partyEnabled" 
                                                value="true" <c:if test="${party.enabled}">checked</c:if> > 
-                                               <label class="custom-control-label" for="partyEnabled">USER ENABLED</label>
+                                               <label class="custom-control-label" for="partyEnabled">PARTY ENABLED</label>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p>Manage User Roles </p>
+                        <p>Manage Users Associated with Party </p>
                         <table class="table">
                             <thead>
                             </thead>
                             <tbody>
-                            <c:forEach var="entry" items="${selectedRolesMap}">
+                            <c:forEach var="entry" items="${selectedUsersMap}">
                                 <tr>
                                     <td>
                                         <div class="custom-control custom-switch">

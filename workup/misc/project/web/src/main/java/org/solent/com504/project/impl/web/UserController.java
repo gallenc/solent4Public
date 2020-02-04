@@ -341,7 +341,7 @@ public class UserController {
         //for (Entry entry : selectedRolesMap.entrySet()) {
         //   LOG.debug(uuid + " role:" + entry.getKey() + " selected:" + entry.getValue());
         // }
-        model.addAttribute("selectedRolesMap", selectedRolesMap);
+        model.addAttribute("selectedUsersMap", selectedRolesMap);
         return "viewModifyParty";
     }
 

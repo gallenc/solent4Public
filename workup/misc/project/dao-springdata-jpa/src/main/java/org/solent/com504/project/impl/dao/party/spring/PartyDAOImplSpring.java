@@ -66,8 +66,9 @@ public class PartyDAOImplSpring implements PartyDAO {
 
     @Override
     public Party findByUuid(String uuid) {
-        return new Party();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Party> parties = partyRepository.findByUuid(uuid);
+        if (parties.isEmpty()) return null;
+        return parties.get(0);
     }
     
     
