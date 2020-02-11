@@ -323,9 +323,9 @@ public class UserController {
         Party party = null;
         if (uuid == null || uuid.isEmpty()) {
             party = new Party();
-            LOG.debug("viewModifyParty get called to create Party uuid=" + party.getUuid());
+            LOG.debug("viewModifyParty GET called to create Party uuid=" + party.getUuid());
         } else {
-            LOG.debug("viewModifyParty called for uuid=" + uuid);
+            LOG.debug("viewModifyParty GET called for uuid=" + uuid);
             party = partyService.findByUuid(uuid);
             if (party == null) {
                 LOG.warn("security warning modifyparty called for unknown uuid=" + uuid);
@@ -340,7 +340,7 @@ public class UserController {
 //                return ("denied");
 //            }
 //        }
-        LOG.debug("viewUser called for uuid=" + uuid + " party=" + party);
+        LOG.debug("viewModifyParty GET called for uuid=" + uuid + " party=" + party);
         model.addAttribute("party", party);
 
         // find selected party role
@@ -361,11 +361,11 @@ public class UserController {
 
     @RequestMapping(value = {"/viewModifyParty"}, method = RequestMethod.POST)
     public String updateParty(Model model,
-            @RequestParam(value = "username", required = true) String partyuuid,
+            @RequestParam(value = "partyuuid", required = false) String partyuuid,
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "secondName", required = false) String secondName,
             @RequestParam(value = "selectedRoles", required = false) List<String> selectedRolesIn,
-            @RequestParam(value = "userEnabled", required = false) String userEnabled,
+            @RequestParam(value = "partyEnabled", required = false) String partyEnabled,
             @RequestParam(value = "number", required = false) String number,
             @RequestParam(value = "addressLine1", required = false) String addressLine1,
             @RequestParam(value = "addressLine2", required = false) String addressLine2,
@@ -378,34 +378,46 @@ public class UserController {
             @RequestParam(value = "mobile", required = false) String mobile,
             Authentication authentication
     ) {
-        LOG.debug("updateUser called for username=" + partyuuid);
+        LOG.debug("viewModifyParty POST called for partyuuid=" + partyuuid);
 
         // security check if party is allowed to access or modify this party
         if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
-            if (!partyuuid.equals(authentication.getName())) {
-                LOG.warn("security warning without permissions, updateUser called for username=" + partyuuid);
+       //     if (!partyuuid.equals(authentication.getName())) {
+       //         LOG.warn("security warning without permissions, updateUser called for username=" + partyuuid);
                 return ("denied");
-            }
+       //     }
         }
 
-        User user = userService.findByUsername(partyuuid);
-        if (user == null) {
-            LOG.warn("security warning updateUser called for unknown username=" + partyuuid);
-            return ("denied");
+        Party party = party = partyService.findByUuid(partyuuid);
+        if (party == null) {
+            LOG.warn("security warning viewModifyParty called for unknown partyuuid=" + partyuuid);
+            party = new Party();
+            //return ("denied");
         }
+        
+        // find selected party role
+        List<PartyRole> availablePartyRoles = partyService.getAvailablePartyRoles();
+        Map<String, String> availablePartyRolesMap = new LinkedHashMap();
+        for (PartyRole prole : availablePartyRoles) {
+            availablePartyRolesMap.put(prole.name(), ((prole.equals(party.getPartyRole()) ? "selected" : "")));
+        }
+        model.addAttribute("availablePartyRolesMap", availablePartyRolesMap);
+
 
         String errorMessage = "";
+        
+        party.setUuid(partyuuid);
 
         if (firstName != null) {
-            user.setFirstName(firstName);
+            party.setFirstName(firstName);
         }
         if (secondName != null) {
-            user.setSecondName(secondName);
+            party.setSecondName(secondName);
         }
-        if (userEnabled != null) {
-            user.setEnabled(Boolean.TRUE);
+        if (partyEnabled != null && "true".equals(partyEnabled)) {
+            party.setEnabled(Boolean.TRUE);
         } else {
-            user.setEnabled(Boolean.FALSE);
+            party.setEnabled(Boolean.FALSE);
         }
 
         Address address = new Address();
@@ -424,24 +436,28 @@ public class UserController {
             errorMessage = "problem parsing latitude=" + latitude
                     + " or longitude=" + longitude;
         }
-        user.setAddress(address);
+        party.setAddress(address);
 
-        user = userService.save(user);
+        party = partyService.save(party);
 
         // update roles if roles in list
-        if (selectedRolesIn != null) {
-            user = userService.updateUserRoles(partyuuid, selectedRolesIn);
-        }
+       // if (selectedRolesIn != null) {
+       //     party = partyService.updateUserRoles(partyuuid, selectedRolesIn);
+       // }
 
-        Map<String, String> selectedRolesMap = selectedRolesMap(user);
+       // Map<String, String> selectedRolesMap = selectedRolesMap(party);
 
-        model.addAttribute("user", user);
+        model.addAttribute("party", party);
 
-        model.addAttribute("selectedRolesMap", selectedRolesMap);
+         Map<String, String> selectedRolesMap = new HashMap(); // = selectedRolesMap(party);
+        //for (Entry entry : selectedRolesMap.entrySet()) {
+        //   LOG.debug(uuid + " role:" + entry.getKey() + " selected:" + entry.getValue());
+        // }
+        model.addAttribute("selectedUsersMap", selectedRolesMap);
 
         // add message if there are any 
         model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("message", "User " + user.getUsername() + " updated successfully");
+        model.addAttribute("message", "Party " + party.getUuid() + " updated successfully");
 
         return "viewModifyParty";
     }

@@ -20,9 +20,9 @@
         <div style="color:red;">${errorMessage}</div>
         <div style="color:green;">${message}</div>
 
-        <form action="./viewModifyUser" method="post">
+        <form action="./viewModifyParty" method="post">
             <div>
-                <input type="hidden" name="uuid" value="${party.uuid}"/>
+                <input type="hidden" name="partyuuid" value="${party.uuid}"/>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button class="btn" type="submit" >Update ${party.uuid}</button>
             </div>
@@ -138,7 +138,8 @@
                                 <td>${user.secondName}</td>
                                 <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
                                     <td>
-                                        <form action="./viewModifyParty" method="get">
+                                        <form action="./viewModifyParty" method="POST">
+                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <input type="hidden" name="deleteUsername" value="${user.username}">
                                         <button class="btn" type="submit" >Delete User</button>
                                     </form> 
@@ -150,7 +151,7 @@
 
                 <div>
                     <form action="./addUsersToParty" method="get">
-                        <input type="hidden" name="uuid" value="${party.uuid}"/>
+                        <input type="hidden" name="partyuuid" value="${party.uuid}"/>
                         <input type="hidden" name="addUser" value="true">
                         <button class="btn" type="submit" >Add Users</button>
                     </form>
