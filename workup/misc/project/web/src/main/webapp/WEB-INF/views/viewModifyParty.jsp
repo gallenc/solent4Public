@@ -103,68 +103,70 @@
                     </tbody>
 
                 </table>
-
-            </form>
-            <div>
-            <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
-                <p>Manage Party Status </p>
-                <table class="table">
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="custom-control custom-switch">
-                                    <!-- party.isEnabled= ${party.enabled} -->
-                                    <input type="checkbox" class="custom-control-input" 
-                                           id="partyEnabled" name="partyEnabled" 
-                                           value="true" <c:if test="${party.enabled}">checked</c:if> > 
-                                           <label class="custom-control-label" for="partyEnabled">PARTY ENABLED</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>Manage Users Associated with Party </p>
+                <div>
+                <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
+                    <p>Manage Party Status </p>
                     <table class="table">
                         <thead>
                         </thead>
                         <tbody>
-                        <c:forEach var="user" items="${party.users}">
                             <tr>
-                                <td>${user.id}</td>
-                                <td>${user.username}</td>
-                                <td>${user.firstName}</td>
-                                <td>${user.secondName}</td>
-                                <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
-                                    <td>
-                                        <form action="./viewModifyParty" method="POST">
-                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                            <input type="hidden" name="deleteUsername" value="${user.username}">
-                                        <button class="btn" type="submit" >Delete User</button>
-                                    </form> 
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <!-- party.isEnabled= ${party.enabled} -->
+                                        <input type="checkbox" class="custom-control-input" 
+                                               id="partyEnabled" name="partyEnabled" 
+                                               value="true" <c:if test="${party.enabled}">checked</c:if> > 
+                                               <label class="custom-control-label" for="partyEnabled">PARTY ENABLED</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </form>
 
-                <div>
-                    <form action="./addUsersToParty" method="get">
-                        <input type="hidden" name="partyuuid" value="${party.uuid}"/>
-                        <input type="hidden" name="addUser" value="true">
-                        <button class="btn" type="submit" >Add Users</button>
-                    </form>
-                </div>
-                <div>
-                    <BR>
-                    <form action="./partys">
-                        <button class="btn" type="submit" >Return To Partys</button>
-                    </form> 
-                </div>
-            </sec:authorize> 
+        </sec:authorize> 
+        <sec:authorize access="hasRole('ROLE_GLOBAL_ADMIN')" >
+            <p>Manage Users Associated with Party </p>
+            <table class="table">
+                <thead>
+                </thead>
+                <tbody>
+                    <c:forEach var="user" items="${party.users}">
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.username}</td>
+                            <td>${user.firstName}</td>
+                            <td>${user.secondName}</td>
+                            <td><c:forEach var="role" items="${user.roles}"> | ${role.name} |<br></c:forEach></td>
+                                <td>
+                                    <form action="./viewModifyParty" method="POST">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <input type="hidden" name="deleteUsername" value="${user.username}">
+                                    <button class="btn" type="submit" >Delete User</button>
+                                </form> 
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
 
-        </div>
+            <div>
+                <form action="./addUsersToParty" method="get">
+                    <input type="hidden" name="partyuuid" value="${party.uuid}"/>
+                    <input type="hidden" name="addUser" value="true">
+                    <button class="btn" type="submit" >Add Users</button>
+                </form>
+            </div>
+            <div>
+                <BR>
+                <form action="./partys">
+                    <button class="btn" type="submit" >Return To Partys</button>
+                </form> 
+            </div>
+        </sec:authorize> 
+
+    </div>
 
 </main>
 
