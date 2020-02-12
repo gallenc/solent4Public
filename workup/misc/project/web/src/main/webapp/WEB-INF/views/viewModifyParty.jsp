@@ -24,7 +24,7 @@
             <div>
                 <input type="hidden" name="partyuuid" value="${party.uuid}"/>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <button class="btn" type="submit" >Update ${party.uuid}</button>
+                <button class="btn" type="submit" >Update Party uuid ${party.uuid}</button>
             </div>
             <table class="table">
                 <thead>
@@ -142,8 +142,8 @@
                                 <td>
                                     <form action="./viewModifyParty" method="POST">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                    <input type="hidden" name="deleteUsername" value="${user.username}">
-                                    <button class="btn" type="submit" >Delete User</button>
+                                    <input type="hidden" name="removeUsername" value="${user.username}">
+                                    <button class="btn" type="submit" >Remove User</button>
                                 </form> 
                             </td>
                         </tr>
@@ -152,9 +152,9 @@
             </table>
 
             <div>
-                <form action="./addUsersToParty" method="get">
+                <form action="./addUsersToParty" method="POST">
                     <input type="hidden" name="partyuuid" value="${party.uuid}"/>
-                    <input type="hidden" name="addUser" value="true">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <button class="btn" type="submit" >Add Users</button>
                 </form>
             </div>
