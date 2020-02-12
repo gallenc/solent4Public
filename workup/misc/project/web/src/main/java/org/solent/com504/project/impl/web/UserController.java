@@ -396,6 +396,7 @@ public class UserController {
             @RequestParam(value = "telephone", required = false) String telephone,
             @RequestParam(value = "mobile", required = false) String mobile,
             @RequestParam(value = "removeUsername", required = false) String removeUsername,
+            @RequestParam(value = "addUsers", required = false) List<String> addUsers,
             Authentication authentication
     ) {
         LOG.debug("viewModifyParty POST called for partyuuid=" + partyuuid);
@@ -409,20 +410,31 @@ public class UserController {
             //     }
         }
 
-        Party party = party = partyService.findByUuid(partyuuid);
+        Party party = partyService.findByUuid(partyuuid);
         if (party == null) {
             LOG.warn("security warning viewModifyParty called for unknown partyuuid=" + partyuuid);
             party = new Party();
             //return ("denied");
         }
 
+        // add user if requested
+        if (addUsers != null) {
+            for(String username:addUsers){
+                User user = userService.findByUsername(username);
+                if(user != null) party.addUser(user);
+                LOG.debug("adding username"+username+ " user "+user
+                        + " to party "+party);
+            }
         // remove user if requested
-        if (removeUsername != null) {
+        } else if (removeUsername != null) {
+            LOG.debug("removing username="+removeUsername+ " from party "+party);
             Iterator<User> users = party.getUsers().iterator();
             while (users.hasNext()) {
                 User user = users.next();
                 if (removeUsername.equals(user.getUsername())) {
                     party.removeUser(user);
+                    LOG.debug("removing username"+removeUsername+ " user "+user
+                        + " from party "+party);
                     break;
                 }
             }
@@ -497,9 +509,9 @@ public class UserController {
 
         return "viewModifyParty";
     }
-    
-        @RequestMapping(value = {"/addUsersToParty"}, method = RequestMethod.POST)
-    public String addUsersToParty(Model model,  @RequestParam(value = "partyuuid", required = false) String partyuuid) {
+
+    @RequestMapping(value = {"/addUsersToParty"}, method = RequestMethod.POST)
+    public String addUsersToParty(Model model, @RequestParam(value = "partyuuid", required = false) String partyuuid) {
         List<User> userList = userService.findAll();
 
         LOG.debug("addUsersToParty called:");

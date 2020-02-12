@@ -48,9 +48,9 @@
                                 <td>
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" 
-                                               id="userSelected" name="userSelected" 
+                                               id="addUsers" name="addUsers" 
                                                value="${user.username}"  > 
-                                    <label class="custom-control-label" for="partyEnabled">User Selected</label>
+                                    <label class="custom-control-label" for="partyEnabled">Select user</label>
                                 </div>
                             </td>
                         </tr>
