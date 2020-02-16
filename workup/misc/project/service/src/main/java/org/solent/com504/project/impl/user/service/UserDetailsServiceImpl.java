@@ -13,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.solent.com504.project.model.party.dto.Party;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
+        final static Logger LOG = LogManager.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -25,8 +29,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        
+        // add roles
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            LOG.debug("   added granted authority role to username "+username+" "+role.getName());
+        }
+        // add party authorities
+        LOG.debug("   number of uuid granted authorities for username "+username+" = "+user.getParties().size());
+        for (Party party :user.getParties()){
+             grantedAuthorities.add(new SimpleGrantedAuthority(party.getUuid()));
+             LOG.debug("   added granted authority uuid to username "+username+" "+party.getUuid());
         }
 
         boolean enabled = true;
