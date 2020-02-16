@@ -142,6 +142,7 @@
                                 <td>
                                     <form action="./viewModifyParty" method="POST">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <input type="hidden" name="partyuuid" value="${party.uuid}"/>
                                     <input type="hidden" name="removeUsername" value="${user.username}">
                                     <button class="btn" type="submit" >Remove User</button>
                                 </form> 
@@ -160,7 +161,7 @@
             </div>
             <div>
                 <BR>
-                <form action="./partys">
+                <form action="./partys" method="GET">
                     <button class="btn" type="submit" >Return To Partys</button>
                 </form> 
             </div>

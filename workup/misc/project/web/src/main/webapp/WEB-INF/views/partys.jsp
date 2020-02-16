@@ -44,7 +44,7 @@
                         <td><c:if test="${party.enabled}">ENABLED</c:if><c:if test="${!party.enabled}">DISABLED</c:if></td>
                         <td><c:forEach var="user" items="${party.users}"> | ${user.username} |<br></c:forEach></td>
                             <td>
-                                <form action="./viewModifyParty" method="get">
+                                <form action="./viewModifyParty" method="GET">
                                     <input type="hidden" name="partyuuid" value="${party.uuid}">
                                 <button class="btn" type="submit" >Modify Party</button>
                             </form> 
@@ -54,7 +54,10 @@
 
             </tbody>
         </table>
-        <form action="./viewModifyParty" method="get">
+        <form action="./viewModifyParty" method="POST">
+            <!-- partyuuid ="" creates a new party -->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="partyuuid" value="">
             <button class="btn" type="submit" >Add Party</button>
         </form> 
     </div>

@@ -50,7 +50,7 @@
                                         <input type="checkbox" class="custom-control-input" 
                                                id="addUsers" name="addUsers" 
                                                value="${user.username}"  > 
-                                    <label class="custom-control-label" for="partyEnabled">Select user</label>
+                                    <label class="custom-control-label" for="partyEnabled">Add User</label>
                                 </div>
                             </td>
                         </tr>

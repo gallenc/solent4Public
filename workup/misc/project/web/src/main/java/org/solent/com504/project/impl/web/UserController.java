@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@Transactional
 public class UserController {
 
     final static Logger LOG = LogManager.getLogger(UserController.class);
@@ -300,7 +301,6 @@ public class UserController {
 
     // PARTY MANAGEMENT
     @RequestMapping(value = {"/partys"}, method = RequestMethod.GET)
-    @Transactional
     public String partys(Model model) {
 
         LOG.debug("partys called:");
@@ -337,29 +337,25 @@ public class UserController {
 
     @RequestMapping(value = {"/viewModifyParty"}, method = RequestMethod.GET)
     public String reviewParty(Model model,
-            @RequestParam(value = "partyuuid") String uuid, Authentication authentication) {
+            @RequestParam(value = "partyuuid") String partyuuid, Authentication authentication) {
 
         Party party = null;
-        if (uuid == null || uuid.isEmpty()) {
-            party = new Party();
-            LOG.debug("viewModifyParty GET called to create Party uuid=" + party.getUuid());
-        } else {
-            LOG.debug("viewModifyParty GET called for uuid=" + uuid);
-            party = partyService.findByUuid(uuid);
-            if (party == null) {
-                LOG.warn("security warning modifyparty called for unknown uuid=" + uuid);
-                return ("denied");
-            }
+
+        LOG.debug("viewModifyParty GET called for partyuuid=" + partyuuid);
+        party = partyService.findByUuid(partyuuid);
+        if (party == null) {
+            LOG.warn("security warning modifyparty called for unknown partyuuid=" + partyuuid);
+            return ("denied");
         }
 
         // security check if party is allowed to access or modify this party
 //        if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
-//            if (!uuid.equals(authentication.getName())) {
-//                LOG.warn("security warning without permissions, modifyuser called for uuid=" + uuid);
+//            if (!partyuuid.equals(authentication.getName())) {
+//                LOG.warn("security warning without permissions, modifyuser called for partyuuid=" + partyuuid);
 //                return ("denied");
 //            }
 //        }
-        LOG.debug("viewModifyParty GET called for uuid=" + uuid + " party=" + party);
+        LOG.debug("viewModifyParty GET called for uuid=" + partyuuid + " party=" + party);
         model.addAttribute("party", party);
 
         // find selected party role
@@ -372,7 +368,7 @@ public class UserController {
 
         Map<String, String> selectedRolesMap = new HashMap(); // = selectedRolesMap(party);
         //for (Entry entry : selectedRolesMap.entrySet()) {
-        //   LOG.debug(uuid + " role:" + entry.getKey() + " selected:" + entry.getValue());
+        //   LOG.debug(partyuuid + " role:" + entry.getKey() + " selected:" + entry.getValue());
         // }
         model.addAttribute("selectedUsersMap", selectedRolesMap);
         return "viewModifyParty";
@@ -397,87 +393,101 @@ public class UserController {
             @RequestParam(value = "mobile", required = false) String mobile,
             @RequestParam(value = "removeUsername", required = false) String removeUsername,
             @RequestParam(value = "addUsers", required = false) List<String> addUsers,
-            Authentication authentication
-    ) {
+            Authentication authentication) {
+
         LOG.debug("viewModifyParty POST called for partyuuid=" + partyuuid);
         String errorMessage = "";
 
         // security check if user is allowed to access or modify this party
         if (!hasRole(UserRoles.ROLE_GLOBAL_ADMIN.name())) {
             //     if (!partyuuid.equals(authentication.getName())) {
-            //         LOG.warn("security warning without permissions, updateUser called for username=" + partyuuid);
+            LOG.warn("security warning without permissions, viewModifyParty called for username=" + partyuuid);
             return ("denied");
             //     }
         }
 
-        Party party = partyService.findByUuid(partyuuid);
-        if (party == null) {
-            LOG.warn("security warning viewModifyParty called for unknown partyuuid=" + partyuuid);
+        Party party = null;
+
+        // If partyuuid is null or empty in a post assume create new party
+        if (partyuuid == null || partyuuid.isEmpty()) {
             party = new Party();
-            //return ("denied");
-        }
-
-        // add user if requested
-        if (addUsers != null) {
-            for(String username:addUsers){
-                User user = userService.findByUsername(username);
-                if(user != null) party.addUser(user);
-                LOG.debug("adding username"+username+ " user "+user
-                        + " to party "+party);
+            LOG.debug("viewModifyParty POST called to create Party uuid=" + party.getUuid());
+            
+            // else try to modify an existing party    
+        } else {
+            party = partyService.findByUuid(partyuuid);
+            if (party == null) {
+                LOG.warn("security warning viewModifyParty POST called for unknown partyuuid=" + partyuuid);
+                return ("denied");
             }
-        // remove user if requested
-        } else if (removeUsername != null) {
-            LOG.debug("removing username="+removeUsername+ " from party "+party);
-            Iterator<User> users = party.getUsers().iterator();
-            while (users.hasNext()) {
-                User user = users.next();
-                if (removeUsername.equals(user.getUsername())) {
-                    party.removeUser(user);
-                    LOG.debug("removing username"+removeUsername+ " user "+user
-                        + " from party "+party);
-                    break;
+
+            // add user if requested
+            if (addUsers != null) {
+                for (String username : addUsers) {
+                    User user = userService.findByUsername(username);
+                    if (user != null) {
+                        party.addUser(user);
+                    }
+                    LOG.debug("adding username" + username + " user " + user
+                            + " to party " + party);
                 }
-            }
-        } else { // update values
-            party.setUuid(partyuuid);
+                // remove user if requested
+            } else if (removeUsername != null ) {
+                LOG.debug("removing username=" + removeUsername + " from party " + party);
+                Iterator<User> users = party.getUsers().iterator();
+                while (users.hasNext()) {
+                    User user = users.next();
+                    if (removeUsername.equals(user.getUsername())) {
+                        party.removeUser(user);
+                        LOG.debug("removing username" + removeUsername + " user " + user
+                                + " from party " + party);
+                        break;
+                    }
+                }
 
-            if (partyRole != null) {
+            } else { // update values if not adding / removing user
+                LOG.debug("updating party partyuuid="+partyuuid);
+                party.setUuid(partyuuid);
+
+                if (partyRole != null) {
+                    try {
+                        party.setPartyRole(PartyRole.valueOf(partyRole));
+                    } catch (IllegalArgumentException ex) {
+                        LOG.error("update pary used unknown partyRole" + partyRole);
+                    }
+                }
+
+                if (firstName != null) {
+                    party.setFirstName(firstName);
+                }
+                if (secondName != null) {
+                    party.setSecondName(secondName);
+                }
+                if (partyEnabled != null && "true".equals(partyEnabled)) {
+                    party.setEnabled(Boolean.TRUE);
+                } else {
+                    party.setEnabled(Boolean.FALSE);
+                }
+
+                Address address = new Address();
+                address.setNumber(number);
+                address.setAddressLine1(addressLine1);
+                address.setAddressLine2(addressLine2);
+                address.setCountry(country);
+                address.setCounty(county);
+                address.setPostcode(postcode);
+                address.setMobile(mobile);
+                address.setTelephone(telephone);
                 try {
-                    party.setPartyRole(PartyRole.valueOf(partyRole));
-                } catch (IllegalArgumentException ex) {
-                    LOG.error("update pary used unknown partyRole" + partyRole);
+                    address.setLatitude(Double.parseDouble(latitude));
+                    address.setLongitude(Double.parseDouble(longitude));
+                } catch (Exception ex) {
+                    errorMessage = "problem parsing latitude=" + latitude
+                            + " or longitude=" + longitude;
                 }
+                party.setAddress(address);
             }
 
-            if (firstName != null) {
-                party.setFirstName(firstName);
-            }
-            if (secondName != null) {
-                party.setSecondName(secondName);
-            }
-            if (partyEnabled != null && "true".equals(partyEnabled)) {
-                party.setEnabled(Boolean.TRUE);
-            } else {
-                party.setEnabled(Boolean.FALSE);
-            }
-
-            Address address = new Address();
-            address.setNumber(number);
-            address.setAddressLine1(addressLine1);
-            address.setAddressLine2(addressLine2);
-            address.setCountry(country);
-            address.setCounty(county);
-            address.setPostcode(postcode);
-            address.setMobile(mobile);
-            address.setTelephone(telephone);
-            try {
-                address.setLatitude(Double.parseDouble(latitude));
-                address.setLongitude(Double.parseDouble(longitude));
-            } catch (Exception ex) {
-                errorMessage = "problem parsing latitude=" + latitude
-                        + " or longitude=" + longitude;
-            }
-            party.setAddress(address);
         }
 
         // find selected party role
@@ -509,9 +519,12 @@ public class UserController {
 
         return "viewModifyParty";
     }
+    
 
     @RequestMapping(value = {"/addUsersToParty"}, method = RequestMethod.POST)
-    public String addUsersToParty(Model model, @RequestParam(value = "partyuuid", required = false) String partyuuid) {
+    public String addUsersToParty(Model model,
+            @RequestParam(value = "partyuuid", required = false) String partyuuid
+    ) {
         List<User> userList = userService.findAll();
 
         LOG.debug("addUsersToParty called:");
