@@ -5,6 +5,10 @@
  */
 package org.solent.com504.project.impl.dao.test;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  
 
@@ -14,21 +18,25 @@ import java.util.Iterator;
 import org.junit.Test;
 
 /**
- * Java program to read / write excel file using apache POI library. see
+ * Java program to read / write excel file using apache POI library.
+ * see https://mkyong.com/java/apache-poi-reading-and-writing-excel-file-in-java/
+ * see
  * https://howtodoinjava.com/library/readingwriting-excel-files-in-java-poi-tutorial/
  *
  * @author gallenc
  */
-public class excelStandAloneTest {
+public class ExcelStandAloneTest {
 
     @Test
     public void testreadfile() {
         {
             try {
-                FileInputStream file = new FileInputStream(new File("howtodoinjava_demo.xlsx"));
+                File file = new File("howtodoinjava_demo.xlsx");
+                System.out.println(file.getAbsolutePath());
+                FileInputStream fileis = new FileInputStream(file);
 
                 //Create Workbook instance holding reference to .xlsx file
-                XSSFWorkbook workbook = new XSSFWorkbook(file);
+                XSSFWorkbook workbook = new XSSFWorkbook(fileis);
 
                 //Get first/desired sheet from the workbook
                 XSSFSheet sheet = workbook.getSheetAt(0);
@@ -42,19 +50,20 @@ public class excelStandAloneTest {
 
                     while (cellIterator.hasNext()) {
                         Cell cell = cellIterator.next();
+                        
                         //Check the cell type and format accordingly
                         switch (cell.getCellType()) {
-                            case Cell.CELL_TYPE_NUMERIC:
+                            case NUMERIC:
                                 System.out.print(cell.getNumericCellValue() + "t");
                                 break;
-                            case Cell.CELL_TYPE_STRING:
+                            case STRING :
                                 System.out.print(cell.getStringCellValue() + "t");
                                 break;
                         }
                     }
                     System.out.println("");
                 }
-                file.close();
+                fileis.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
