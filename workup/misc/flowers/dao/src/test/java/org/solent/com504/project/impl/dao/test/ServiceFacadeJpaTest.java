@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.impl.service.test;
+package org.solent.com504.project.impl.dao.test;
 
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
