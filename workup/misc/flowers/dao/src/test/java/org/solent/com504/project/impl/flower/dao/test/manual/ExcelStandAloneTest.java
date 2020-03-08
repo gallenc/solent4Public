@@ -16,8 +16,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -27,6 +27,7 @@ import org.junit.Test;
  * @author gallenc
  */
 public class ExcelStandAloneTest {
+     final static Logger LOG = LogManager.getLogger(ExcelStandAloneTest.class);
 
     @Test
     public void testreadfile() {
@@ -36,7 +37,7 @@ public class ExcelStandAloneTest {
         try {
             // loading from absolute file
             //File file = new File("./src/main/resources/data/completePlantsChecklistUSDA.xlsx");
-            //System.out.println(file.getAbsolutePath());
+            //LOG.debug(file.getAbsolutePath());
             //fileis = new FileInputStream(file);
 
             // loading from classpath in WAR
@@ -68,7 +69,7 @@ public class ExcelStandAloneTest {
                             break;
                     }
                 }
-                System.out.println("");
+                LOG.debug("");
             }
             fileis.close();
         } catch (Exception e) {

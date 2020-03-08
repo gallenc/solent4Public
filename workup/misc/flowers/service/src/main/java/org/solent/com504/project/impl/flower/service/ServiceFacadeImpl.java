@@ -28,8 +28,8 @@ public class ServiceFacadeImpl implements ServiceFacade {
     }
 
     @Override
-    public List<Flower> findBySymboOrSynonymSymbol(String symbol) {
-        return flowerDao.findBySymboOrSynonymSymbol(symbol);
+    public List<Flower> findBySymbolOrSynonymSymbol(String symbol) {
+        return flowerDao.findBySymbolOrSynonymSymbol(symbol);
     }
 
     @Override

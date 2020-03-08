@@ -95,25 +95,25 @@ public class RestService {
     }
 
     /**
-     * public List<Flower> findBySymboOrSynonymSymbol(String symbol);
-     * http://localhost:8084/projectweb/rest/flowerService/findBySymboOrSynonymSymbol?symbol="ABAM5"
+     * public List<Flower> findBySymbolOrSynonymSymbol(String symbol);
+ http://localhost:8084/projectweb/rest/flowerService/findBySymbolOrSynonymSymbol?symbol="ABAM5"
      *
      * @return
      */
     @GET
-    @Path("/findBySymboOrSynonymSymbol")
+    @Path("/findBySymbolOrSynonymSymbol")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response findBySymboOrSynonymSymbol(@QueryParam("symbol") String symbol) {
+    public Response findBySymbolOrSynonymSymbol(@QueryParam("symbol") String symbol) {
         try {
 
             ReplyMessage replyMessage = new ReplyMessage();
-            LOG.debug("/findBySymboOrSynonymSymbol called");
+            LOG.debug("/findBySymbolOrSynonymSymbol called");
 
             if (serviceFacade == null) {
                 throw new RuntimeException("serviceFacade==null and has not been initialised");
             }
 
-            List<Flower> flowerList = serviceFacade.findBySymboOrSynonymSymbol(symbol);
+            List<Flower> flowerList = serviceFacade.findBySymbolOrSynonymSymbol(symbol);
             replyMessage.setFlowerList(flowerList);
 
             replyMessage.setCode(Response.Status.OK.getStatusCode());
@@ -121,10 +121,10 @@ public class RestService {
             return Response.status(Response.Status.OK).entity(replyMessage).build();
 
         } catch (Exception ex) {
-            LOG.error("error calling /findBySymboOrSynonymSymbol ", ex);
+            LOG.error("error calling /findBySymbolOrSynonymSymbol ", ex);
             ReplyMessage replyMessage = new ReplyMessage();
             replyMessage.setCode(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-            replyMessage.setDebugMessage("error calling /findBySymboOrSynonymSymbola " + ex.getMessage());
+            replyMessage.setDebugMessage("error calling /findBySymbolOrSynonymSymbola " + ex.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(replyMessage).build();
         }
     }

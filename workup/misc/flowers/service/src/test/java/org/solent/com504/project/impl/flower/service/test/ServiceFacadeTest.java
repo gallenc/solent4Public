@@ -53,8 +53,8 @@ public class ServiceFacadeTest {
 
 // tests from dao
         @Test
-    public void testfindBySymboOrSynonymSymbol(){
-        List<Flower> flowers =serviceFacade.findBySymboOrSynonymSymbol("ABAM5");
+    public void testfindBySymbolOrSynonymSymbol(){
+        List<Flower> flowers =serviceFacade.findBySymbolOrSynonymSymbol("ABAM5");
         assertFalse(flowers.isEmpty());
     }
 

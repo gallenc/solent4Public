@@ -84,7 +84,7 @@ public class ModelJaxbTest {
 
             // create XML from the object
             // marshal the object lists to system out, a file and a stringWriter
-            System.out.println("marshalled replymessage");
+            LOG.debug("marshalled replymessage");
             jaxbMarshaller.marshal(replyMessage, System.out);
             jaxbMarshaller.marshal(replyMessage, file);
 

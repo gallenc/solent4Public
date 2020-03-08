@@ -14,7 +14,7 @@ import org.solent.com504.project.model.flower.dto.Flower;
  */
 public interface FlowerDao {
 
-    public List<Flower> findBySymboOrSynonymSymbol(String symbol);
+    public List<Flower> findBySymbolOrSynonymSymbol(String symbol);
 
     public List<Flower> findLikeScientificNamewithAuthor(String scientificNamewithAuthor);
 

@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -25,6 +27,7 @@ import org.solent.com504.project.model.flower.dao.FlowerDao;
  * @author cgallen
  */
 public class FlowerDaoSpreadsheetImpl implements FlowerDao {
+     final static Logger LOG = LogManager.getLogger(FlowerDaoSpreadsheetImpl.class);
 
     // COLUMNS IN SPREADSHEET
     private int SYMBOL = 0;
@@ -59,7 +62,7 @@ public class FlowerDaoSpreadsheetImpl implements FlowerDao {
     }
 
     @Override
-    public synchronized List<Flower> findBySymboOrSynonymSymbol(String symbol) {
+    public synchronized List<Flower> findBySymbolOrSynonymSymbol(String symbol) {
         //Iterate through each row
         List<Flower> flowers = new ArrayList();
         Iterator<Row> rowIterator = sheet.iterator();
@@ -210,7 +213,7 @@ public class FlowerDaoSpreadsheetImpl implements FlowerDao {
     }
 
     public synchronized void init() {
-        System.out.println("Loading excel sheet");
+        LOG.debug("Loading excel sheet");
         // only initialise sheet if init has not been called before
         if (sheet == null) {
             InputStream fileis = null;
@@ -232,9 +235,9 @@ public class FlowerDaoSpreadsheetImpl implements FlowerDao {
                     }
                 }
             }
-            System.out.println("finished loading excel sheet");
+            LOG.debug("finished loading excel sheet");
         } else {
-            System.out.println("sheet already loaded");
+            LOG.debug("sheet already loaded");
         }
     }
 

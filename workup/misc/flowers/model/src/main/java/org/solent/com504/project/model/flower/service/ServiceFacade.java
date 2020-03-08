@@ -8,7 +8,7 @@ public interface ServiceFacade {
     public String getHeartbeat();
 
     // inherited from flowersDAO
-    public List<Flower> findBySymboOrSynonymSymbol(String symbol);
+    public List<Flower> findBySymbolOrSynonymSymbol(String symbol);
 
     public List<Flower> findLikeScientificNamewithAuthor(String scientificNamewithAuthor);
 
