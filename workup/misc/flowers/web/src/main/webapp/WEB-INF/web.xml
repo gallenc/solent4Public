@@ -16,14 +16,14 @@
     </context-param>
     
     <!-- applies the web security filter to prevent web access to restricted resources -->
-    <filter>
+<!--    <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <!-- sets up the spring MVC servlet dispatcher to control the pages -->
     <servlet>

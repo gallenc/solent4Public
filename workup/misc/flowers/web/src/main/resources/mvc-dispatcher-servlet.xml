@@ -23,23 +23,15 @@
                
     <!-- this allows annotations to be picked up by configuration -->
     <!-- Scans for components that will be auto-registered as Spring beans -->
-    <context:component-scan base-package="org.solent.com504.project.impl.rest, org.solent.com504.project.impl.web, org.solent.com504.project.impl.validator" />
+    <context:component-scan base-package="org.solent.com504.project.impl.rest,
+ org.solent.com504.project.impl.web" />
    
     <!-- Activates various annotations to be detected in bean classes e.g: @Autowired -->
     <context:annotation-config/>
     
     <!-- this just activates and destroys a bean as an example -->
-    <bean id="helloWorld2" class="org.solent.com504.project.impl.service.HelloWorld" init-method="init" destroy-method="destroy">
+    <bean id="helloWorld2" class="org.solent.com504.project.impl.flower.service.HelloWorld" init-method="init" destroy-method="destroy">
         <property name="message" value="mvc-dispatcher-servlet" />
-    </bean>
-
-    <!-- validation message source  -->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>classpath:validation</value>
-            </list>
-        </property>
     </bean>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources  -->
@@ -48,8 +40,5 @@
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    
-    
-
 
 </beans>

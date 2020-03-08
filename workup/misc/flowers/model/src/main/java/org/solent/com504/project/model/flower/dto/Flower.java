@@ -3,12 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.model.dto;
+package org.solent.com504.project.model.flower.dto;
+
+import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author gallenc
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Flower {
 
     private String symbol;
@@ -17,6 +24,18 @@ public class Flower {
     private String commonName;
     private String family;
     private String dataUrl; // https://plants.usda.gov/core/profile?symbol=ABGR4
+    
+    public Flower(){
+    }
+
+    public Flower(String symbol, String synonymSymbol, String scientificNamewithAuthor, String commonName, String family, String dataUrl) {
+        this.symbol = symbol;
+        this.synonymSymbol = synonymSymbol;
+        this.scientificNamewithAuthor = scientificNamewithAuthor;
+        this.commonName = commonName;
+        this.family = family;
+        this.dataUrl = dataUrl;
+    }
 
     public String getSymbol() {
         return symbol;
@@ -65,7 +84,11 @@ public class Flower {
     public void setDataUrl(String dataUrl) {
         this.dataUrl = dataUrl;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Flower{" + "symbol=" + symbol + ", synonymSymbol=" + synonymSymbol + ", scientificNamewithAuthor=" + scientificNamewithAuthor + ", commonName=" + commonName + ", family=" + family + ", dataUrl=" + dataUrl + '}';
+    }
+ 
 
 }

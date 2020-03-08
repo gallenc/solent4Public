@@ -9,7 +9,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.solent.com504.project.model.service.ServiceFacade;
+import org.solent.com504.project.model.flower.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,15 +35,7 @@ public class ViewController {
     @Autowired(required = true)
     @Qualifier("serviceFacade")
     ServiceFacade serviceFacade = null;
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     @RequestMapping("/testHeartbeat")
     public String testHeartbeat(Model m) {
 

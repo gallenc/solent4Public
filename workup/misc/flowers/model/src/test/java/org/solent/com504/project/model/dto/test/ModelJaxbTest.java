@@ -25,10 +25,9 @@ import org.junit.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
+import org.solent.com504.project.model.flower.dto.Flower;
 
-
-import org.solent.com504.project.model.dto.ReplyMessage;
-
+import org.solent.com504.project.model.flower.dto.ReplyMessage;
 
 public class ModelJaxbTest {
 
@@ -42,8 +41,8 @@ public class ModelJaxbTest {
         // NOTE you must also have a jaxb.index or jaxb ObjectFactory in the same classpath
         try {
             jaxbContext = JAXBContext.newInstance(
-                    "org.solent.com504.project.model.dto"
-                    );
+                    "org.solent.com504.project.model.flower.dto"
+            );
         } catch (JAXBException e) {
             throw new RuntimeException("problem creating jaxb context", e);
         }
@@ -66,10 +65,26 @@ public class ModelJaxbTest {
 
             ReplyMessage replyMessage = new ReplyMessage();
 
-   
+            replyMessage.setCode(200);
+            replyMessage.setDebugMessage("debug message");
+            List<String> stringList = Arrays.asList("one", "two", "three", "four");
+            replyMessage.setStringList(stringList);
+            
+            
+
+            
+            List<Flower> flowerList = Arrays.asList(new Flower("ABAB",
+                    "",
+                    "Abutilon abutiloides (Jacq.) Garcke ex Hochr.",
+                    "shrubby Indian mallow",
+                    "Malvaceae",
+                    "https://plants.usda.gov/core/profile?symbol=ABAB"));
+            
+            replyMessage.setFlowerList(flowerList);
 
             // create XML from the object
             // marshal the object lists to system out, a file and a stringWriter
+            System.out.println("marshalled replymessage");
             jaxbMarshaller.marshal(replyMessage, System.out);
             jaxbMarshaller.marshal(replyMessage, file);
 
@@ -92,5 +107,4 @@ public class ModelJaxbTest {
         }
     }
 
- 
 }

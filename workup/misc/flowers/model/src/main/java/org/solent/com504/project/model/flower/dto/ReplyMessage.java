@@ -1,4 +1,4 @@
-package org.solent.com504.project.model.dto;
+package org.solent.com504.project.model.flower.dto;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,8 +20,9 @@ public class ReplyMessage {
     @XmlElement(name = "string")
     private List<String> stringList = null;
 
-
-  
+    @XmlElementWrapper(name = "flowerlist")
+    @XmlElement(name = "flower")
+    private List<Flower> flowerList = null;
 
     public Integer getCode() {
         return code;
@@ -47,8 +48,12 @@ public class ReplyMessage {
         this.stringList = stringList;
     }
 
+    public List<Flower> getFlowerList() {
+        return flowerList;
+    }
 
-
-   
+    public void setFlowerList(List<Flower> flowerList) {
+        this.flowerList = flowerList;
+    }
 
 }

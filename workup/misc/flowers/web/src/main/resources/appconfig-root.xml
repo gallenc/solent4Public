@@ -20,7 +20,5 @@
 
     <import resource="classpath:appconfig-service.xml"/>
     
-    <import resource="classpath:appconfig-security-web.xml"/>
-
 </beans>
 
