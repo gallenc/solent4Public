@@ -61,11 +61,11 @@ public class ViewController {
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String home(Model model,
-            @RequestParam(value = "symbol", required = false) String symbol,
-            @RequestParam(value = "synonymSymbol", required = false) String synonymSymbol,
-            @RequestParam(value = "scientificNamewithAuthor", required = false) String scientificNamewithAuthor,
-            @RequestParam(value = "commonName", required = false) String commonName,
-            @RequestParam(value = "family", required = false) String family) {
+            @RequestParam(value = "symbol", required = false, defaultValue = "") String symbol,
+            @RequestParam(value = "synonymSymbol", required = false, defaultValue = "") String synonymSymbol,
+            @RequestParam(value = "scientificNamewithAuthor", required = false, defaultValue = "") String scientificNamewithAuthor,
+            @RequestParam(value = "commonName", required = false, defaultValue = "") String commonName,
+            @RequestParam(value = "family", required = false, defaultValue = "") String family) {
 
         LOG.debug("home called");
         if (serviceFacade == null) {
@@ -76,30 +76,16 @@ public class ViewController {
         model.addAttribute("familiesList", familiesList);
 
         List<Flower> flowerList = null;
-        if (family == null || family.isEmpty()) {
-            flowerList = new ArrayList();
-            family = "";
-        } else {
-            flowerList = serviceFacade.findLikefamily(family);
-        }
 
-        if (family == null) {
-            family = "";
-        }
-        if (symbol == null) {
-            symbol = "";
-        }
-        if (synonymSymbol == null) {
-            synonymSymbol = "";
-        }
-        if (scientificNamewithAuthor == null) {
-            scientificNamewithAuthor = "";
-        }
-        if (commonName == null) {
-            commonName="";
-        }
-      
-        
+        Flower searchFlower = new Flower();
+        searchFlower.setCommonName(commonName);
+        searchFlower.setSymbol(symbol);
+        searchFlower.setSynonymSymbol(synonymSymbol);
+        searchFlower.setFamily(family);
+        searchFlower.setScientificNamewithAuthor(scientificNamewithAuthor);
+
+        flowerList = serviceFacade.findLike(searchFlower);
+
         model.addAttribute("family", family);
         model.addAttribute("symbol", symbol);
         model.addAttribute("synonymSymbol", synonymSymbol);
