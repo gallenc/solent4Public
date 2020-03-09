@@ -1,10 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@page import="java.util.List"%>
 <%@page import="java.util.Date"%>
-<%@page import="org.solent.com504.project.model.service.ServiceFacade"%>
+<%@page import="org.solent.com504.project.model.flower.service.ServiceFacade"%>
 
 
 <%
@@ -34,12 +35,11 @@
 
 %>
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Server Page for heart beat</title>
-    </head>
-    <body>
+<c:set var = "selectedPage" value = "testHeartbeat" scope="request" />
+<!-- start of home.jsp selectedPage=${selectedPage}-->
+<jsp:include page="header.jsp" />
+<!-- Begin page content -->
+<main role="main" class="container">
         <!-- works with http://localhost:8080/basicfacadeweb/testHeartbeat.jsp -->
         <H1>JSP Server Page for heart beat</H1>
         <!-- print error message if there is one -->
@@ -51,4 +51,6 @@
         <p>Getting heartbeat message: <%= serviceFacade.getHeartbeat()%> (note message is auto refreshed every 20 seconds)</p>
 
     </body>
-</html>
+</main>
+
+<jsp:include page="footer.jsp" />
