@@ -5,10 +5,12 @@
  */
 package org.solent.com504.project.impl.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.solent.com504.project.model.flower.dto.Flower;
 import org.solent.com504.project.model.flower.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,7 +62,26 @@ public class ViewController {
     
     
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String home(Model model) {
+    public String home(Model model,  @RequestParam(value = "family", required = false) String family) {
+                LOG.debug("home called");
+        if (serviceFacade == null) {
+            throw new RuntimeException("serviceFacade==null and has not been initialised");
+        }
+        
+        List<String> familiesList = serviceFacade.getAllFamilies();
+        model.addAttribute("familiesList", familiesList);
+        
+        List<Flower> flowerList=null;
+        if (family==null || family.isEmpty()){
+            flowerList = new ArrayList();
+            family="";
+        } else {
+            flowerList =  serviceFacade.findLikefamily(family);
+            
+        }
+        model.addAttribute("family", family);
+        model.addAttribute("flowerList", flowerList);
+        
         return "home";
     }
 
