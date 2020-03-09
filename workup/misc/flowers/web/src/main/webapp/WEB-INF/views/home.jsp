@@ -20,11 +20,39 @@
                 <input type="hidden" name="family" value="${family}">
                 <button class="btn" type="submit" >${family}</button>
             </form>
-
         </c:forEach>
     </div>
     <div class="table-responsive col-md-8">
-        <H3>Flowers (${family})</H3>
+        <H3>Search Criteria</H3>
+        <form action="./home" method="get">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Symbol</td>
+                        <td><input type="text" name="symbol" value="${symbol}"></td>
+                    </tr>
+                    <tr>
+                        <td>Synonym Symbol</td>
+                        <td><input type="text" name="synonymSymbol" value="${synonymSymbol}"></td>
+                    </tr>
+                    <tr>
+                        <td>Scientific Name with Author</td>
+                        <td><input type="text" name="scientificNamewithAuthor" value="${scientificNamewithAuthor}"></td>
+                    </tr>
+                    <tr>
+                        <td>Common Name</td>
+                        <td> <input type="text" name="commonName" value="${commonName}"></td>
+                    </tr>
+                    <tr>
+                        <td>Family</td>
+                        <td><input type="text" name="family" value="${family}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn" type="submit" >Search</button>
+        </form>
+
+        <H3>Flowers Search Results</H3>
         <table class="table">
             <thead>
                 <tr>
@@ -45,7 +73,6 @@
                         <td>${flower.commonName}</td>
                         <td>${flower.family}</td>
                         <td><a href="${flower.dataUrl}" target="_blank" >${flower.dataUrl}</a></td>
-                        
                     </tr>
                 </c:forEach>
 

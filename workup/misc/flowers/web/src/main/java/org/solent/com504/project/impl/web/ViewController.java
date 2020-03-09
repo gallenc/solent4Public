@@ -38,8 +38,7 @@ public class ViewController {
     @Autowired(required = true)
     @Qualifier("serviceFacade")
     ServiceFacade serviceFacade = null;
-    
-    
+
     @RequestMapping("/testHeartbeat")
     public String testHeartbeat(Model m) {
 
@@ -59,29 +58,55 @@ public class ViewController {
         // render view with jsp
         return "testHeartbeat";
     }
-    
-    
+
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String home(Model model,  @RequestParam(value = "family", required = false) String family) {
-                LOG.debug("home called");
+    public String home(Model model,
+            @RequestParam(value = "symbol", required = false) String symbol,
+            @RequestParam(value = "synonymSymbol", required = false) String synonymSymbol,
+            @RequestParam(value = "scientificNamewithAuthor", required = false) String scientificNamewithAuthor,
+            @RequestParam(value = "commonName", required = false) String commonName,
+            @RequestParam(value = "family", required = false) String family) {
+
+        LOG.debug("home called");
         if (serviceFacade == null) {
             throw new RuntimeException("serviceFacade==null and has not been initialised");
         }
-        
+
         List<String> familiesList = serviceFacade.getAllFamilies();
         model.addAttribute("familiesList", familiesList);
-        
-        List<Flower> flowerList=null;
-        if (family==null || family.isEmpty()){
+
+        List<Flower> flowerList = null;
+        if (family == null || family.isEmpty()) {
             flowerList = new ArrayList();
-            family="";
+            family = "";
         } else {
-            flowerList =  serviceFacade.findLikefamily(family);
-            
+            flowerList = serviceFacade.findLikefamily(family);
         }
-        model.addAttribute("family", family);
-        model.addAttribute("flowerList", flowerList);
+
+        if (family == null) {
+            family = "";
+        }
+        if (symbol == null) {
+            symbol = "";
+        }
+        if (synonymSymbol == null) {
+            synonymSymbol = "";
+        }
+        if (scientificNamewithAuthor == null) {
+            scientificNamewithAuthor = "";
+        }
+        if (commonName == null) {
+            commonName="";
+        }
+      
         
+        model.addAttribute("family", family);
+        model.addAttribute("symbol", symbol);
+        model.addAttribute("synonymSymbol", synonymSymbol);
+        model.addAttribute("scientificNamewithAuthor", scientificNamewithAuthor);
+        model.addAttribute("commonName", commonName);
+        model.addAttribute("flowerList", flowerList);
+
         return "home";
     }
 
