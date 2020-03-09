@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -200,7 +201,7 @@ public class FlowerDaoSpreadsheetImpl implements FlowerDao {
 
     @Override
     public synchronized List<String> getAllFamilies() {
-        Set<String> families = new LinkedHashSet(); // preserves natural order
+        Set<String> families = new TreeSet(); // preserves natural order
         Iterator<Row> rowIterator = sheet.iterator();
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
