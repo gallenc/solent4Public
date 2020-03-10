@@ -65,7 +65,8 @@ public class ViewController {
             @RequestParam(value = "synonymSymbol", required = false, defaultValue = "") String synonymSymbol,
             @RequestParam(value = "scientificNamewithAuthor", required = false, defaultValue = "") String scientificNamewithAuthor,
             @RequestParam(value = "commonName", required = false, defaultValue = "") String commonName,
-            @RequestParam(value = "family", required = false, defaultValue = "") String family) {
+            @RequestParam(value = "family", required = false, defaultValue = "") String family,
+            @RequestParam(value = "page", required = false, defaultValue = "0") String page ) {
 
         LOG.debug("home called");
         if (serviceFacade == null) {
@@ -85,13 +86,30 @@ public class ViewController {
         searchFlower.setScientificNamewithAuthor(scientificNamewithAuthor);
 
         flowerList = serviceFacade.findLike(searchFlower);
+        model.addAttribute("flowerList", flowerList);
 
+        List<List<Flower>> flowerPages = new ArrayList();
+        for (int i = 0; i < flowerList.size(); i++) {
+            List<Flower> pagelist = new ArrayList();
+            if (i % 10 == 0) {
+                pagelist = new ArrayList();
+                flowerPages.add(pagelist);
+            }
+            Flower f = flowerList.get(i);
+            pagelist.add(f);
+        }
+        model.addAttribute("flowerPages", flowerPages);
+        
+          //       List<Flower> flowerList ;
+          //          String pStr =(String) request.getAttribute("page");
+          //          Integer pageNo = Integer.parseInt( pStr );
+           //         List<Flower> list = flowerPages(pageNo);
+        
         model.addAttribute("family", family);
         model.addAttribute("symbol", symbol);
         model.addAttribute("synonymSymbol", synonymSymbol);
         model.addAttribute("scientificNamewithAuthor", scientificNamewithAuthor);
         model.addAttribute("commonName", commonName);
-        model.addAttribute("flowerList", flowerList);
 
         return "home";
     }

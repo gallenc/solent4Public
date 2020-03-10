@@ -4,9 +4,6 @@
     Author     : cgallen
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-<%@page import="org.solent.com504.project.model.flower.dto.Flower"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var = "selectedPage" value = "home" scope="request" />
 <!-- start of home.jsp selectedPage=${selectedPage}-->
@@ -68,7 +65,6 @@
                 </tr>
             </thead>
             <tbody>
-      
                 <c:forEach var="flower" items="${flowerList}">
                     <tr>
                         <td>${flower.symbol}</td>
