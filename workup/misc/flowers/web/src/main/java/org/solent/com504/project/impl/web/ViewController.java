@@ -66,15 +66,17 @@ public class ViewController {
             @RequestParam(value = "scientificNamewithAuthor", required = false, defaultValue = "") String scientificNamewithAuthor,
             @RequestParam(value = "commonName", required = false, defaultValue = "") String commonName,
             @RequestParam(value = "family", required = false, defaultValue = "") String family,
-            @RequestParam(value = "page", required = false, defaultValue = "0") String page ) {
+            @RequestParam(value = "page", required = false, defaultValue = "1") String page ) {
 
         LOG.debug("home called");
         if (serviceFacade == null) {
             throw new RuntimeException("serviceFacade==null and has not been initialised");
         }
 
+         LOG.debug("getting all families");
         List<String> familiesList = serviceFacade.getAllFamilies();
         model.addAttribute("familiesList", familiesList);
+        LOG.debug("getting find like ");
 
         List<Flower> flowerList = null;
 
@@ -85,25 +87,33 @@ public class ViewController {
         searchFlower.setFamily(family);
         searchFlower.setScientificNamewithAuthor(scientificNamewithAuthor);
 
+        LOG.debug("getting find like "+searchFlower);
+        // get initial flowerlist
         flowerList = serviceFacade.findLike(searchFlower);
-        model.addAttribute("flowerList", flowerList);
+        LOG.debug("found flowers:+"+flowerList.size());
+         model.addAttribute("resultSize", flowerList.size());
 
+        // sort into pages and select page
         List<List<Flower>> flowerPages = new ArrayList();
+        List<Flower> pagelist = new ArrayList();
         for (int i = 0; i < flowerList.size(); i++) {
-            List<Flower> pagelist = new ArrayList();
-            if (i % 10 == 0) {
+            if ((i % 200) == 0) {
+                //LOG.debug("new arraylist i="+i);
                 pagelist = new ArrayList();
                 flowerPages.add(pagelist);
             }
             Flower f = flowerList.get(i);
             pagelist.add(f);
+            //LOG.debug("pagelist i="+i);
         }
-        model.addAttribute("flowerPages", flowerPages);
         
-          //       List<Flower> flowerList ;
-          //          String pStr =(String) request.getAttribute("page");
-          //          Integer pageNo = Integer.parseInt( pStr );
-           //         List<Flower> list = flowerPages(pageNo);
+        LOG.debug("number of pages: "+flowerPages.size());
+        model.addAttribute("numpages", flowerPages.size());
+        
+        Integer pageNo = Integer.parseInt( page );
+        model.addAttribute("page", pageNo);
+        flowerList  = flowerPages.get(pageNo-1);
+        model.addAttribute("flowerList", flowerList);
         
         model.addAttribute("family", family);
         model.addAttribute("symbol", symbol);

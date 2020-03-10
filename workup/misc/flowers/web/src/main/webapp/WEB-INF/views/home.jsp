@@ -55,7 +55,26 @@
             <button class="btn" type="submit" >Search</button>
         </form>
 
-        <H3>Flowers Search Results</H3>
+        <H3>Flowers Search Found ${resultSize} flowers. Page ${page} of ${numpages}</H3>
+
+        <div class="tpbutton btn-toolbar" style="text-align:center" >
+            <c:forEach begin="1" end="${numpages}" varStatus="loop">
+                <form action="./home" method="get">
+                    <input type="hidden" name="symbol" value="${symbol}">
+                    <input type="hidden"name="synonymSymbol" value="${synonymSymbol}">
+                    <input type="hidden"name="scientificNamewithAuthor" value="${scientificNamewithAuthor}">
+                    <input type="hidden" name="commonName" value="${commonName}">
+                    <input type="hidden" name="family" value="${family}">
+                    <input type="hidden" name="page" value="${loop.index}">
+                    <c:if test="${page eq loop.index}">
+                        <button class="btn navbar-btn btn-primary" type="submit" >Page ${loop.index}</button>
+                    </c:if>
+                       <c:if test="${page ne loop.index}">
+                        <button class="btn navbar-btn btn-default" type="submit" >Page ${loop.index}</button>
+                    </c:if>
+                </form>
+            </c:forEach>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -68,7 +87,7 @@
                 </tr>
             </thead>
             <tbody>
-      
+
                 <c:forEach var="flower" items="${flowerList}">
                     <tr>
                         <td>${flower.symbol}</td>

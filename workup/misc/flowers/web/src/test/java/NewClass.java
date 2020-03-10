@@ -18,12 +18,11 @@ public class NewClass {
 
     @Test
     public void test() {
-        int i = 0 % 10;
-        System.out.println(" i=" + i);
-        i = 2 % 10;
-        System.out.println(" i=" + i);
-
-        i = 21 % 10;
-        System.out.println(" i=" + i);
+        for (int i =0 ; i<100 ; i++){
+              int x = i % 10;
+              System.out.println(" i=" + i +" x=" +x);
+        }
+      
+ 
     }
 }
