@@ -2,8 +2,11 @@
     "resourcePackages": [
         "org.solent.com504.project.impl.rest"
     ],
+    "prettyPrint" : true,
+    "basePath": "/projectweb",
+    
     "openAPI": {
-        "basePath": "projectweb",
+        
         "info": {
             "version": "1.0",
             "title": "Swagger Flowers Sample app",
