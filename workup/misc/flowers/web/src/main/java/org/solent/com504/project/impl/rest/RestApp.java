@@ -16,7 +16,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 @ApplicationPath("/rest")
 public class RestApp extends ResourceConfig {
 
-    // produces http://localhost:8084/projectweb/rest/openapi.json 
+    // produces http://localhost:8084/flowers-web/rest/openapi.json 
     // see https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Getting-started
     public RestApp() {
         packages("org.solent.com504.project.impl.rest",
@@ -38,7 +38,7 @@ public class RestApp extends ResourceConfig {
 //        config.setResourcePackage("org.solent.com504.project.impl.rest");
 //        config.setPrettyPrint(true);
 //        config.setScan(true);
-    // http://localhost:8084/projectweb/rest/swagger/v1.0/swagger.json
+    // http://localhost:8084/flowers-web/rest/swagger/v1.0/swagger.json
     // http://localhost:8080/swagger/v1.0/swagger.json
     // }
 }

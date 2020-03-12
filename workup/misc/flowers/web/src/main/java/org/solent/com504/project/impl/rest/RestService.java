@@ -48,7 +48,7 @@ public class RestService {
     /**
      * this is a very simple rest test message which only returns a string
      *
-     * http://localhost:8084/projectweb/rest/flowerService/
+     * http://localhost:8084/flowers-web/rest/flowerService/
      *
      * @return String simple message
      */
@@ -62,7 +62,7 @@ public class RestService {
     /**
      * get heartbeat
      *
-     * http://localhost:8084/projectweb/rest/flowerService/getHeartbeat
+     * http://localhost:8084/flowers-web/rest/flowerService/getHeartbeat
      *
      * @return Response OK and heartbeat in debug message
      */
@@ -97,7 +97,7 @@ public class RestService {
 
     /**
      * public List<Flower> findBySymbolOrSynonymSymbol(String symbol);
-     * http://localhost:8084/projectweb/rest/flowerService/findBySymbolOrSynonymSymbol?symbol="ABAM5"
+     * http://localhost:8084/flowers-web/rest/flowerService/findBySymbolOrSynonymSymbol?symbol="ABAM5"
      *
      * @return
      */
@@ -132,7 +132,7 @@ public class RestService {
 
     /**
      * List<Flower> findLikeScientificNamewithAuthor(String scientificNamewithAuthor);
-     * http://localhost:8084/projectweb/rest/flowerService/findLikeScientificNamewithAuthor?name="Verbesina pauciflora"
+     * http://localhost:8084/flowers-web/rest/flowerService/findLikeScientificNamewithAuthor?name="Verbesina pauciflora"
      *
      * @return
      */
@@ -167,7 +167,7 @@ public class RestService {
 
     /**
      * List<Flower> findLikeScientificNamewithAuthor(String scientificNamewithAuthor);
-     * http://localhost:8084/projectweb/rest/flowerService/findLikeCommonName?name="ABAM5"
+     * http://localhost:8084/flowers-web/rest/flowerService/findLikeCommonName?name="ABAM5"
      *
      * @return
      */
@@ -202,7 +202,7 @@ public class RestService {
 
     /**
      * List<Flower> findLikeScientificNamewithAuthor(String scientificNamewithAuthor);
-     * http://localhost:8084/projectweb/rest/flowerService/findLikefamily?name="Asteraceae"
+     * http://localhost:8084/flowers-web/rest/flowerService/findLikefamily?name="Asteraceae"
      *
      * @return
      */
@@ -236,7 +236,7 @@ public class RestService {
     }
 
     /**
-     * public List<Flower> findLike(Flower flower); http://localhost:8084/projectweb/rest/flowerService/findLike
+     * public List<Flower> findLike(Flower flower); http://localhost:8084/flowers-web/rest/flowerService/findLike
      *
      * @return
      */
@@ -272,7 +272,7 @@ public class RestService {
 
     /**
      * List<Flower> findLikeScientificNamewithAuthor(String scientificNamewithAuthor);
-     * http://localhost:8084/projectweb/rest/flowerService/findLikeCommonName?name="ABAM5"
+     * http://localhost:8084/flowers-web/rest/flowerService/findLikeCommonName?name="ABAM5"
      *
      * @return
      */
