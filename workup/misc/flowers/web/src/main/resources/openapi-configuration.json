@@ -2,16 +2,15 @@
     "resourcePackages": [
         "org.solent.com504.project.impl.rest"
     ],
-    "prettyPrint" : true,
-    "basePath": "/projectweb",
-    
+    "prettyPrint": true,
+
     "openAPI": {
-        
+
         "info": {
             "version": "1.0",
             "title": "Swagger Flowers Sample app",
-            "description": "This is a simple flowers definition catelog service  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-            "termsOfService": "http://swagger.io/terms/",
+            "description": "This is a simple flowers definition catalog service  You can find out more about Swagger at [http://swagger.io](http://swagger.io) ",
+            "termsOfService": "TBD1",
             "contact": {
                 "email": "craig.gallen@solent.ac.uk"
             },
@@ -19,6 +18,24 @@
                 "name": "Apache 2.0",
                 "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
             }
-        }
+        },
+
+        "servers": [
+            {
+                "url": "http://localhost:{port}/{basePath}",
+                "description": "Localhost test api server",
+                "variables": {
+                    "basePath": {
+                        "default": "projectweb"
+                    },
+                    "port": {
+                        "enum": [
+                            "8084"
+                        ],
+                        "default": "8084"
+                    }
+                }
+            }
+        ]
     }
 }
