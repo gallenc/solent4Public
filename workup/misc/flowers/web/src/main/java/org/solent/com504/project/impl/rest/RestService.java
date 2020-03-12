@@ -53,6 +53,7 @@ public class RestService {
      * @return String simple message
      */
     @GET
+    @Produces({MediaType.TEXT_PLAIN})
     public String message() {
         LOG.debug("flowerService called");
         return "Hello, rest!";
@@ -96,7 +97,7 @@ public class RestService {
 
     /**
      * public List<Flower> findBySymbolOrSynonymSymbol(String symbol);
- http://localhost:8084/projectweb/rest/flowerService/findBySymbolOrSynonymSymbol?symbol="ABAM5"
+     * http://localhost:8084/projectweb/rest/flowerService/findBySymbolOrSynonymSymbol?symbol="ABAM5"
      *
      * @return
      */
