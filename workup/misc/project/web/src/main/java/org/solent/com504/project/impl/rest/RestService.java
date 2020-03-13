@@ -9,6 +9,12 @@ package org.solent.com504.project.impl.rest;
  *
  * @author gallenc
  */
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -51,23 +57,45 @@ public class RestService {
     /**
      * this is a very simple rest test message which only returns a string
      *
-     * http://localhost:8084/projectweb/rest/appointmentService/
+     * http://localhost:8084/project-web/rest/appointmentService/
      *
      * @return String simple message
      */
+    // swagger annotations
+    @Operation(summary = "all this does is ask for a text 'hello world' response",
+            description = "Returns text hello world",
+            responses = {
+                @ApiResponse(description = "hello world message",
+                        content = @Content(mediaType = "text/plain"))
+            })
+
     @GET
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
+    @Produces({MediaType.TEXT_PLAIN})
     public String message() {
-        LOG.debug("appointmentService called");
+        LOG.debug("project-web called");
         return "Hello, rest!";
     }
 
     /**
      * get heartbeat
      *
-     * http://localhost:8084/projectweb/rest/appointmentService/getHeartbeat
+     * http://localhost:8084/project-web/rest/appointmentService/getHeartbeat
      *
      * @return Response OK and heartbeat in debug message
      */
+    // Swagger annotations
+    @Operation(summary = "This is simply a test method to check there is a heartbeat reply message",
+            description = "simply returns an incrimenting heartbeat in debug message",
+            responses = {
+                @ApiResponse(description = "Heartbeat message in debug message of Reply",
+                        content = @Content(
+                                schema = @Schema(implementation = ReplyMessage.class)
+                        ))
+                ,
+            @ApiResponse(responseCode = "500", description = "Internal server error. See Debug message in response for details")
+            })
+
     @GET
     @Path("/getHeartbeat")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

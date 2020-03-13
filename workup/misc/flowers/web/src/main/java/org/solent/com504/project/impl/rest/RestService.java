@@ -88,7 +88,7 @@ public class RestService {
      */
     // Swagger annotations
     @Operation(summary = "This is simply a test method to check there is a heartbeat reply message",
-            description = "Returns a list of flower descriptons corresponding to the symbol or synonym",
+            description = "simply returns an incrimenting heartbeat in debug message",
             responses = {
                 @ApiResponse(description = "Heartbeat message in debug message of Reply",
                         content = @Content(
