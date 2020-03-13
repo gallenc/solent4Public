@@ -104,6 +104,11 @@
             <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/jakarta.ws.rs/jakarta.ws.rs-api -->
         <!--        <dependency>

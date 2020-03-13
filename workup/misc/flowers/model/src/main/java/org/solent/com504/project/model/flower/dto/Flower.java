@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author gallenc
  */
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Flower {

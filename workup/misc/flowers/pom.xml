@@ -126,6 +126,11 @@
                 <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
             
             <!-- unpack into war -->
             <!-- https://mvnrepository.com/artifact/org.webjars/swagger-ui -->
