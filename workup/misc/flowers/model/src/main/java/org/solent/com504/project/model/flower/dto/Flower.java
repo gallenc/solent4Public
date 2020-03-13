@@ -5,6 +5,7 @@
  */
 package org.solent.com504.project.model.flower.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author gallenc
  */
+@Schema(description = "Flower Object which contains details of flowers")
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,8 +27,8 @@ public class Flower {
     private String commonName;
     private String family;
     private String dataUrl; // https://plants.usda.gov/core/profile?symbol=ABGR4
-    
-    public Flower(){
+
+    public Flower() {
     }
 
     public Flower(String symbol, String synonymSymbol, String scientificNamewithAuthor, String commonName, String family, String dataUrl) {
@@ -38,6 +40,7 @@ public class Flower {
         this.dataUrl = dataUrl;
     }
 
+    @Schema(description = "plants.usda.gov plant identification Symbol")
     public String getSymbol() {
         return symbol;
     }
@@ -46,6 +49,7 @@ public class Flower {
         this.symbol = symbol;
     }
 
+    @Schema(description = "plants.usda.gov plant identification synonym Symbol")
     public String getSynonymSymbol() {
         return synonymSymbol;
     }
@@ -54,6 +58,7 @@ public class Flower {
         this.synonymSymbol = synonymSymbol;
     }
 
+    @Schema(description = "plants.usda.gov plant Scientific name with author")
     public String getScientificNamewithAuthor() {
         return scientificNamewithAuthor;
     }
@@ -62,6 +67,7 @@ public class Flower {
         this.scientificNamewithAuthor = scientificNamewithAuthor;
     }
 
+    @Schema(description = "plants.usda.gov plant common name")
     public String getCommonName() {
         return commonName;
     }
@@ -70,6 +76,7 @@ public class Flower {
         this.commonName = commonName;
     }
 
+    @Schema(description = "plants.usda.gov plant family. May be NONE")
     public String getFamily() {
         return family;
     }
@@ -78,6 +85,7 @@ public class Flower {
         this.family = family;
     }
 
+    @Schema(description = "plants.usda.gov url to access the detailed web page for plant")
     public String getDataUrl() {
         return dataUrl;
     }
@@ -90,6 +98,5 @@ public class Flower {
     public String toString() {
         return "Flower{" + "symbol=" + symbol + ", synonymSymbol=" + synonymSymbol + ", scientificNamewithAuthor=" + scientificNamewithAuthor + ", commonName=" + commonName + ", family=" + family + ", dataUrl=" + dataUrl + '}';
     }
- 
 
 }

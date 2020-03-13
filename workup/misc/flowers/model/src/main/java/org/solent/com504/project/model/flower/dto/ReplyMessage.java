@@ -37,7 +37,6 @@ public class ReplyMessage {
     }
 
     @Schema(description = "debug message to help developer understand the problem. May include stack trace from server")
-
     public String getDebugMessage() {
         return debugMessage;
     }
@@ -46,11 +45,12 @@ public class ReplyMessage {
         this.debugMessage = debugMessage;
     }
 
+    @ArraySchema(schema = @Schema(description="returned string values. May be empty.",  implementation = String.class))
     public List<String> getStringList() {
         return stringList;
     }
    
-    @ArraySchema(schema = @Schema(description="returned string values. May be empty.",  implementation = String.class))
+
     public void setStringList(List<String> stringList) {
         this.stringList = stringList;
     }
