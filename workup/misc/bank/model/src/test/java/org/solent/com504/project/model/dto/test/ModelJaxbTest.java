@@ -25,6 +25,8 @@ import org.junit.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
+import org.solent.com504.project.model.bank.dto.BankAccount;
+import org.solent.com504.project.model.bank.dto.Transaction;
 
 import org.solent.com504.project.model.party.dto.Party;
 import org.solent.com504.project.model.party.dto.Address;
@@ -49,7 +51,8 @@ public class ModelJaxbTest {
             jaxbContext = JAXBContext.newInstance(
                     "org.solent.com504.project.model.dto"
                     + ":org.solent.com504.project.model.user.dto"
-                    + ":org.solent.com504.project.model.party.dto");
+                    + ":org.solent.com504.project.model.party.dto"
+                    + ":org.solent.com504.project.model.bank.dto");
         } catch (JAXBException e) {
             throw new RuntimeException("problem creating jaxb context", e);
         }
@@ -81,6 +84,21 @@ public class ModelJaxbTest {
             address.setAddressLine1("home for me");
             party.setAddress(address);
             partyList.add(party);
+
+            List<BankAccount> bankAccountList = new ArrayList<BankAccount>();
+            BankAccount ba = new BankAccount();
+            bankAccountList.add(ba);
+            String accountNo = "12345678";
+            ba.setAccountNo(accountNo);
+            ba.setBalance(0.0);
+            String sortCode = "111111";
+            ba.setSortCode(sortCode);
+
+            replyMessage.setBankAccountList(bankAccountList);
+            List<Transaction> transactionList = new ArrayList<Transaction>();
+            Transaction tr = new Transaction();
+            transactionList.add(tr);
+            replyMessage.setTransactionList(transactionList);
 
             // create XML from the object
             // marshal the object lists to system out, a file and a stringWriter

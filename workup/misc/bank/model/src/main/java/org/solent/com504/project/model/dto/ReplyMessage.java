@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.solent.com504.project.model.bank.dto.BankAccount;
+import org.solent.com504.project.model.bank.dto.Transaction;
 import org.solent.com504.project.model.party.dto.Party;
 
 @XmlRootElement
@@ -24,7 +26,13 @@ public class ReplyMessage {
     @XmlElement(name = "party")
     private List<Party> partyList = null;
 
-  
+    @XmlElementWrapper(name = "transactionList")
+    @XmlElement(name = "transaction")
+    private List<Transaction> transactionList;
+
+    @XmlElementWrapper(name = "bankAccountList")
+    @XmlElement(name = "bankAccount")
+    private List<BankAccount> bankAccountList;
 
     public Integer getCode() {
         return code;
@@ -58,6 +66,22 @@ public class ReplyMessage {
         this.partyList = partyList;
     }
 
-   
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
+
+    public List<BankAccount> getBankAccountList() {
+        return bankAccountList;
+    }
+
+    public void setBankAccountList(List<BankAccount> bankAccountList) {
+        this.bankAccountList = bankAccountList;
+    }
+    
+    
 
 }
