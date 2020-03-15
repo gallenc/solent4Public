@@ -19,4 +19,5 @@ public interface TransactionDAO {
     public void deleteAllTransactions();
 
     public void deleteTransaction(Long transactionId);
+    
 }

@@ -11,7 +11,7 @@ public interface BankAccountDAO {
 
     public BankAccount save(BankAccount bankAccount);
 
-    public BankAccount findBySortCodeAndAccountNo(String sortcode, String accountNo);
+    public BankAccount findBySortCodeAndAccountNo(String sortCode, String accountNo);
 
     public List<BankAccount> findByOwner(Party owner);
 

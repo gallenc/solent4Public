@@ -1,6 +1,13 @@
 package org.solent.com504.project.model.bank.dto;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,6 +15,7 @@ import org.solent.com504.project.model.party.dto.Party;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Entity
 public class Transaction {
 
     private Long id;
@@ -30,6 +38,8 @@ public class Transaction {
 
     private Date date;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -46,6 +56,8 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FROM_ACCOUNT_ID")
     public BankAccount getFromAccount() {
         return fromAccount;
     }
@@ -54,6 +66,8 @@ public class Transaction {
         this.fromAccount = fromAccount;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TO_ACCOUNT_ID")
     public BankAccount getToAccount() {
         return toAccount;
     }
@@ -70,6 +84,8 @@ public class Transaction {
         this.amount = amount;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "INITIATOR_ID")
     public Party getInitiator() {
         return initiator;
     }
@@ -114,6 +130,5 @@ public class Transaction {
     public String toString() {
         return "Transaction{" + "id=" + id + ", transactionId=" + transactionId + ", fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", amount=" + amount + ", initiator=" + initiator + ", status=" + status + ", reason=" + reason + ", userMessage=" + userMessage + ", date=" + date + '}';
     }
-    
-    
+
 }
