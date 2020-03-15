@@ -5,9 +5,16 @@
  */
 package org.solent.com504.project.impl.dao.bank.spring.test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import static java.util.Date.from;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -17,6 +24,8 @@ import org.junit.runner.RunWith;
 import org.solent.com504.project.model.bank.dao.BankAccountDAO;
 import org.solent.com504.project.model.bank.dao.TransactionDAO;
 import org.solent.com504.project.model.bank.dto.BankAccount;
+import org.solent.com504.project.model.bank.dto.Transaction;
+import org.solent.com504.project.model.bank.dto.TransactionStatus;
 import org.solent.com504.project.model.party.dto.Party;
 import org.solent.com504.project.model.party.dto.PartyRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +51,8 @@ public class BankAndTransactionDAOTest {
 
     final static Logger LOG = LogManager.getLogger(BankAndTransactionDAOTest.class);
 
+    private List<Date> constantDateList = null;
+
     @Autowired
     private TransactionDAO transactionDao = null;
 
@@ -63,8 +74,11 @@ public class BankAndTransactionDAOTest {
 
     // initialises database for each test
     private void init() {
-        // delete all in database
 
+        // get date constants
+        constantDateList = getConstantDateList();
+
+        // delete all in database
         transactionDao.deleteAllTransactions();
         bankAccountDao.deleteAllAccounts();
         partyDao.deleteAll();
@@ -212,13 +226,135 @@ public class BankAndTransactionDAOTest {
         LOG.debug("end of testFindByOwner");
 
     }
-    
-        @Test
+
+    private List<Date> getConstantDateList() {
+        List<Date> constantDateList = new ArrayList();
+
+        // will parse 2009-12-31 23:59:59.999
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        List<String> constantDateStrings = Arrays.asList("2020-01-1 12:59:59.999",
+                "2020-01-5 12:59:59.999",
+                "2020-01-10 12:59:59.999",
+                "2020-01-20 12:59:59.999",
+                "2020-01-30 12:59:59.999",
+                "2020-02-5 12:59:59.999");
+
+        for (String dateStr : constantDateStrings) {
+            try {
+                Date date = format.parse(dateStr);
+                constantDateList.add(date);
+            } catch (ParseException ex) {
+                throw new RuntimeException("could not parse constant date: ", ex);
+            }
+        }
+        return constantDateList;
+    }
+
+    @Test
     public void testTransactions() {
         LOG.debug("start of testTransactions");
         init();
-        
-        LOG.debug("start of testTransactions");
+
+        // find four bank accounts for 2 owners
+        List<Party> partyList = partyDao.findAll();
+
+        Party owner1 = partyList.get(0);
+        LOG.debug("finding accounts for owner1 =" + owner1);
+        List<BankAccount> bankAccounts1 = bankAccountDao.findByOwner(owner1);
+        assertEquals(2, bankAccounts1.size());
+
+        Party owner2 = partyList.get(1);
+        LOG.debug("finding accounts for owner2 =" + owner2);
+        List<BankAccount> bankAccounts2 = bankAccountDao.findByOwner(owner2);
+        assertEquals(2, bankAccounts2.size());
+
+        for (Date transactionDate : constantDateList) {
+            Transaction transaction1 = new Transaction();
+            transaction1.setAmount(10.00);
+            transaction1.setInitiator(owner1);
+            BankAccount fromAccount1 = bankAccounts1.get(0);
+            BankAccount toAccount1 = bankAccounts2.get(0);
+            transaction1.setFromAccount(fromAccount1);
+            transaction1.setToAccount(toAccount1);
+            transaction1.setDate(transactionDate);
+            transaction1.setStatus(TransactionStatus.COMPLETE);
+
+            // creates unique transactionId but only in scope of date list
+            String transactionId = Long.toHexString(transactionDate.getTime());
+            transaction1.setTransactionId(transactionId);
+
+            transactionDao.save(transaction1);
+
+            // check can find by transacionId
+            Transaction tx = transactionDao.findByTransactionId(transactionId);
+            assertNotNull(tx);
+            assertTrue(tx.toString().equals(transaction1.toString()));
+
+        }
+
+        // transaction test 1
+        {
+            TransactionStatus transactionStatus = TransactionStatus.COMPLETE;
+            BankAccount fromAccount = null;
+            BankAccount toAccount = null;
+            Date fromDate = null;
+            Date toDate = null;
+
+            List<Transaction> transactionList = transactionDao.findByDetails(fromAccount, toAccount, transactionStatus, fromDate, toDate);
+            assertFalse(transactionList.isEmpty());
+
+            transactionStatus = TransactionStatus.DECLINED;
+            transactionList = transactionDao.findByDetails(fromAccount, toAccount, transactionStatus, fromDate, toDate);
+            assertTrue(transactionList.isEmpty());
+        }
+
+        // transaction test 2
+        {
+            TransactionStatus transactionStatus = null;
+            BankAccount fromAccount = null;
+            BankAccount toAccount = null;
+            Date fromDate = constantDateList.get(0);
+            Date toDate = constantDateList.get(3);
+
+            List<Transaction> transactionList = transactionDao.findByDetails(fromAccount, toAccount, transactionStatus, fromDate, toDate);
+
+            LOG.debug("found " + transactionList.size() + " transactions between fromDate=" + fromDate + " and toDate=" + toDate);
+            assertFalse(transactionList.isEmpty());
+
+        }
+
+        // transaction test 3
+        {
+            TransactionStatus transactionStatus = null;
+            BankAccount fromAccount = null;
+            BankAccount toAccount = bankAccounts2.get(0);
+            Date fromDate = null;
+            Date toDate = null;
+
+            List<Transaction> transactionList = transactionDao.findByDetails(fromAccount, toAccount, transactionStatus, fromDate, toDate);
+
+            LOG.debug("found " + transactionList.size() + " transactions for toAccount=" + toAccount);
+            assertFalse(transactionList.isEmpty());
+
+        }
+
+        // transaction test 4
+        {
+            TransactionStatus transactionStatus = null;
+            BankAccount fromAccount = bankAccounts1.get(0);
+            BankAccount toAccount = null;
+            Date fromDate = null;
+            Date toDate = null;
+
+            List<Transaction> transactionList = transactionDao.findByDetails(fromAccount, toAccount, transactionStatus, fromDate, toDate);
+
+            LOG.debug("found " + transactionList.size() + " transactions for fromAccount=" + fromAccount);
+            assertFalse(transactionList.isEmpty());
+
+        }
+
+        LOG.debug("end of testTransactions");
     }
 
 }

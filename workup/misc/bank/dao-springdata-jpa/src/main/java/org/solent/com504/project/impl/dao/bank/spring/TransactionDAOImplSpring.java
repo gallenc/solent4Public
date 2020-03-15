@@ -28,21 +28,27 @@ public class TransactionDAOImplSpring implements TransactionDAO {
 
     @Override
     public Transaction findById(Long id) {
-        Optional<Transaction> iii = transactionRepository.findById(id);
-        if (iii.isPresent()) {
-            return iii.get();
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+        if (optionalTransaction.isPresent()) {
+            return optionalTransaction.get();
         }
         return null;
     }
 
     @Override
-    public Transaction findByTransactionId(String transactionIid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Transaction findByTransactionId(String transactionId) {
+        List<Transaction> tlist = transactionRepository.findByTransactionId(transactionId);
+        if (tlist.isEmpty()) {
+            return null;
+        } else {
+            return tlist.get(0);
+        }
+
     }
 
     @Override
-    public List<Transaction> findByDetails(BankAccount from, BankAccount to, TransactionStatus transactionstatus, Date fromDate, Date toDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Transaction> findByDetails(BankAccount fromAccount, BankAccount toAccount, TransactionStatus transactionStatus, Date fromDate, Date toDate) {
+        return transactionRepository.findByDetails(fromAccount,  toAccount,  transactionStatus, fromDate, toDate);
     }
 
     @Override
@@ -57,7 +63,7 @@ public class TransactionDAOImplSpring implements TransactionDAO {
 
     @Override
     public void deleteTransaction(Long transactionId) {
-       transactionRepository.deleteById(transactionId);
+        transactionRepository.deleteById(transactionId);
     }
 
 }

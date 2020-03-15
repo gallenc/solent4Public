@@ -12,7 +12,7 @@ public interface TransactionDAO {
 
     public Transaction findByTransactionId(String transactionIid);
 
-    public List<Transaction> findByDetails(BankAccount from, BankAccount to, TransactionStatus transactionstatus, Date fromDate, Date toDate);
+    public List<Transaction> findByDetails(BankAccount fromAccount, BankAccount toAccount, TransactionStatus transactionStatus, Date fromDate, Date toDate);
 
     public Transaction save(Transaction transaction);
 
