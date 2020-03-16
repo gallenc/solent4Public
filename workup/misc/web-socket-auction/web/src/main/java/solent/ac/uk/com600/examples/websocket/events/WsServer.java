@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package solent.ac.uk.com600.examples.auction.events;
+package solent.ac.uk.com600.examples.websocket.events;
 
 /**
  *

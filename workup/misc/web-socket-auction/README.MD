@@ -1,8 +1,6 @@
-# Web Socket Events
+# Web Socket Auction 
 
-This simple project is built from an example here
-
-https://examples.javacodegeeks.com/enterprise-java/tomcat/apache-tomcat-websocket-tutorial/
+This example project draws on the examples below to begin building an auction web socket
 
 It uses Tomcat 7's internal JSR-356 Java WebSocket 1.1 implementation
 
