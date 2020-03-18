@@ -48,6 +48,17 @@ public class Party {
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")
     private Set<User> users = new HashSet();
+    
+    public Party(){
+        super();
+    }
+
+    public Party(String firstName, String secondName) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+    }
+    
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

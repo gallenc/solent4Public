@@ -29,7 +29,6 @@
   <module>model</module>
   <module>web</module>
   <module>client-websocket</module>
-
 </modules>
 
   <build>
