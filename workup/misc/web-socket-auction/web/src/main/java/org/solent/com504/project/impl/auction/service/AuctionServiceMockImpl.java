@@ -160,7 +160,7 @@ public class AuctionServiceMockImpl implements AuctionService {
         message.setBidderuuid(bidderuuid);
         message.setLotuuid(lotuuid);
 
-        if (!CheckAuth.checkAuctionKey(authKey, auctionuuid, lotuuid)) {
+        if (!CheckAuth.checkAuctionKey(authKey, auctionuuid, bidderuuid)) {
             message.setMessageType(MessageType.ERROR);
             message.setDebugMessage("unauthorised bid message");
             return message;
@@ -180,6 +180,7 @@ public class AuctionServiceMockImpl implements AuctionService {
                     + " bid price less than reserve price ");
             return message;
         }
+        
 
         if (lot.getCurrentPrice() < value) {
             lot.setCurrentPrice(value);
