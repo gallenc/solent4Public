@@ -25,7 +25,7 @@ public class Bid {
     private Double amount;
     
     // should be unique at time of creation but not best solution
-    private Long biduuid = new Date().getTime();
+    private String biduuid = Long.toHexString(new Date().getTime());
 
     public Long getId() {
         return id;
@@ -59,10 +59,28 @@ public class Bid {
         this.amount = amount;
     }
 
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getBiduuid() {
+        return biduuid;
+    }
+
+    public void setBiduuid(String biduuid) {
+        this.biduuid = biduuid;
+    }
+
     @Override
     public String toString() {
-        return "Bid{" + "id=" + id + ", bidder=" + bidder + ", lot=" + lot + ", amount=" + amount + '}';
+        return "Bid{" + "time=" + time + ", id=" + id + ", bidder=" + bidder + ", lot=" + lot + ", amount=" + amount + ", biduuid=" + biduuid + '}';
     }
+
+
     
     
 }

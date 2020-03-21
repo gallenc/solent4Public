@@ -34,6 +34,8 @@ public class Auction {
     // unique UUID created for every Auction
     private String auctionuuid = Long.toHexString(new Date().getTime());
 
+    AuctionType auctionType = AuctionType.NORMAL;
+
     private AuctionStatus auctionStatus = AuctionStatus.PLANNING;
 
     public Auction() {
@@ -100,9 +102,19 @@ public class Auction {
         this.auctionStatus = auctionStatus;
     }
 
+    public AuctionType getAuctionType() {
+        return auctionType;
+    }
+
+    public void setAuctionType(AuctionType auctionType) {
+        this.auctionType = auctionType;
+    }
+
     @Override
     public String toString() {
-        return "Auction{" + "startTime=" + startTime + ", id=" + id + ", lots=" + lots + ", description=" + description + ", registeredPartys=" + registeredPartys + ", auctionuuid=" + auctionuuid + ", auctionStatus=" + auctionStatus + '}';
+        return "Auction{" + "startTime=" + startTime + ", id=" + id + ", lots=" + lots + ", description=" + description + ", registeredPartys=" + registeredPartys + ", auctionuuid=" + auctionuuid + ", auctionType=" + auctionType + ", auctionStatus=" + auctionStatus + '}';
     }
+
+
 
 }

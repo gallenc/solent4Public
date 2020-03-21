@@ -31,15 +31,15 @@ public class Lot {
 
     private Flower flowerType;
 
-    private Long quantity =0L;
+    private Long quantity = 0L;
 
-    private Double reservePrice =0.0;
+    private Double reservePrice = 0.0;
 
-    private Double soldPrice =0.0;
-    
+    private Double soldPrice = 0.0;
+
     // transient = not marshalled or persisted
     @XmlTransient
-    private Double currentPrice =0.0;
+    private Double currentPrice = 0.0;
 
     private Party seller;
 
@@ -49,6 +49,11 @@ public class Lot {
     private String lotuuid = Long.toHexString(new Date().getTime());
 
     private Boolean active = false;
+
+    // set when assigned to auction
+    @XmlTransient
+    AuctionType auctionType = AuctionType.NORMAL;
+
 
     public Long getId() {
         return id;
@@ -135,7 +140,7 @@ public class Lot {
     }
 
     public void setActive(boolean active) {
-        this.active= active;
+        this.active = active;
     }
 
     public Double getCurrentPrice() {
@@ -153,16 +158,21 @@ public class Lot {
     public void setActive(Boolean active) {
         this.active = active;
     }
+    
+    
+    public AuctionType getAuctionType() {
+        return auctionType;
+    }
+
+    public void setAuctionType(AuctionType auctionType) {
+        this.auctionType = auctionType;
+    }
 
     @Override
     public String toString() {
-        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", active=" + active + '}';
+        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", active=" + active + ", auctionType=" + auctionType + '}';
     }
     
     
- 
-
-  
-
 
 }
