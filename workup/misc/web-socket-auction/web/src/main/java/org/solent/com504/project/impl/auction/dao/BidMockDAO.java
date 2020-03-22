@@ -6,6 +6,9 @@
 package org.solent.com504.project.impl.auction.dao;
 
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.solent.com504.project.model.auction.dao.BidDAO;
 import org.solent.com504.project.model.auction.dto.Bid;
 
@@ -15,6 +18,8 @@ import org.solent.com504.project.model.auction.dto.Bid;
  */
 public class BidMockDAO implements BidDAO {
 
+    final static Logger LOG = LogManager.getLogger(BidMockDAO.class);
+
     @Override
     public Bid findById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -22,7 +27,8 @@ public class BidMockDAO implements BidDAO {
 
     @Override
     public Bid save(Bid bid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       LOG.debug("logging bid: "+bid);
+       return bid;
     }
 
     @Override
@@ -49,5 +55,5 @@ public class BidMockDAO implements BidDAO {
     public Bid findByBiduuid(String biduuid) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

@@ -4,8 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.UUID;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -46,14 +45,21 @@ public class Lot {
     private Party buyer;
 
     // unique UUID created for every Auction
-    private String lotuuid = Long.toHexString(new Date().getTime());
-
-    private Boolean active = false;
+    private String lotuuid = UUID.randomUUID().toString(); 
+    
+    private AuctionStatus lotStatus = AuctionStatus.SCHEDULED;
 
     // set when assigned to auction
     @XmlTransient
     AuctionType auctionType = AuctionType.NORMAL;
 
+    // set when assigned to auction
+    @XmlTransient
+    private Long lotDuraton;
+
+    // set when lot goes active
+    @XmlTransient
+    private Date currentLotStart;
 
     public Long getId() {
         return id;
@@ -135,14 +141,6 @@ public class Lot {
         this.lotuuid = lotuuid;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public Double getCurrentPrice() {
         return currentPrice;
     }
@@ -151,15 +149,14 @@ public class Lot {
         this.currentPrice = currentPrice;
     }
 
-    public Boolean getActive() {
-        return active;
+    public AuctionStatus getLotStatus() {
+        return lotStatus;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setLotStatus(AuctionStatus lotStatus) {
+        this.lotStatus = lotStatus;
     }
-    
-    
+
     public AuctionType getAuctionType() {
         return auctionType;
     }
@@ -168,11 +165,25 @@ public class Lot {
         this.auctionType = auctionType;
     }
 
+    public Long getLotDuraton() {
+        return lotDuraton;
+    }
+
+    public void setLotDuraton(Long lotDuraton) {
+        this.lotDuraton = lotDuraton;
+    }
+
+    public Date getCurrentLotStart() {
+        return currentLotStart;
+    }
+
+    public void setCurrentLotStart(Date currentLotStart) {
+        this.currentLotStart = currentLotStart;
+    }
+
     @Override
     public String toString() {
-        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", active=" + active + ", auctionType=" + auctionType + '}';
+        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", lotStatus=" + lotStatus + ", auctionType=" + auctionType + ", lotDuraton=" + lotDuraton + ", currentLotStart=" + currentLotStart + '}';
     }
-    
-    
 
 }

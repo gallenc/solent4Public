@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -41,7 +42,7 @@ public class Party {
     private PartyStatus partyStatus = PartyStatus.ACTIVE;
 
     // unique UUID created for every Party
-    private String uuid = Long.toHexString(new Date().getTime());
+    private String uuid = UUID.randomUUID().toString(); 
 
     private Boolean enabled = true;
 

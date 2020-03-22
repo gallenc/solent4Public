@@ -2,6 +2,7 @@ package org.solent.com504.project.model.auction.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +26,7 @@ public class Bid {
     private Double amount;
     
     // should be unique at time of creation but not best solution
-    private String biduuid = Long.toHexString(new Date().getTime());
+    private String biduuid =UUID.randomUUID().toString(); 
 
     public Long getId() {
         return id;

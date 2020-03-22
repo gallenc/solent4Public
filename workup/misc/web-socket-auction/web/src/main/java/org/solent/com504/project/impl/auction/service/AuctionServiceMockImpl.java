@@ -14,9 +14,11 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.auction.dao.AuctionMockDAO;
+import org.solent.com504.project.impl.auction.dao.BidMockDAO;
 import org.solent.com504.project.impl.auction.dao.LotMockDAO;
 import org.solent.com504.project.impl.auction.dao.PartyMockDAO;
 import org.solent.com504.project.model.auction.dao.AuctionDAO;
+import org.solent.com504.project.model.auction.dao.BidDAO;
 import org.solent.com504.project.model.auction.dao.LotDAO;
 import org.solent.com504.project.model.auction.dto.Auction;
 import org.solent.com504.project.model.auction.dto.AuctionStatus;
@@ -37,14 +39,50 @@ public class AuctionServiceMockImpl implements AuctionService {
 
     final static Logger LOG = LogManager.getLogger(AuctionServiceMockImpl.class);
 
-    PartyDAO partyDAO = new PartyMockDAO();
+    private PartyDAO partyDAO = new PartyMockDAO();
 
-    AuctionDAO auctionDAO = new AuctionMockDAO();
+    private AuctionDAO auctionDAO = new AuctionMockDAO();
+
+    private LotDAO lotDao = new LotMockDAO(auctionDAO);
     
-    LotDAO lotDao = new LotMockDAO( auctionDAO);
+    private BidDAO bidDao = new BidMockDAO();
 
     // hashmap of lotuuid / active lots
     private LinkedHashMap<String, Lot> activeLots = new LinkedHashMap();
+
+    public PartyDAO getPartyDAO() {
+        return partyDAO;
+    }
+
+    public void setPartyDAO(PartyDAO partyDAO) {
+        this.partyDAO = partyDAO;
+    }
+
+    public AuctionDAO getAuctionDAO() {
+        return auctionDAO;
+    }
+
+    public void setAuctionDAO(AuctionDAO auctionDAO) {
+        this.auctionDAO = auctionDAO;
+    }
+
+    public LotDAO getLotDao() {
+        return lotDao;
+    }
+
+    public void setLotDao(LotDAO lotDao) {
+        this.lotDao = lotDao;
+    }
+
+    public BidDAO getBidDao() {
+        return bidDao;
+    }
+
+    public void setBidDao(BidDAO bidDao) {
+        this.bidDao = bidDao;
+    }
+    
+    
 
     // mock initialisation code 
     {
@@ -150,6 +188,7 @@ public class AuctionServiceMockImpl implements AuctionService {
 
         // add new activeLot to 
         Lot lot = new Lot();
+        lot.setLotDuraton(auction.getLotDuration());
         lot.setAuctionType(auction.getAuctionType());
         lot.setFlowerType(flowertype);
         lot.setReservePrice(reserveprice);
@@ -161,14 +200,12 @@ public class AuctionServiceMockImpl implements AuctionService {
     }
 
     // ACTIVE AUCTION METHODS
-    
-    
     public synchronized void runAuction(String auctionuuid) {
         Auction auction = auctionDAO.findByAuctionuuid(auctionuuid);
         if (auction != null) {
             throw new IllegalArgumentException("runAuction called on unknown auction=" + auctionuuid);
         } else {
-            if (AuctionStatus.PLANNING == auction.getAuctionStatus()) {
+            if (AuctionStatus.SCHEDULED == auction.getAuctionStatus()) {
                 auction.setAuctionStatus(AuctionStatus.ACTIVE);
                 auctionDAO.save(auction);
                 LOG.debug("runAuction made active auction=" + auctionuuid);
@@ -209,7 +246,7 @@ public class AuctionServiceMockImpl implements AuctionService {
             // find activeLot
             for (Lot foundlot : auction.getLots()) {
                 if (foundlot.getLotuuid().equals(lotuuid)) {
-                    foundlot.setActive(true);
+                    foundlot.setLotStatus(AuctionStatus.ACTIVE);
                     activeLots.put(lotuuid, foundlot);
                     auctionDAO.save(auction);
                     break;
@@ -228,14 +265,14 @@ public class AuctionServiceMockImpl implements AuctionService {
         } else {
             activeLots.remove(lotuuid);
 
-            lot.setActive(false);
+            lot.setLotStatus(AuctionStatus.FINISHED);
             Auction auction = auctionDAO.findByAuctionuuid(auctionuuid);
             if (auction == null) {
                 throw new IllegalArgumentException("endlot cannot find auction  for auctionuuid=" + auctionuuid);
             }
             for (Lot foundlot : auction.getLots()) {
                 if (foundlot.getLotuuid().equals(lotuuid)) {
-                    foundlot.setActive(false);
+                    foundlot.setLotStatus(AuctionStatus.FINISHED);
                     auctionDAO.save(auction);
                     break;
                 }
@@ -267,7 +304,7 @@ public class AuctionServiceMockImpl implements AuctionService {
 
                 foundlot.setBuyer(buyer);
                 foundlot.setCurrentPrice(price);
-                foundlot.setActive(false);
+                foundlot.setLotStatus(AuctionStatus.FINISHED);
                 auctionDAO.save(auction);
                 break;
             }
@@ -325,6 +362,16 @@ public class AuctionServiceMockImpl implements AuctionService {
         }
 
         return message;
+    }
+
+    @Override
+    public void runAuctionSchedule() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void runAuctionSchedule(Date currentTime) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

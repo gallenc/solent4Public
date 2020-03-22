@@ -4,11 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.solent.com504.project.model.party.dto.Party;
 
 @Schema(description = "Auction object describes an auction")
@@ -17,9 +19,12 @@ import org.solent.com504.project.model.party.dto.Party;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Auction {
 
+    private Long id;
+
     private Date startTime;
 
-    private Long id;
+    @XmlTransient
+    private Long lotDuration;
 
     @XmlElementWrapper(name = "lots")
     @XmlElement(name = "lot")
@@ -32,11 +37,15 @@ public class Auction {
     private List<Party> registeredPartys = new ArrayList();
 
     // unique UUID created for every Auction
-    private String auctionuuid = Long.toHexString(new Date().getTime());
+    private String auctionuuid = UUID.randomUUID().toString(); 
 
     AuctionType auctionType = AuctionType.NORMAL;
 
     private AuctionStatus auctionStatus = AuctionStatus.PLANNING;
+
+    // used  to index lots as auction proceeds
+    @XmlTransient
+    private int currentLotIndex = 0;
 
     public Auction() {
     }
@@ -110,11 +119,25 @@ public class Auction {
         this.auctionType = auctionType;
     }
 
-    @Override
-    public String toString() {
-        return "Auction{" + "startTime=" + startTime + ", id=" + id + ", lots=" + lots + ", description=" + description + ", registeredPartys=" + registeredPartys + ", auctionuuid=" + auctionuuid + ", auctionType=" + auctionType + ", auctionStatus=" + auctionStatus + '}';
+    public int getCurrentLotIndex() {
+        return currentLotIndex;
     }
 
+    public void setCurrentLotIndex(int currentLotIndex) {
+        this.currentLotIndex = currentLotIndex;
+    }
 
+    public Long getLotDuration() {
+        return lotDuration;
+    }
+
+    public void setLotDuration(Long lotDuration) {
+        this.lotDuration = lotDuration;
+    }
+
+    @Override
+    public String toString() {
+        return "Auction{" + "id=" + id + ", startTime=" + startTime + ", lotDuration=" + lotDuration + ", lots=" + lots + ", description=" + description + ", registeredPartys=" + registeredPartys + ", auctionuuid=" + auctionuuid + ", auctionType=" + auctionType + ", auctionStatus=" + auctionStatus + ", currentLotIndex=" + currentLotIndex + '}';
+    }
 
 }

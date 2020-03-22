@@ -292,41 +292,42 @@
         <Literal name="ACTIVE"/>
         <Literal name="FINISHED"/>
         <Literal name="CANCELED"/>
+        <Literal name="SCHEDULED"/>
       </Literals>
     </Enum>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation name="usesPartyDAO" source="org.solent.com504.project.model.service.ServiceFacade" target="org.solent.com504.project.model.party.dao.PartyDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="lotHasSeller" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="usesLot" source="org.solent.com504.project.model.auction.dao.LotDAO" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="UserHasAddress" source="org.solent.com504.project.model.user.dto.User" target="org.solent.com504.project.model.party.dto.Address" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <UseRelation name="useUserRoles" source="org.solent.com504.project.model.user.dto.Role" target="org.solent.com504.project.model.user.dto.UserRoles" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="lotHasBuyer" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="0..1" targetCardinality="0..*"/>
-    <HasRelation name="hasRole" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.PartyRole" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="messageHasMessageType" source="org.solent.com504.project.model.auction.dto.Message" target="org.solent.com504.project.model.auction.dto.MessageType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="usesRole" source="org.solent.com504.project.model.user.dao.RoleDAO" target="org.solent.com504.project.model.user.dto.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="hasStatus" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.AuctionStatus" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="useBid" source="org.solent.com504.project.model.auction.dao.BidDAO" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="org.solent.com504.project.model.rest.RestClient" target="org.solent.com504.project.model.rest.RestService" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="bidHasPartyBidder" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..*"/>
     <UseRelation name="userHasRoles" source="org.solent.com504.project.model.user.dto.User" target="org.solent.com504.project.model.user.dto.Role" sourceCardinality="1..1" targetCardinality="1..*"/>
     <UseRelation name="auctionHasType" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.AuctionType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="hasAddress" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.Address" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="auctionHasRegisteredParties" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.party.dto.Party" sourceCardinality="0..*" targetCardinality="0..*"/>
-    <UseRelation name="usesUser" source="org.solent.com504.project.model.user.dao.UserDAO" target="org.solent.com504.project.model.user.dto.User" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="roleHasUsers" source="org.solent.com504.project.model.user.dto.Role" target="org.solent.com504.project.model.user.dto.User" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="ViewController" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.web.JSP_Pages_do_not_generate" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="AuctionHasLots" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="usesMessages" source="org.solent.com504.project.model.auction.message.AuctionWebSocketMessagingService" target="org.solent.com504.project.model.auction.dto.Message" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="restInteraceUsesReplyMessage" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.dto.ReplyMessage" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="bidHasPartyBidder" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..*"/>
-    <UseRelation name="lotHasFlowerType" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.flower.dto.Flower" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="usesAuction" source="org.solent.com504.project.model.auction.dao.AuctionDAO" target="org.solent.com504.project.model.auction.dto.Auction" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="usesParty" source="org.solent.com504.project.model.party.dao.PartyDAO" target="org.solent.com504.project.model.party.dto.Party" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="hasStatus" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.PartyStatus" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="hasStatus" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.AuctionStatus" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasRole" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.PartyRole" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <UseRelation name="controls" source="org.solent.com504.project.model.auction.service.AuctionService" target="org.solent.com504.project.model.auction.message.AuctionWebSocketMessagingService" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasFlowerType" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.flower.dto.Flower" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="lotHasWinningBid" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..1"/>
     <UseRelation name="lotHasBids" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <HasRelation name="hasAddress" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.Address" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="usesParty" source="org.solent.com504.project.model.party.dao.PartyDAO" target="org.solent.com504.project.model.party.dto.Party" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="UserHasAddress" source="org.solent.com504.project.model.user.dto.User" target="org.solent.com504.project.model.party.dto.Address" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="messageHasMessageType" source="org.solent.com504.project.model.auction.dto.Message" target="org.solent.com504.project.model.auction.dto.MessageType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasSeller" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="auctionHasRegisteredParties" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.party.dto.Party" sourceCardinality="0..*" targetCardinality="0..*"/>
+    <UseRelation name="usesAuction" source="org.solent.com504.project.model.auction.dao.AuctionDAO" target="org.solent.com504.project.model.auction.dto.Auction" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasStatus" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.PartyStatus" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="AuctionHasLots" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="usesUser" source="org.solent.com504.project.model.user.dao.UserDAO" target="org.solent.com504.project.model.user.dto.User" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesRole" source="org.solent.com504.project.model.user.dao.RoleDAO" target="org.solent.com504.project.model.user.dto.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="org.solent.com504.project.model.rest.RestClient" target="org.solent.com504.project.model.rest.RestService" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasBuyer" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="0..1" targetCardinality="0..*"/>
+    <UseRelation name="ViewController" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.web.JSP_Pages_do_not_generate" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesLot" source="org.solent.com504.project.model.auction.dao.LotDAO" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesPartyDAO" source="org.solent.com504.project.model.service.ServiceFacade" target="org.solent.com504.project.model.party.dao.PartyDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="roleHasUsers" source="org.solent.com504.project.model.user.dto.Role" target="org.solent.com504.project.model.user.dto.User" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="restInteraceUsesReplyMessage" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.dto.ReplyMessage" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="useUserRoles" source="org.solent.com504.project.model.user.dto.Role" target="org.solent.com504.project.model.user.dto.UserRoles" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesMessages" source="org.solent.com504.project.model.auction.message.AuctionWebSocketMessagingService" target="org.solent.com504.project.model.auction.dto.Message" sourceCardinality="1..1" targetCardinality="0..*"/>
   </ClassDiagramRelations>
 </ClassDiagram>
