@@ -47,7 +47,7 @@ public class Lot {
     // unique UUID created for every Auction
     private String lotuuid = UUID.randomUUID().toString(); 
     
-    private AuctionStatus lotStatus = AuctionStatus.SCHEDULED;
+    private AuctionOrLotStatus lotStatus = AuctionOrLotStatus.SCHEDULED;
 
     // set when assigned to auction
     @XmlTransient
@@ -149,11 +149,11 @@ public class Lot {
         this.currentPrice = currentPrice;
     }
 
-    public AuctionStatus getLotStatus() {
+    public AuctionOrLotStatus getLotStatus() {
         return lotStatus;
     }
 
-    public void setLotStatus(AuctionStatus lotStatus) {
+    public void setLotStatus(AuctionOrLotStatus lotStatus) {
         this.lotStatus = lotStatus;
     }
 

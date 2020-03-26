@@ -19,12 +19,9 @@ import org.solent.com504.project.impl.auction.dao.MockServiceObjectFactory;
 import org.solent.com504.project.model.auction.dao.AuctionDAO;
 import org.solent.com504.project.model.auction.dao.BidDAO;
 import org.solent.com504.project.model.auction.dao.LotDAO;
-import org.solent.com504.project.model.auction.dto.Auction;
-import org.solent.com504.project.model.auction.dto.Bid;
-import org.solent.com504.project.model.auction.dto.Lot;
 import org.solent.com504.project.model.auction.service.AuctionService;
 import org.solent.com504.project.model.party.dao.PartyDAO;
-import org.solent.com504.project.model.party.dto.Party;
+
 
 /**
  *
@@ -46,11 +43,12 @@ public class AuctionServiceTest {
 
     @Before
     public void init() {
-        partyDAO = MockServiceObjectFactory.getPartyDAO();
-        auctionDAO = MockServiceObjectFactory.getAuctionDAO();
-        lotDAO = MockServiceObjectFactory.getLotDao();
-        bidDAO = MockServiceObjectFactory.getBidDao();
-        auctionService = MockServiceObjectFactory.getAuctionService();
+        MockServiceObjectFactory mockServiceObjectFactory = new MockServiceObjectFactory();
+        partyDAO = mockServiceObjectFactory.getPartyDAO();
+        auctionDAO = mockServiceObjectFactory.getAuctionDAO();
+        lotDAO = mockServiceObjectFactory.getLotDao();
+        bidDAO = mockServiceObjectFactory.getBidDao();
+        auctionService = mockServiceObjectFactory.getAuctionService();
     }
 
     @Test
@@ -63,7 +61,8 @@ public class AuctionServiceTest {
     }
 
     @Test
-    public void testBidsFactory() {
+    public void testAuctionSchedule() {
+        LOG.debug("\n*********************************  START OF AUCTION SCHEDULE TEST ");
         // will parse 2009-12-31 23:59:59
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -80,13 +79,19 @@ public class AuctionServiceTest {
         for (String datestr : constantDateStrings) {
             try {
                 Date time = format.parse(datestr);
-                auctionService.runAuctionSchedule(time);
-
+                for (int i=0;i<4; i++){
+                    Long timems = time.getTime();
+                    timems = timems + (i * 1000*60*10 ); // ten minutes
+                    time = new Date(timems);
+                    LOG.debug("\n*********************************  NEW TIME auctionService.runAuctionSchedule("+format.format(time) + ")");
+                    auctionService.runAuctionSchedule(time);
+                }
+                
             } catch (Exception ex) {
-                LOG.error("problem initialising :", ex);
+                LOG.error("problem incrementing time :", ex);
             }
         }
-
+        LOG.debug("\n*********************************  END OF AUCTION SCHEDULE TEST ");
     }
 
 }

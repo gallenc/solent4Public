@@ -11,14 +11,17 @@ import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.solent.com504.project.impl.auction.service.AuctionServiceMock2Impl;
+import org.solent.com504.project.impl.auction.service.AuctionServiceImpl;
 import org.solent.com504.project.impl.auction.service.AuctionServiceMockImpl;
 import org.solent.com504.project.model.auction.dao.AuctionDAO;
 import org.solent.com504.project.model.auction.dao.BidDAO;
 import org.solent.com504.project.model.auction.dao.LotDAO;
 import org.solent.com504.project.model.auction.dto.Auction;
-import org.solent.com504.project.model.auction.dto.AuctionStatus;
+import org.solent.com504.project.model.auction.dto.AuctionOrLotStatus;
+import org.solent.com504.project.model.auction.dto.Lot;
+import org.solent.com504.project.model.auction.dto.MessageService;
 import org.solent.com504.project.model.auction.service.AuctionService;
+import org.solent.com504.project.model.flower.dto.Flower;
 import org.solent.com504.project.model.party.dao.PartyDAO;
 import org.solent.com504.project.model.party.dto.Party;
 
@@ -30,21 +33,25 @@ public class MockServiceObjectFactory {
 
     final static Logger LOG = LogManager.getLogger(MockServiceObjectFactory.class);
 
-    private static PartyDAO partyDAO = new PartyMockDAO();
+    private PartyDAO partyDAO = new PartyMockDAO();
 
-    private static AuctionDAO auctionDAO = new AuctionMockDAO();
+    private AuctionDAO auctionDAO = new AuctionMockDAO();
 
-    private static LotDAO lotDao = new LotMockDAO(auctionDAO);
+    private LotDAO lotDao = new LotMockDAO(auctionDAO);
 
-    private static BidDAO bidDao = new BidMockDAO();
+    private BidDAO bidDao = new BidMockDAO();
 
-    private static AuctionService auctionService 
-            = new AuctionServiceMock2Impl(partyDAO,  auctionDAO,  lotDao, bidDao) ;
-    
+    private MessageService messagesIn = new SimpleMessageServiceImpl();
 
+    private static MessageService messagesOut = new SimpleMessageServiceImpl();
+
+    private AuctionService auctionService
+            = new AuctionServiceImpl(partyDAO, auctionDAO, lotDao, bidDao, messagesIn, messagesOut);
+
+    public MockServiceObjectFactory(){
     // mock initialisation code 
-    static {
-        
+   
+        LOG.debug("\n*********************************  INITIALISING MOCK DATA IN SERVICE OBJECT FACTORY");
         // will parse 2009-12-31 23:59:59
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -52,6 +59,13 @@ public class MockServiceObjectFactory {
                 new Party("great flowers2", "co"),
                 new Party("great flowers3", "co"));
         for (Party party : partyList) {
+            partyDAO.save(party);
+        }
+
+        List<Party> sellerPartyList = Arrays.asList(new Party("grow great flowers", "co"),
+                new Party("grow great flowers2", "co"),
+                new Party("grow great flowers3", "co"));
+        for (Party party : sellerPartyList) {
             partyDAO.save(party);
         }
 
@@ -64,32 +78,85 @@ public class MockServiceObjectFactory {
             try {
                 Date time = format.parse(datestr);
                 Auction auction = new Auction(time, "auction at " + datestr);
-                auction.setAuctionStatus(AuctionStatus.SCHEDULED);
+                auction.setAuctionStatus(AuctionOrLotStatus.SCHEDULED);
+
+                // add lots to auction
+                for (int i = 0; i < 3; i++) {
+                    Lot lot = new Lot();
+                    Flower flowerType = new Flower();
+                    flowerType.setCommonName("rose");
+                    flowerType.setSymbol("AAAAA");
+                    lot.setFlowerType(flowerType);
+                    Double reservePrice = 10000.00;
+                    lot.setReservePrice(reservePrice);
+                    Party seller;
+                    lot.setSeller(sellerPartyList.get(i));
+                    auction.getLots().add(lot);
+                }
                 auctionDAO.save(auction);
             } catch (Exception ex) {
                 LOG.error("problem initialising :", ex);
             }
         }
+        LOG.debug("\n*********************************  FINISHED INITIALISING MOCK DATA IN SERVICE OBJECT FACTORY");
     }
 
-    public static AuctionService getAuctionService() {
-        return auctionService;
-    }
-
-    public static PartyDAO getPartyDAO() {
+    public PartyDAO getPartyDAO() {
         return partyDAO;
     }
 
-    public static AuctionDAO getAuctionDAO() {
+    public void setPartyDAO(PartyDAO partyDAO) {
+        this.partyDAO = partyDAO;
+    }
+
+    public AuctionDAO getAuctionDAO() {
         return auctionDAO;
     }
 
-    public static LotDAO getLotDao() {
+    public void setAuctionDAO(AuctionDAO auctionDAO) {
+        this.auctionDAO = auctionDAO;
+    }
+
+    public LotDAO getLotDao() {
         return lotDao;
     }
 
-    public static BidDAO getBidDao() {
+    public void setLotDao(LotDAO lotDao) {
+        this.lotDao = lotDao;
+    }
+
+    public BidDAO getBidDao() {
         return bidDao;
     }
+
+    public void setBidDao(BidDAO bidDao) {
+        this.bidDao = bidDao;
+    }
+
+    public MessageService getMessagesIn() {
+        return messagesIn;
+    }
+
+    public void setMessagesIn(MessageService messagesIn) {
+        this.messagesIn = messagesIn;
+    }
+
+    public static MessageService getMessagesOut() {
+        return messagesOut;
+    }
+
+    public static void setMessagesOut(MessageService messagesOut) {
+        MockServiceObjectFactory.messagesOut = messagesOut;
+    }
+
+    public AuctionService getAuctionService() {
+        return auctionService;
+    }
+
+    public void setAuctionService(AuctionService auctionService) {
+        this.auctionService = auctionService;
+    }
+
+  
 
 }

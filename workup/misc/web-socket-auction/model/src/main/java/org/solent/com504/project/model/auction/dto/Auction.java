@@ -24,7 +24,7 @@ public class Auction {
     private Date startTime;
 
     @XmlTransient
-    private Long lotDuration;
+    private Long lotDuration = 1000*60*1L; // default 1 minute
 
     @XmlElementWrapper(name = "lots")
     @XmlElement(name = "lot")
@@ -41,7 +41,7 @@ public class Auction {
 
     AuctionType auctionType = AuctionType.NORMAL;
 
-    private AuctionStatus auctionStatus = AuctionStatus.PLANNING;
+    private AuctionOrLotStatus auctionStatus = AuctionOrLotStatus.PLANNING;
 
     // used  to index lots as auction proceeds
     @XmlTransient
@@ -103,11 +103,11 @@ public class Auction {
         this.auctionuuid = auctionuuid;
     }
 
-    public AuctionStatus getAuctionStatus() {
+    public AuctionOrLotStatus getAuctionStatus() {
         return auctionStatus;
     }
 
-    public void setAuctionStatus(AuctionStatus auctionStatus) {
+    public void setAuctionStatus(AuctionOrLotStatus auctionStatus) {
         this.auctionStatus = auctionStatus;
     }
 
@@ -139,5 +139,7 @@ public class Auction {
     public String toString() {
         return "Auction{" + "id=" + id + ", startTime=" + startTime + ", lotDuration=" + lotDuration + ", lots=" + lots + ", description=" + description + ", registeredPartys=" + registeredPartys + ", auctionuuid=" + auctionuuid + ", auctionType=" + auctionType + ", auctionStatus=" + auctionStatus + ", currentLotIndex=" + currentLotIndex + '}';
     }
+
+
 
 }

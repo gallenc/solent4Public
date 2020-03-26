@@ -21,7 +21,7 @@ import org.solent.com504.project.model.auction.dao.AuctionDAO;
 import org.solent.com504.project.model.auction.dao.BidDAO;
 import org.solent.com504.project.model.auction.dao.LotDAO;
 import org.solent.com504.project.model.auction.dto.Auction;
-import org.solent.com504.project.model.auction.dto.AuctionStatus;
+import org.solent.com504.project.model.auction.dto.AuctionOrLotStatus;
 import org.solent.com504.project.model.auction.dto.AuctionType;
 import org.solent.com504.project.model.auction.dto.Lot;
 import org.solent.com504.project.model.auction.dto.Message;
@@ -177,7 +177,7 @@ public class AuctionServiceMockImpl implements AuctionService {
             throw new IllegalArgumentException("cannot find auction with uuid=" + auctionuuid);
         }
 
-        if (AuctionStatus.ACTIVE == auction.getAuctionStatus()) {
+        if (AuctionOrLotStatus.ACTIVE == auction.getAuctionStatus()) {
             throw new IllegalStateException("auction is ACTIVE. cannot add lot to auction=" + auctionuuid);
         }
 
@@ -205,11 +205,11 @@ public class AuctionServiceMockImpl implements AuctionService {
         if (auction != null) {
             throw new IllegalArgumentException("runAuction called on unknown auction=" + auctionuuid);
         } else {
-            if (AuctionStatus.SCHEDULED == auction.getAuctionStatus()) {
-                auction.setAuctionStatus(AuctionStatus.ACTIVE);
+            if (AuctionOrLotStatus.SCHEDULED == auction.getAuctionStatus()) {
+                auction.setAuctionStatus(AuctionOrLotStatus.ACTIVE);
                 auctionDAO.save(auction);
                 LOG.debug("runAuction made active auction=" + auctionuuid);
-            } else if (AuctionStatus.ACTIVE == auction.getAuctionStatus()) {
+            } else if (AuctionOrLotStatus.ACTIVE == auction.getAuctionStatus()) {
                 LOG.debug("runAuction auction already ACTIVE auction=" + auctionuuid);
             } else {
                 throw new IllegalStateException("runAuction called on auction auctionuuid=" + auctionuuid
@@ -229,7 +229,7 @@ public class AuctionServiceMockImpl implements AuctionService {
                 String lotuuid = lot.getLotuuid();
                 endLot(auctionuuid, lotuuid);
             }
-            auction.setAuctionStatus(AuctionStatus.FINISHED);
+            auction.setAuctionStatus(AuctionOrLotStatus.FINISHED);
             auctionDAO.save(auction);
         }
     }
@@ -246,7 +246,7 @@ public class AuctionServiceMockImpl implements AuctionService {
             // find activeLot
             for (Lot foundlot : auction.getLots()) {
                 if (foundlot.getLotuuid().equals(lotuuid)) {
-                    foundlot.setLotStatus(AuctionStatus.ACTIVE);
+                    foundlot.setLotStatus(AuctionOrLotStatus.ACTIVE);
                     activeLots.put(lotuuid, foundlot);
                     auctionDAO.save(auction);
                     break;
@@ -265,14 +265,14 @@ public class AuctionServiceMockImpl implements AuctionService {
         } else {
             activeLots.remove(lotuuid);
 
-            lot.setLotStatus(AuctionStatus.FINISHED);
+            lot.setLotStatus(AuctionOrLotStatus.FINISHED);
             Auction auction = auctionDAO.findByAuctionuuid(auctionuuid);
             if (auction == null) {
                 throw new IllegalArgumentException("endlot cannot find auction  for auctionuuid=" + auctionuuid);
             }
             for (Lot foundlot : auction.getLots()) {
                 if (foundlot.getLotuuid().equals(lotuuid)) {
-                    foundlot.setLotStatus(AuctionStatus.FINISHED);
+                    foundlot.setLotStatus(AuctionOrLotStatus.FINISHED);
                     auctionDAO.save(auction);
                     break;
                 }
@@ -304,7 +304,7 @@ public class AuctionServiceMockImpl implements AuctionService {
 
                 foundlot.setBuyer(buyer);
                 foundlot.setCurrentPrice(price);
-                foundlot.setLotStatus(AuctionStatus.FINISHED);
+                foundlot.setLotStatus(AuctionOrLotStatus.FINISHED);
                 auctionDAO.save(auction);
                 break;
             }

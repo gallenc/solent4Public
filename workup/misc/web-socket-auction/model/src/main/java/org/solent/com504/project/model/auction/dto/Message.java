@@ -73,7 +73,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" + "lotuuid=" + lotuuid + ", auctionuuid=" + auctionuuid + ", value=" + value + ", bidderuuid=" + bidderuuid + ", debugMessage=" + debugMessage + ", messageType=" + messageType + '}';
+        return "Message{ messageType=" + messageType  + " lotuuid=" + lotuuid + ", auctionuuid=" + auctionuuid + ", value=" + value + ", bidderuuid=" + bidderuuid + ", debugMessage=" + debugMessage + '}';
     }
     
     

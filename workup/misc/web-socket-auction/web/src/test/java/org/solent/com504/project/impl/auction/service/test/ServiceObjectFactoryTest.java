@@ -43,11 +43,12 @@ public class ServiceObjectFactoryTest {
 
     @Before
     public void init() {
-        partyDAO = MockServiceObjectFactory.getPartyDAO();
-        auctionDAO = MockServiceObjectFactory.getAuctionDAO();
-        lotDAO = MockServiceObjectFactory.getLotDao();
-        bidDAO = MockServiceObjectFactory.getBidDao();
-        auctionService = MockServiceObjectFactory.getAuctionService();
+        MockServiceObjectFactory mockServiceObjectFactory = new MockServiceObjectFactory();
+        partyDAO = mockServiceObjectFactory.getPartyDAO();
+        auctionDAO = mockServiceObjectFactory.getAuctionDAO();
+        lotDAO = mockServiceObjectFactory.getLotDao();
+        bidDAO = mockServiceObjectFactory.getBidDao();
+        auctionService = mockServiceObjectFactory.getAuctionService();
     }
 
     @Test
