@@ -430,23 +430,29 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
         String lotuuid = message.getLotuuid();
         String bidderuuid = message.getBidderuuid();
         Double value = message.getValue();
+        String authKey = message.getAuthKey();
 
         Message reply = new Message();
 
         reply.setAuctionuuid(auctionuuid);
         reply.setBidderuuid(bidderuuid);
         reply.setLotuuid(lotuuid);
-        String debugMessage = "";
-        reply.setDebugMessage(debugMessage);
         reply.setValue(value);
         reply.setMessageType(MessageType.ERROR);
 
         if (message.getMessageType() == MessageType.BID) {
             try {
-bidForLot(bidderuuid, auctionuuid,  authKey, lotuuid, value);
+                bidForLot(bidderuuid, auctionuuid, authKey, lotuuid, value);
             } catch (Exception ex) {
-
+                String debugMessage = ex.getMessage();
+                reply.setDebugMessage(debugMessage);
+                return message;
             }
+        } else {
+            String debugMessage = "messageType=" + message.getMessageType()
+                    + "  but you are only allowed to send BID messages on this channel";
+            reply.setDebugMessage(debugMessage);
+            return message;
         }
 
         return null;
