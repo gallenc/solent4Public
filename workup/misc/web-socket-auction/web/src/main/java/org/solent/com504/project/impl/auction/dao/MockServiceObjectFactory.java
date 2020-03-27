@@ -5,6 +5,7 @@
  */
 package org.solent.com504.project.impl.auction.dao;
 
+import org.solent.com504.project.impl.auction.service.SimpleMessageServiceImpl;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.auction.service.AuctionServiceImpl;
 import org.solent.com504.project.impl.auction.service.AuctionServiceMockImpl;
+import org.solent.com504.project.impl.auction.service.BankingServiceImpl;
 import org.solent.com504.project.model.auction.dao.AuctionDAO;
 import org.solent.com504.project.model.auction.dao.BidDAO;
 import org.solent.com504.project.model.auction.dao.LotDAO;
@@ -21,6 +23,7 @@ import org.solent.com504.project.model.auction.dto.AuctionOrLotStatus;
 import org.solent.com504.project.model.auction.dto.Lot;
 import org.solent.com504.project.model.auction.dto.MessageService;
 import org.solent.com504.project.model.auction.service.AuctionService;
+import org.solent.com504.project.model.auction.service.BankingService;
 import org.solent.com504.project.model.flower.dto.Flower;
 import org.solent.com504.project.model.party.dao.PartyDAO;
 import org.solent.com504.project.model.party.dto.Party;
@@ -43,10 +46,12 @@ public class MockServiceObjectFactory {
 
     private MessageService messagesIn = new SimpleMessageServiceImpl();
 
-    private static MessageService messagesOut = new SimpleMessageServiceImpl();
+    private MessageService messagesOut = new SimpleMessageServiceImpl();
+    
+    private BankingService bankService = new BankingServiceImpl();
 
     private AuctionService auctionService
-            = new AuctionServiceImpl(partyDAO, auctionDAO, lotDao, bidDao, messagesIn, messagesOut);
+            = new AuctionServiceImpl(partyDAO, auctionDAO, lotDao, bidDao, messagesIn, messagesOut, bankService);
 
     public MockServiceObjectFactory(){
     // mock initialisation code 
@@ -141,12 +146,12 @@ public class MockServiceObjectFactory {
         this.messagesIn = messagesIn;
     }
 
-    public static MessageService getMessagesOut() {
+    public MessageService getMessagesOut() {
         return messagesOut;
     }
 
-    public static void setMessagesOut(MessageService messagesOut) {
-        MockServiceObjectFactory.messagesOut = messagesOut;
+    public void setMessagesOut(MessageService messagesOut) {
+        this.messagesOut = messagesOut;
     }
 
     public AuctionService getAuctionService() {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.impl.auction.dao;
+package org.solent.com504.project.impl.auction.service;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;

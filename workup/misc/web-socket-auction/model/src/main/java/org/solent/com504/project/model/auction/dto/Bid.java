@@ -20,6 +20,8 @@ public class Bid {
     private Long id;
 
     private Party bidder;
+    
+   private String bidderuuid;
 
     private Lot lot;
 
@@ -76,10 +78,20 @@ public class Bid {
         this.biduuid = biduuid;
     }
 
+    public String getBidderuuid() {
+        return bidderuuid;
+    }
+
+    public void setBidderuuid(String bidderuuid) {
+        this.bidderuuid = bidderuuid;
+    }
+
     @Override
     public String toString() {
-        return "Bid{" + "time=" + time + ", id=" + id + ", bidder=" + bidder + ", lot=" + lot + ", amount=" + amount + ", biduuid=" + biduuid + '}';
+        return "Bid{" + "time=" + time + ", id=" + id + ", bidder=" + bidder + ", bidderuuid=" + bidderuuid + ", lot=" + lot + ", amount=" + amount + ", biduuid=" + biduuid + '}';
     }
+
+
 
 
     

@@ -166,7 +166,7 @@ public class AuctionServiceMockImpl implements AuctionService {
     }
 
     @Override
-    public synchronized Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, Double reserveprice, Long quantity) {
+    public synchronized Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity) {
         LOG.debug("addLotToAuction called auctionuuid=" + auctionuuid
                 + " selleruuid=" + selleruuid
                 + "flowertype=" + flowertype
@@ -312,8 +312,8 @@ public class AuctionServiceMockImpl implements AuctionService {
         activeLots.remove(lotuuid);
     }
 
-    @Override
-    public synchronized Message bidForLot(String bidderuuid, String auctionuuid, String authKey, String lotuuid, Double value) {
+   // @Override
+    public synchronized Message bidForLot1(String bidderuuid, String auctionuuid, String authKey, String lotuuid, double value) {
         Message message = new Message();
         message.setAuctionuuid(auctionuuid);
         message.setBidderuuid(bidderuuid);
@@ -371,6 +371,11 @@ public class AuctionServiceMockImpl implements AuctionService {
 
     @Override
     public void runAuctionSchedule(Date currentTime) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void bidForLot(String bidderuuid, String auctionuuid, String authKey, String lotuuid, double amount) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

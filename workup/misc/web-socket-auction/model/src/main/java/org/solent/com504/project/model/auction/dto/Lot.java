@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,7 +25,7 @@ public class Lot {
 
     @XmlElementWrapper(name = "bids")
     @XmlElement(name = "bid")
-    private List<Bid> bids = new ArrayList();
+    private List<Bid> bids = new CopyOnWriteArrayList();
 
     private Bid winningBid;
 
@@ -45,8 +46,8 @@ public class Lot {
     private Party buyer;
 
     // unique UUID created for every Auction
-    private String lotuuid = UUID.randomUUID().toString(); 
-    
+    private String lotuuid = UUID.randomUUID().toString();
+
     private AuctionOrLotStatus lotStatus = AuctionOrLotStatus.SCHEDULED;
 
     // set when assigned to auction
@@ -60,6 +61,10 @@ public class Lot {
     // set when lot goes active
     @XmlTransient
     private Date currentLotStart;
+
+    @XmlTransient
+    private String currentBidderUuid;
+    
 
     public Long getId() {
         return id;
@@ -181,9 +186,19 @@ public class Lot {
         this.currentLotStart = currentLotStart;
     }
 
+    public String getCurrentBidderUuid() {
+        return currentBidderUuid;
+    }
+
+    public void setCurrentBidderUuid(String currentBidderUuid) {
+        this.currentBidderUuid = currentBidderUuid;
+    }
+
     @Override
     public String toString() {
-        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", lotStatus=" + lotStatus + ", auctionType=" + auctionType + ", lotDuraton=" + lotDuraton + ", currentLotStart=" + currentLotStart + '}';
+        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", lotStatus=" + lotStatus + ", auctionType=" + auctionType + ", lotDuraton=" + lotDuraton + ", currentLotStart=" + currentLotStart + ", currentBidderUuid=" + currentBidderUuid + '}';
     }
+
+
 
 }

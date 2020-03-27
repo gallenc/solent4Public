@@ -42,15 +42,17 @@ public class Party {
     private PartyStatus partyStatus = PartyStatus.ACTIVE;
 
     // unique UUID created for every Party
-    private String uuid = UUID.randomUUID().toString(); 
+    private String uuid = UUID.randomUUID().toString();
 
     private Boolean enabled = true;
 
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")
     private Set<User> users = new HashSet();
-    
-    public Party(){
+
+    private AccountDetails accountDetails;
+
+    public Party() {
         super();
     }
 
@@ -58,8 +60,6 @@ public class Party {
         this.firstName = firstName;
         this.secondName = secondName;
     }
-    
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -141,19 +141,28 @@ public class Party {
     }
 
     // note ad remove depend upon identity
-    public void addUser(User user){
+    public void addUser(User user) {
         this.users.add(user);
         user.getParties().add(this);
     }
-    
-    public void removeUser(User user){
+
+    public void removeUser(User user) {
         this.users.remove(user);
         user.getParties().remove(this);
     }
 
+    @Embedded
+    public AccountDetails getAccountDetails() {
+        return accountDetails;
+    }
+
+    public void setAccountDetails(AccountDetails accountDetails) {
+        this.accountDetails = accountDetails;
+    }
+
     @Override
     public String toString() {
-        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", partyRole=" + partyRole + ", address=" + address + ", partyStatus=" + partyStatus + ", uuid=" + uuid + ", enabled=" + enabled + '}';
+        return "Party{" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", partyRole=" + partyRole + ", address=" + address + ", partyStatus=" + partyStatus + ", uuid=" + uuid + ", enabled=" + enabled + ", users=" + users + ", accountDetails=" + accountDetails + '}';
     }
 
     @Override
@@ -181,7 +190,5 @@ public class Party {
         }
         return true;
     }
-    
-    
 
 }
