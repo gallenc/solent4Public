@@ -22,11 +22,11 @@ import org.solent.com504.project.model.auction.dto.AuctionType;
 import org.solent.com504.project.model.auction.dto.Bid;
 import org.solent.com504.project.model.auction.dto.Lot;
 import org.solent.com504.project.model.auction.dto.Message;
-import org.solent.com504.project.model.auction.dto.MessageListener;
+import org.solent.com504.project.model.auction.message.MessageListener;
 import org.solent.com504.project.model.auction.service.AuctionService;
 import org.solent.com504.project.model.flower.dto.Flower;
 import org.solent.com504.project.model.party.dao.PartyDAO;
-import org.solent.com504.project.model.auction.dto.MessageService;
+import org.solent.com504.project.model.auction.message.MessageService;
 import org.solent.com504.project.model.auction.dto.MessageType;
 import org.solent.com504.project.model.auction.service.BankingService;
 import org.solent.com504.project.model.party.dto.Party;
@@ -47,22 +47,17 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
 
     private BidDAO bidDAO;
 
-    private MessageService messagesIn;
-
     private MessageService messagesOut;
-    
+
     private BankingService bankingService;
 
-    public AuctionServiceImpl(PartyDAO partyDAO, AuctionDAO auctionDAO, LotDAO lotDao, BidDAO bidDAO, MessageService messagesIn, MessageService messagesOut, BankingService bankingService) {
+    public AuctionServiceImpl(PartyDAO partyDAO, AuctionDAO auctionDAO, LotDAO lotDao, BidDAO bidDAO, MessageService messagesOut, BankingService bankingService) {
         this.partyDAO = partyDAO;
         this.auctionDAO = auctionDAO;
         this.lotDAO = lotDao;
         this.bidDAO = bidDAO;
-        this.messagesIn = messagesIn;
         this.messagesOut = messagesOut;
         this.bankingService = bankingService;
-
-        messagesIn.registerForMessages(this);
 
     }
 
@@ -419,8 +414,6 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
                 for (Bid bid : foundlot.getBids()) {
                     bid = bidDAO.save(bid);
                 }
-                
-                
 
                 lotDAO.save(foundlot);
                 break;
@@ -430,8 +423,33 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
     }
 
     @Override
-    public void onMessageReceived(Message message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Message onMessageReceived(Message message) {
+        // START_OF_AUCTION, START_OF_LOT, END_OF_AUCTION, LOT_WITHDRAWN, NEW_HIGHEST_BID, 
+        // LOT_SOLD, NEW_PARTICIPANT, ERROR, NOT_REGISTERED, LOT_OR_AUCTION_CLOSED, BID
+        String auctionuuid = message.getAuctionuuid();
+        String lotuuid = message.getLotuuid();
+        String bidderuuid = message.getBidderuuid();
+        Double value = message.getValue();
+
+        Message reply = new Message();
+
+        reply.setAuctionuuid(auctionuuid);
+        reply.setBidderuuid(bidderuuid);
+        reply.setLotuuid(lotuuid);
+        String debugMessage = "";
+        reply.setDebugMessage(debugMessage);
+        reply.setValue(value);
+        reply.setMessageType(MessageType.ERROR);
+
+        if (message.getMessageType() == MessageType.BID) {
+            try {
+bidForLot(bidderuuid, auctionuuid,  authKey, lotuuid, value);
+            } catch (Exception ex) {
+
+            }
+        }
+
+        return null;
     }
 
 }

@@ -10,8 +10,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.model.auction.dto.Message;
-import org.solent.com504.project.model.auction.dto.MessageListener;
-import org.solent.com504.project.model.auction.dto.MessageService;
+import org.solent.com504.project.model.auction.message.MessageListener;
+import org.solent.com504.project.model.auction.message.MessageService;
 
 /**
  *

@@ -13,7 +13,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.impl.auction.service.AuctionServiceImpl;
-import org.solent.com504.project.impl.auction.service.AuctionServiceMockImpl;
 import org.solent.com504.project.impl.auction.service.BankingServiceImpl;
 import org.solent.com504.project.model.auction.dao.AuctionDAO;
 import org.solent.com504.project.model.auction.dao.BidDAO;
@@ -21,7 +20,7 @@ import org.solent.com504.project.model.auction.dao.LotDAO;
 import org.solent.com504.project.model.auction.dto.Auction;
 import org.solent.com504.project.model.auction.dto.AuctionOrLotStatus;
 import org.solent.com504.project.model.auction.dto.Lot;
-import org.solent.com504.project.model.auction.dto.MessageService;
+import org.solent.com504.project.model.auction.message.MessageService;
 import org.solent.com504.project.model.auction.service.AuctionService;
 import org.solent.com504.project.model.auction.service.BankingService;
 import org.solent.com504.project.model.flower.dto.Flower;
@@ -44,14 +43,13 @@ public class MockServiceObjectFactory {
 
     private BidDAO bidDao = new BidMockDAO();
 
-    private MessageService messagesIn = new SimpleMessageServiceImpl();
 
     private MessageService messagesOut = new SimpleMessageServiceImpl();
     
     private BankingService bankService = new BankingServiceImpl();
 
     private AuctionService auctionService
-            = new AuctionServiceImpl(partyDAO, auctionDAO, lotDao, bidDao, messagesIn, messagesOut, bankService);
+            = new AuctionServiceImpl(partyDAO, auctionDAO, lotDao, bidDao, messagesOut, bankService);
 
     public MockServiceObjectFactory(){
     // mock initialisation code 
@@ -136,14 +134,6 @@ public class MockServiceObjectFactory {
 
     public void setBidDao(BidDAO bidDao) {
         this.bidDao = bidDao;
-    }
-
-    public MessageService getMessagesIn() {
-        return messagesIn;
-    }
-
-    public void setMessagesIn(MessageService messagesIn) {
-        this.messagesIn = messagesIn;
     }
 
     public MessageService getMessagesOut() {

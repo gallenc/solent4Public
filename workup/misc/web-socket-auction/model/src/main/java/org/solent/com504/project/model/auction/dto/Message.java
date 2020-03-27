@@ -22,6 +22,8 @@ public class Message {
     private String debugMessage;
 
     private MessageType messageType;
+    
+    private String authKey;
 
     public String getLotuuid() {
         return lotuuid;
@@ -71,10 +73,20 @@ public class Message {
         this.messageType = messageType;
     }
 
+    public String getAuthKey() {
+        return authKey;
+    }
+
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
+    }
+
     @Override
     public String toString() {
-        return "Message{ messageType=" + messageType  + " lotuuid=" + lotuuid + ", auctionuuid=" + auctionuuid + ", value=" + value + ", bidderuuid=" + bidderuuid + ", debugMessage=" + debugMessage + '}';
+        return "Message{" + "lotuuid=" + lotuuid + ", auctionuuid=" + auctionuuid + ", value=" + value + ", bidderuuid=" + bidderuuid + ", debugMessage=" + debugMessage + ", messageType=" + messageType + ", authKey=" + authKey + '}';
     }
+
+
     
     
 }

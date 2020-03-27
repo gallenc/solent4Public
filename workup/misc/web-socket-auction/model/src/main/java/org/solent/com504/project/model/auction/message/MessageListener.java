@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.solent.com504.project.model.auction.dto;
+package org.solent.com504.project.model.auction.message;
+
+import org.solent.com504.project.model.auction.dto.Message;
 
 /**
  *
@@ -11,6 +13,6 @@ package org.solent.com504.project.model.auction.dto;
  */
 public interface MessageListener {
     
-    public void onMessageReceived(Message message);
+    public Message onMessageReceived(Message message);
     
 }
