@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -42,6 +41,9 @@ public class AuctionServiceTest implements MessageListener {
 
     final static Logger LOG = LogManager.getLogger(AuctionServiceTest.class);
 
+    public final static long LOT_DURATION = 1000 * 60 * 1L; // 1 minute
+    public final static int LOTS_IN_AUCTION = 3;
+
     private PartyDAO partyDAO;
 
     private AuctionDAO auctionDAO;
@@ -55,7 +57,7 @@ public class AuctionServiceTest implements MessageListener {
     private MessageService messagesOut;
 
     // will parse 2009-12-31 23:59:59
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private Party testBuyer = null;
     private Party testSeller = null;
@@ -101,19 +103,21 @@ public class AuctionServiceTest implements MessageListener {
         List<Party> pList = partyDAO.findAll();
         testSeller = pList.get(pList.size() - 1); // last in list
 
-        List<String> constantDateStrings = Arrays.asList("2020-01-1 09:00",
-                "2020-01-1 10:00",
-                "2020-01-1 11:00",
-                "2020-01-1 12:00",
-                "2020-01-1 13:00");
+        List<String> constantDateStrings = Arrays.asList("2020-01-1 09:00:00",
+                "2020-01-1 10:00:00",
+                "2020-01-1 11:00:00",
+                "2020-01-1 12:00:00",
+                "2020-01-1 13:00:00");
         for (String datestr : constantDateStrings) {
             try {
                 Date time = format.parse(datestr);
                 Auction auction = new Auction(time, "auction at " + datestr);
+
+                auction.setLotDuration(LOT_DURATION);
                 auction.setAuctionStatus(AuctionOrLotStatus.SCHEDULED);
 
                 // add lots to auction
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < LOTS_IN_AUCTION; i++) {
                     Lot lot = new Lot();
                     Flower flowerType = new Flower();
                     flowerType.setCommonName("rose");
@@ -135,7 +139,7 @@ public class AuctionServiceTest implements MessageListener {
         // get 2 test auctions
         List<Auction> alist = null;
         try {
-            alist = auctionDAO.findActiveOrScheduledBefore(format.parse("2020-01-1 11:30"));
+            alist = auctionDAO.findActiveOrScheduledBefore(format.parse("2020-01-1 11:30:00"));
         } catch (ParseException ex) {
             LOG.error("problem parsing ", ex);
         }
@@ -223,10 +227,10 @@ public class AuctionServiceTest implements MessageListener {
         assertEquals(MessageType.ERROR, immediateReply.getMessageType());
         LOG.debug("reply message:" + immediateReply);
 
-        LOG.debug("start  auctions at 2020-01-1 09:30");
+        LOG.debug("start  auctions at 2020-01-1 09:00:01");
         Date time = null;
         try {
-            time = format.parse("2020-01-1 09:30");
+            time = format.parse("2020-01-1 09:00:01");
         } catch (ParseException ex) {
         }
 
@@ -248,16 +252,19 @@ public class AuctionServiceTest implements MessageListener {
         assertNotNull(currentLotuuid);
         messagesReceived.clear();
 
+        // check lot duration set from auction
         Lot currentLot = lotDAO.findByLotuuid(currentLotuuid);
         assertNotNull(currentLot);
+        assertTrue(LOT_DURATION == currentLot.getLotDuraton());
 
-        LOG.debug("bidding less than reserve price="+currentLot.getReservePrice());
+        LOG.debug("bidding less than reserve price=" + currentLot.getReservePrice());
         message.setValue(currentLot.getReservePrice() - 100);
         immediateReply = auctionService.onMessageReceived(message);
         assertNotNull(immediateReply);
         assertEquals(MessageType.ERROR, immediateReply.getMessageType());
         LOG.debug("reply message:" + immediateReply);
 
+        // multiple bids
         for (int i = 1; i < 6; i++) {
             double price = currentLot.getReservePrice() * i;
             LOG.debug(" bid value " + price);
@@ -278,6 +285,39 @@ public class AuctionServiceTest implements MessageListener {
         assertNull(immediateReply);
         assertTrue(messagesReceived.isEmpty());
 
+        // run 10 more lots
+        LOG.debug("run  more lots");
+        try {
+                
+            List<String> constantDateStrings = Arrays.asList(
+                    "2020-01-1 09:01:01",
+                    "2020-01-1 09:02:01",
+                    "2020-01-1 09:03:01"
+            );
+            for (String datestr : constantDateStrings) {
+                   messagesReceived.clear();
+                   
+                LOG.debug("running lot for " + datestr);
+                time = format.parse(datestr);
+                auctionService.runAuctionSchedule(time);
+                //assertEquals(2, messagesReceived.size());
+
+               // assertEquals(MessageType.LOT_SOLD, messagesReceived.get(0).getMessageType());
+                //assertEquals(MessageType.START_OF_LOT, messagesReceived.get(1).getMessageType());
+                
+                
+                lotuuid = messagesReceived.get(1).getLotuuid();
+                 messagesReceived.clear();
+                 message.setLotuuid(lotuuid);
+                message.setValue(100000.00);
+                immediateReply = auctionService.onMessageReceived(message);
+                 LOG.debug("immediate reply =" + immediateReply);
+               // assertEquals(MessageType.NEW_HIGHEST_BID, messagesReceived.get(0).getMessageType());
+            
+            }
+        } catch (ParseException ex) {
+        }
+
     }
 
     // @Test
@@ -286,16 +326,16 @@ public class AuctionServiceTest implements MessageListener {
         // will parse 2009-12-31 23:59:59
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-        List<String> constantDateStrings = Arrays.asList("2020-01-1 09:00",
-                "2020-01-1 09:30",
-                "2020-01-1 10:00",
-                "2020-01-1 10:30",
-                "2020-01-1 11:00",
-                "2020-01-1 11:30",
-                "2020-01-1 12:00",
-                "2020-01-1 12:30",
-                "2020-01-1 13:00",
-                "2020-01-1 13:30");
+        List<String> constantDateStrings = Arrays.asList("2020-01-1 09:00:00",
+                "2020-01-1 09:30:00",
+                "2020-01-1 10:00:00",
+                "2020-01-1 10:30:00",
+                "2020-01-1 11:00:00",
+                "2020-01-1 11:30:00",
+                "2020-01-1 12:00:00",
+                "2020-01-1 12:30:00",
+                "2020-01-1 13:00:00",
+                "2020-01-1 13:30:00");
         for (String datestr : constantDateStrings) {
             try {
                 Date time = format.parse(datestr);

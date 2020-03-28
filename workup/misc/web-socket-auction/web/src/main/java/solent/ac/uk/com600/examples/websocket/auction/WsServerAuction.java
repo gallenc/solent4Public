@@ -24,15 +24,19 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import solent.ac.uk.com600.examples.websocket.chat.Message;
-import solent.ac.uk.com600.examples.websocket.chat.MessageDecoder;
-import solent.ac.uk.com600.examples.websocket.chat.MessageEncoder;
+import org.solent.com504.project.model.auction.service.AuctionService;
+import org.solent.com504.project.model.auction.dto.Message;
+import org.solent.com504.project.model.auction.dto.MessageType;
+import solent.ac.uk.com600.examples.websocket.auction.MessageDecoder;
+import solent.ac.uk.com600.examples.websocket.auction.MessageEncoder;
 
-@ServerEndpoint(value = "/auctionwebsocket/{partyId}/{auctionId}/{authkey}",
+@ServerEndpoint(value = "/auctionwebsocket/{partyuuid}",
         decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class WsServerAuction {
 
     final static Logger LOG = LogManager.getLogger(WsServerAuction.class);
+    
+    private AuctionService auctionService;
 
     private Session session;
     private static final Set<WsServerAuction> auctionEndpoints = new CopyOnWriteArraySet<>();
@@ -40,28 +44,31 @@ public class WsServerAuction {
 
     @OnOpen
     public void onOpen(Session session,
-            @PathParam("partyId") String partyId,
-            @PathParam("auctionId") String auctionId,
-            @PathParam("authKey") String authkey) throws IOException, EncodeException {
+            @PathParam("partyuuid") String partyuuid
+            ) throws IOException, EncodeException {
 
-        LOG.debug("onOpen new session partyId=" + partyId + " auctionId=" + auctionId
-                + " authley=" + authkey);
+        LOG.debug("onOpen new session partyuuid=" + partyuuid );
 
         this.session = session;
         auctionEndpoints.add(this);
-        partys.put(session.getId(), partyId);
+        partys.put(session.getId(), partyuuid);
 
         Message message = new Message();
-        message.setFrom(partyId);
-        message.setContent("Connected!");
+        message.setBidderuuid(partyuuid);
+        message.setMessageType(MessageType.NEW_PARTICIPANT);
+        
         broadcast(message);
     }
 
     @OnMessage
-    public void onMessage(Session session, Message message) throws IOException, EncodeException {
+    public Message onMessage(Session session, Message message) throws IOException, EncodeException {
         LOG.debug("onMessage message=" + message);
-        message.setFrom(partys.get(session.getId()));
-        broadcast(message);
+        String bidderuuid = partys.get(session.getId());
+        message.setBidderuuid(bidderuuid);
+        
+        Message reply = auctionService.onMessageReceived(message);
+        
+        return reply;
     }
 
     @OnClose
@@ -69,9 +76,12 @@ public class WsServerAuction {
         LOG.debug("onClose called");
         auctionEndpoints.remove(this);
         Message message = new Message();
-        message.setFrom(partys.get(session.getId()));
-        message.setContent("Disconnected!");
+       String bidderuuid = partys.get(session.getId());
+        message.setBidderuuid(bidderuuid);
+        message.setMessageType(MessageType.PARTICIPANT_LEFT);
+        
         broadcast(message);
+
     }
 
     @OnError
@@ -90,6 +100,11 @@ public class WsServerAuction {
                 }
             }
         });
+    }
+    
+    
+    public void setAuctionService(AuctionService auctionService) {
+        this.auctionService = auctionService;
     }
 
 }

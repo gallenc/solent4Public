@@ -137,7 +137,16 @@ public class Auction {
 
     @Override
     public String toString() {
-        return "Auction{" + "id=" + id + ", startTime=" + startTime + ", lotDuration=" + lotDuration + ", lots=" + lots + ", description=" + description + ", registeredPartys=" + registeredPartys + ", auctionuuid=" + auctionuuid + ", auctionType=" + auctionType + ", auctionStatus=" + auctionStatus + ", currentLotIndex=" + currentLotIndex + '}';
+        return "Auction{" + "id=" + id 
+                + ", startTime=" + startTime 
+                + ", lotDuration=" + lotDuration 
+                + ", lots.size=" +  ( (lots==null) ? null : lots.size())
+                + ", description=" + description 
+                + ", registeredPartys=" + registeredPartys 
+                + ", auctionuuid=" + auctionuuid 
+                + ", auctionType=" + auctionType 
+                + ", auctionStatus=" + auctionStatus 
+                + ", currentLotIndex=" + currentLotIndex + '}';
     }
 
 

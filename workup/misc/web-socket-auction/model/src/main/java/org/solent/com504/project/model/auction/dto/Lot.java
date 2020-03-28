@@ -64,7 +64,6 @@ public class Lot {
 
     @XmlTransient
     private String currentBidderUuid;
-    
 
     public Long getId() {
         return id;
@@ -196,9 +195,24 @@ public class Lot {
 
     @Override
     public String toString() {
-        return "Lot{" + "id=" + id + ", bids=" + bids + ", winningBid=" + winningBid + ", flowerType=" + flowerType + ", quantity=" + quantity + ", reservePrice=" + reservePrice + ", soldPrice=" + soldPrice + ", currentPrice=" + currentPrice + ", seller=" + seller + ", buyer=" + buyer + ", lotuuid=" + lotuuid + ", lotStatus=" + lotStatus + ", auctionType=" + auctionType + ", lotDuraton=" + lotDuraton + ", currentLotStart=" + currentLotStart + ", currentBidderUuid=" + currentBidderUuid + '}';
+        return "Lot{" + "id=" + id 
+                + ", winningBid=" +  ( (winningBid==null) ? null : winningBid.getBidderuuid())
+                + ", flowerType=" + flowerType 
+                + ", quantity=" + quantity 
+                + ", reservePrice=" + reservePrice 
+                + ", soldPrice=" + soldPrice 
+                + ", currentPrice=" + currentPrice
+                + ", selleruuid=" + ( (seller==null) ? null : seller.getUuid())
+                + ", buyeruuid=" + ( (buyer==null) ? null : buyer.getUuid())
+                + ", lotuuid=" + lotuuid 
+                + ", lotStatus=" + lotStatus 
+                + ", auctionType=" + auctionType 
+                + ", lotDuraton=" + lotDuraton 
+                + ", currentLotStart=" + currentLotStart 
+                + ", currentBidderUuid=" + currentBidderUuid + '}';
     }
-
-
+    
+    
+    
 
 }

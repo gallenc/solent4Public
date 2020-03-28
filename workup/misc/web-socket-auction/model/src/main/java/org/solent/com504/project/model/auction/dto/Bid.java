@@ -88,7 +88,13 @@ public class Bid {
 
     @Override
     public String toString() {
-        return "Bid{" + "time=" + time + ", id=" + id + ", bidder=" + bidder + ", bidderuuid=" + bidderuuid + ", lot=" + lot + ", amount=" + amount + ", biduuid=" + biduuid + '}';
+        return "Bid{ time=" + time 
+                + ", id=" + id 
+                + ", bidderid=" +  ( (bidder==null) ? null : bidder.getId())
+                + ", bidderuuid=" + bidderuuid 
+                + ", lotuuid=" + ( (lot==null) ? null : lot.getLotuuid())
+                + ", amount=" + amount 
+                + ", biduuid=" + biduuid + '}';
     }
 
 
