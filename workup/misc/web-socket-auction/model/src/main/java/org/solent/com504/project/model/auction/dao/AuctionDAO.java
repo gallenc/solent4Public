@@ -1,5 +1,6 @@
 package org.solent.com504.project.model.auction.dao;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.solent.com504.project.model.auction.dto.Auction;
@@ -20,5 +21,7 @@ public interface AuctionDAO {
     public void deleteAll();
 
     public Auction findByAuctionuuid(String auctionuuid);
+    
+    public List<Auction> findActiveOrScheduledBefore(Date time);
 
 }

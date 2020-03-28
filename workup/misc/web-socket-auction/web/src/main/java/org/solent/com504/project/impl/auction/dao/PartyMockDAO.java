@@ -69,7 +69,7 @@ public class PartyMockDAO implements PartyDAO{
 
     @Override
     public Party findByUuid(String uuid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return partyMap.get(uuid);
     }
     
 }

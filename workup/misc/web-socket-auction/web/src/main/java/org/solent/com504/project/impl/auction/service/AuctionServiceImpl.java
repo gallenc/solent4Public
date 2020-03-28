@@ -5,6 +5,7 @@
  */
 package org.solent.com504.project.impl.auction.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
@@ -50,6 +51,8 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
     private MessageService messagesOut;
 
     private BankingService bankingService;
+
+    private int noSymultaneousAuctions = 2;
 
     public AuctionServiceImpl(PartyDAO partyDAO, AuctionDAO auctionDAO, LotDAO lotDao, BidDAO bidDAO, MessageService messagesOut, BankingService bankingService) {
         this.partyDAO = partyDAO;
@@ -117,7 +120,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
     }
 
     @Override
-    public Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity) {
+    public Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity) throws IllegalArgumentException {
         LOG.debug("addLotToAuction called auctionuuid=" + auctionuuid
                 + " selleruuid=" + selleruuid
                 + " flowertype=" + flowertype
@@ -143,6 +146,13 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
         if (registered == false) {
             throw new IllegalArgumentException(
                     "Seller selleruuid=" + selleruuid + " is not registered for auction auctionuuid=" + auctionuuid);
+        }
+        if (reserveprice < 0) {
+            throw new IllegalArgumentException("reserve price cannot be less than 0");
+        }
+
+        if (quantity < 0) {
+            throw new IllegalArgumentException("quantity cannot be less than 0");
         }
 
         Lot lot = new Lot();
@@ -170,14 +180,21 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
 
         Long currentTimeMs = currentTime.getTime();
 
-        // todo add filter to dao to only find current auctions
-        List<Auction> activeandScheduledAuctions = auctionDAO.findAll();
+        List<Auction> activeandScheduledAuctions = auctionDAO.findActiveOrScheduledBefore(currentTime);
+
+        // limit number of auctions which can run from list
+        List<Auction> runnableAuctions = new ArrayList();
+        int x = 0;
+        while (x < noSymultaneousAuctions && x < activeandScheduledAuctions.size()) {
+            runnableAuctions.add(activeandScheduledAuctions.get(x));
+            x++;
+        }
 
         // for all found scheduled auctions in database, add to active auctions
         // for all found finished auctions in active auctions, save to database
-        LOG.debug("iterating through " + activeandScheduledAuctions.size()
+        LOG.debug("iterating through " + runnableAuctions.size()
                 + " activeandScheduledAuctions");
-        for (Auction dbAuction : activeandScheduledAuctions) {
+        for (Auction dbAuction : runnableAuctions) {
 
             switch (dbAuction.getAuctionStatus()) {
 
@@ -244,6 +261,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
                                     Message message = new Message();
                                     message.setMessageType(MessageType.LOT_WITHDRAWN);
                                     message.setAuctionuuid(dbAuction.getAuctionuuid());
+                                    message.setLotuuid(lot.getLotuuid());
                                     message.setDebugMessage(debugMessage);
                                     messagesOut.broadcastMessage(message);
                                 }
@@ -284,6 +302,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
                             message.setMessageType(MessageType.START_OF_LOT);
                             message.setAuctionuuid(dbAuction.getAuctionuuid());
                             message.setDebugMessage(debugMessage);
+                            message.setLotuuid(lot.getLotuuid());
                             messagesOut.broadcastMessage(message);
 
                             break;
@@ -303,7 +322,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
                         auctionDAO.save(dbAuction);
 
                         Message message = new Message();
-                        message.setMessageType(MessageType.START_OF_LOT);
+                        message.setMessageType(MessageType.END_OF_AUCTION);
                         message.setAuctionuuid(dbAuction.getAuctionuuid());
 
                         message.setDebugMessage(debugMessage);
@@ -322,7 +341,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
     }
 
     @Override
-    public void bidForLot(String bidderuuid, String auctionuuid, String authKey, String lotuuid, double amount) {
+    public void bidForLot(String bidderuuid, String auctionuuid, String authKey, String lotuuid, double amount) throws IllegalArgumentException {
         LOG.debug("bidForLot called bidderuuid=" + bidderuuid
                 + " auctionuuid=" + auctionuuid
                 + " authKey=" + authKey
@@ -347,10 +366,14 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
 
         }
 
-        if (lot.getReservePrice() <= amount) {
-            throw new IllegalArgumentException("lot lotuuid=" + lotuuid + " in auction auctionuuid=" + auctionuuid
-                    + " bid price less than reserve price ");
+        if (amount < 0) {
+            throw new IllegalArgumentException("amount cannot be less than 0");
+        }
 
+        if (amount < lot.getReservePrice()) {
+            throw new IllegalArgumentException("lot lotuuid=" + lotuuid + " in auction auctionuuid=" + auctionuuid
+                    + " bid amount ("+amount
+                            + ") less than reserve price "+lot.getReservePrice());
         }
 
         if (AuctionType.NORMAL == lot.getAuctionType()) {
@@ -424,8 +447,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
 
     @Override
     public Message onMessageReceived(Message message) {
-        // START_OF_AUCTION, START_OF_LOT, END_OF_AUCTION, LOT_WITHDRAWN, NEW_HIGHEST_BID, 
-        // LOT_SOLD, NEW_PARTICIPANT, ERROR, NOT_REGISTERED, LOT_OR_AUCTION_CLOSED, BID
+
         String auctionuuid = message.getAuctionuuid();
         String lotuuid = message.getLotuuid();
         String bidderuuid = message.getBidderuuid();
@@ -446,13 +468,13 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
             } catch (Exception ex) {
                 String debugMessage = ex.getMessage();
                 reply.setDebugMessage(debugMessage);
-                return message;
+                return reply;
             }
         } else {
-            String debugMessage = "messageType=" + message.getMessageType()
+            String debugMessage = "received messageType=" + message.getMessageType()
                     + "  but you are only allowed to send BID messages on this channel";
             reply.setDebugMessage(debugMessage);
-            return message;
+            return reply;
         }
 
         return null;

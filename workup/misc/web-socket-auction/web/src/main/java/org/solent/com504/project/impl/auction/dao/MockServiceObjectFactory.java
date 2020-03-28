@@ -52,56 +52,7 @@ public class MockServiceObjectFactory {
             = new AuctionServiceImpl(partyDAO, auctionDAO, lotDao, bidDao, messagesOut, bankService);
 
     public MockServiceObjectFactory(){
-    // mock initialisation code 
-   
-        LOG.debug("\n*********************************  INITIALISING MOCK DATA IN SERVICE OBJECT FACTORY");
-        // will parse 2009-12-31 23:59:59
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-        List<Party> partyList = Arrays.asList(new Party("great flowers", "co"),
-                new Party("great flowers2", "co"),
-                new Party("great flowers3", "co"));
-        for (Party party : partyList) {
-            partyDAO.save(party);
-        }
-
-        List<Party> sellerPartyList = Arrays.asList(new Party("grow great flowers", "co"),
-                new Party("grow great flowers2", "co"),
-                new Party("grow great flowers3", "co"));
-        for (Party party : sellerPartyList) {
-            partyDAO.save(party);
-        }
-
-        List<String> constantDateStrings = Arrays.asList("2020-01-1 09:00",
-                "2020-01-1 10:00",
-                "2020-01-1 11:00",
-                "2020-01-1 12:00",
-                "2020-01-1 13:00");
-        for (String datestr : constantDateStrings) {
-            try {
-                Date time = format.parse(datestr);
-                Auction auction = new Auction(time, "auction at " + datestr);
-                auction.setAuctionStatus(AuctionOrLotStatus.SCHEDULED);
-
-                // add lots to auction
-                for (int i = 0; i < 3; i++) {
-                    Lot lot = new Lot();
-                    Flower flowerType = new Flower();
-                    flowerType.setCommonName("rose");
-                    flowerType.setSymbol("AAAAA");
-                    lot.setFlowerType(flowerType);
-                    Double reservePrice = 10000.00;
-                    lot.setReservePrice(reservePrice);
-                    Party seller;
-                    lot.setSeller(sellerPartyList.get(i));
-                    auction.getLots().add(lot);
-                }
-                auctionDAO.save(auction);
-            } catch (Exception ex) {
-                LOG.error("problem initialising :", ex);
-            }
-        }
-        LOG.debug("\n*********************************  FINISHED INITIALISING MOCK DATA IN SERVICE OBJECT FACTORY");
+    
     }
 
     public PartyDAO getPartyDAO() {

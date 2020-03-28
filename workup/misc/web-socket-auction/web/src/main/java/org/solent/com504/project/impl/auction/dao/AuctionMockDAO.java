@@ -6,12 +6,14 @@
 package org.solent.com504.project.impl.auction.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.solent.com504.project.model.auction.dao.AuctionDAO;
 import org.solent.com504.project.model.auction.dto.Auction;
+import org.solent.com504.project.model.auction.dto.AuctionOrLotStatus;
 
 /**
  *
@@ -65,6 +67,22 @@ public class AuctionMockDAO implements AuctionDAO {
     @Override
     public Auction findByAuctionuuid(String auctionuuid) {
         return auctionMap.get(auctionuuid);
+    }
+
+    @Override
+    public List<Auction> findActiveOrScheduledBefore(Date time) {
+        List<Auction> auctionList = new ArrayList();
+        for (String key : auctionMap.keySet()) {
+            Auction a = auctionMap.get(key);
+            
+            if(a.getStartTime().before(time) 
+                    && ( AuctionOrLotStatus.SCHEDULED == a.getAuctionStatus()
+                    || AuctionOrLotStatus.ACTIVE == a.getAuctionStatus() )
+                    ){
+                 auctionList.add(a);
+            }
+        }
+        return auctionList;
     }
 
 }

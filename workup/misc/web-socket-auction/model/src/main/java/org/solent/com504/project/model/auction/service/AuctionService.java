@@ -5,10 +5,11 @@ import java.util.List;
 import org.solent.com504.project.model.auction.dto.Auction;
 
 import org.solent.com504.project.model.auction.dto.Lot;
+import org.solent.com504.project.model.auction.message.MessageListener;
 import org.solent.com504.project.model.flower.dto.Flower;
 
 
-public interface AuctionService {
+public interface AuctionService extends  MessageListener{
     
     // returns authkey
     public String registerForAuction(String auctionuuid, String partyUuid);
@@ -21,9 +22,9 @@ public interface AuctionService {
     
     public List<Lot> getAuctionLots(String auctionuuid);
     
-    public Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity);
+    public Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity) throws IllegalArgumentException;
     
-    public void bidForLot(String bidderuuid, String auctionuuid, String authKey, String lotuuid, double amount);
+    public void bidForLot(String bidderuuid, String auctionuuid, String authKey, String lotuuid, double amount) throws IllegalArgumentException;
     
     public void runAuctionSchedule();
     

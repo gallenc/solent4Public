@@ -34,7 +34,8 @@ public class LotMockDAO implements LotDAO {
 
     @Override
     public Lot save(Lot lot) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // CANNOT SAVE LOT BECAUSE DONT KNOW WHICH AUCTION 
+        return lot;
     }
 
     @Override
