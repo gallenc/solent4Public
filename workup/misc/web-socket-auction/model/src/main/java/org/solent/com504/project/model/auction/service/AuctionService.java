@@ -9,7 +9,7 @@ import org.solent.com504.project.model.auction.message.MessageListener;
 import org.solent.com504.project.model.flower.dto.Flower;
 
 
-public interface AuctionService extends  MessageListener{
+public interface AuctionService extends  MessageListener, Runnable{
     
     // returns authkey
     public String registerForAuction(String auctionuuid, String partyUuid);

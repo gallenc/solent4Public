@@ -494,5 +494,17 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
         
         return null;
     }
+
+    // Runnable method for scheduller
+    @Override
+    public void run() {
+        try{
+            runAuctionSchedule();
+        }catch (Exception ex){
+            LOG.error("problem running auction service runAuctionSchedule() ",ex);
+        }
+    }
+    
+ 
     
 }

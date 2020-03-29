@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Message {
 
+    private MessageType messageType;
+
     private String lotuuid;
 
     private String auctionuuid;
@@ -21,8 +23,6 @@ public class Message {
 
     private String debugMessage;
 
-    private MessageType messageType;
-    
     private String authKey;
 
     public String getLotuuid() {
@@ -83,10 +83,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" + "lotuuid=" + lotuuid + ", auctionuuid=" + auctionuuid + ", value=" + value + ", bidderuuid=" + bidderuuid + ", debugMessage=" + debugMessage + ", messageType=" + messageType + ", authKey=" + authKey + '}';
+        return "Message{ messageType=" + messageType +" lotuuid=" + lotuuid + ", auctionuuid=" + auctionuuid + ", value=" + value + ", bidderuuid=" + bidderuuid + ", debugMessage=" + debugMessage +  ", authKey=" + authKey + '}';
     }
 
-
-    
-    
 }
