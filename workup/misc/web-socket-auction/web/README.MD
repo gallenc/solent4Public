@@ -12,12 +12,12 @@ When an auction is running users can no longer register for the auction or add n
 The auction service has a scheduler which iterates through the auction schedule starting the auction for each lot until all the lots in an auction have finished.
 Messages are broadcast to all registered users every time an auction or a lot changes state or there is a new highest bid.
 
-A websocket
+A websocket service is provided which allows users to listen for the start of bidding for a lot and and receive notifications each time the price changes.
+Users can bid for lots but they must include their auction registered authkey in the message in order for their bid to be accepted
 
 
-
-
-## Web Socket Events
+### Web Socket Events
+Two simple web socket examples are also provided as described below.
 
 This simple project is built from an example here
 
