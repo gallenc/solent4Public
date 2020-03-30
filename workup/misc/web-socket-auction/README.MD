@@ -1,6 +1,9 @@
 # web socket auction
 
 This project provides the core of a working auction that uses websocket messages.
+
+You can reuse this code in your project if it helps but it is provided with no guarantees or support.
+
 The model has been extended to include extra auction objects such as lot, auction, bid and message.
 However the data is all mocked through mockdao's which impliment minimal in memory functionality.
 
