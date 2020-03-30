@@ -1,4 +1,18 @@
-# Web Socket Events
+
+# web socket auction
+
+This project provides the core of a working auction that uses websocket messages.
+The model has been extended to include extra auction objects such as lot, auction, bid and message.
+However the data is all mocked through mockdao's which impliment minimal in memory functionality.
+
+The AuctionService allows parties to register for an auction and received back and auth key which they can use when they are bidding.
+Auctions go through three states Eastleigh planning scheduled running and finished..
+
+
+
+
+
+## Web Socket Events
 
 This simple project is built from an example here
 
