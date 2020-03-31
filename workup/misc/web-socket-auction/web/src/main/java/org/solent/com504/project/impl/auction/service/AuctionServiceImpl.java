@@ -101,22 +101,22 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
     }
 
     @Override
-    public List<Auction> getAuctionList() {
+    public synchronized List<Auction> getAuctionList() {
         return auctionDAO.findAll();
     }
 
     @Override
-    public Auction getAuctionDetails(String auctionuuid) {
+     public synchronized  Auction getAuctionDetails(String auctionuuid) {
         return auctionDAO.findByAuctionuuid(auctionuuid);
     }
 
     @Override
-    public Lot getLotDetails(String lotuuid) {
+     public synchronized  Lot getLotDetails(String lotuuid) {
         return lotDAO.findByLotuuid(lotuuid);
     }
 
     @Override
-    public List<Lot> getAuctionLots(String auctionuuid) {
+     public synchronized  List<Lot> getAuctionLots(String auctionuuid) {
         Auction auction = auctionDAO.findByAuctionuuid(auctionuuid);
         if (auction == null) {
             throw new IllegalArgumentException("unknown auction " + auctionuuid);
@@ -125,7 +125,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
     }
 
     @Override
-    public Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity) throws IllegalArgumentException {
+     public synchronized  Lot addLotToAuction(String auctionuuid, String selleruuid, Flower flowertype, double reserveprice, long quantity) throws IllegalArgumentException {
         LOG.debug("addLotToAuction called auctionuuid=" + auctionuuid
                 + " selleruuid=" + selleruuid
                 + " flowertype=" + flowertype
@@ -315,6 +315,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
                             message.setAuctionuuid(dbAuction.getAuctionuuid());
                             message.setDebugMessage(debugMessage);
                             message.setLotuuid(lot.getLotuuid());
+                            message.setValue(lot.getReservePrice());
                             messagesOut.broadcastMessage(message);
 
                             break;
@@ -364,6 +365,7 @@ public class AuctionServiceImpl implements AuctionService, MessageListener {
         Message message = new Message();
         message.setAuctionuuid(auctionuuid);
         message.setBidderuuid(bidderuuid);
+        message.setLotuuid(lotuuid);
 
         if (!CheckAuth.checkAuctionKey(authKey, auctionuuid, bidderuuid)) {
             throw new IllegalArgumentException("unauthorised bid message authKey=" + authKey

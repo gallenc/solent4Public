@@ -8,7 +8,11 @@ package org.solent.com504.project.impl.auction.service.test.manual;
 import solent.ac.uk.com600.examples.websocket.auction.client.AuctionClientEndpoint;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.websocket.DeploymentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +21,7 @@ import static org.junit.Assert.*;
 import org.solent.com504.project.model.auction.dto.Message;
 import org.solent.com504.project.model.auction.dto.MessageType;
 import org.solent.com504.project.model.auction.message.MessageListener;
+import org.solent.com504.project.model.auction.service.AuctionService;
 
 /**
  *
@@ -33,7 +38,7 @@ public class TestAuctionWebSocketClient implements MessageListener {
 
         try {
             // open websocket
-            String partyuuid = "xxxx";
+            String partyuuid = UUID.randomUUID().toString();
             clientEndPoint = new AuctionClientEndpoint(
                     new URI("ws://localhost:8084/auction-events/auctionwebsocket/" + partyuuid),
                     this);

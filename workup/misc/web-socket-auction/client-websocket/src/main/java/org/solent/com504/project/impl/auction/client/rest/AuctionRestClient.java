@@ -12,6 +12,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -43,36 +44,9 @@ public class AuctionRestClient {
         this.baseUrl = baseUrl;
     }
 
-//
-//
-//    @Override
-//    public Animal addAnimal(String animalType, String animalName) {
-//        LOG.debug("client addAnimal Called animalType=" + animalType + " animalName=" + animalName);
-//
-//        Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
-//        WebTarget webTarget = client.target(baseUrl).path("addAnimal");
-//
-//        // this is how we construct html FORM variables
-//        MultivaluedMap<String, String> formData = new MultivaluedHashMap<String, String>();
-//        formData.add("animalType", animalType);
-//        formData.add("animalName", animalName);
-//
-//        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_XML);
-//        Response response = invocationBuilder.post(Entity.form(formData));
-//
-//        ReplyMessage replyMessage = response.readEntity(ReplyMessage.class);
-//        LOG.debug("Response status=" + response.getStatus() + " ReplyMessage: " + replyMessage);
-//
-//        if (!replyMessage.getAnimalList().getAnimals().isEmpty()) {
-//            return replyMessage.getAnimalList().getAnimals().get(0);
-//        }
-//        return null;
-//    }
-    
-    
     public String registerForAuction(String auctionuuid, String partyuuid) {
-                LOG.debug("registerForAuction Called auctionuuid="+auctionuuid
-                        + " partyuuid="+partyuuid);
+        LOG.debug("registerForAuction Called auctionuuid=" + auctionuuid
+                + " partyuuid=" + partyuuid);
 
         Client client = ClientBuilder
                 .newBuilder()
@@ -81,17 +55,19 @@ public class AuctionRestClient {
                 .build();
 
         WebTarget webTarget = client.target(baseUrl).path("registerforauction");
-             // this is how we construct html FORM variables
+
+        // this is how we construct html FORM variables
         MultivaluedMap<String, String> formData = new MultivaluedHashMap<String, String>();
         formData.add("auctionuuid", auctionuuid);
         formData.add("partyuuid", partyuuid);
 
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_XML);
         Response response = invocationBuilder.post(Entity.form(formData));
+
         ReplyMessage replyMessage = response.readEntity(ReplyMessage.class);
         LOG.debug("Response status=" + response.getStatus() + " ReplyMessage: " + replyMessage);
         return replyMessage.getAuthKey();
-        
+
     }
 
     public List<Auction> getAuctionList() {

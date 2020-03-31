@@ -8,6 +8,7 @@ package org.solent.com504.project.impl.auction.web.rest;
 import java.util.Arrays;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 
 import javax.ws.rs.Path;
@@ -51,7 +52,7 @@ public class AuctionServiceRest {
 
             AuctionService auctionService = WebObjectFactory.getAuctionService();
             List<Auction> auctionList = auctionService.getAuctionList();
-            
+
             replyMessage.setAuctionList(auctionList);
 
             // LOG.debug("/retrievematching bookTemplate: " + bookTemplate 
@@ -174,13 +175,13 @@ public class AuctionServiceRest {
 
     @POST
     @Path("/addlottoauction")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.MULTIPART_FORM_DATA})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response addLotToAuction(@QueryParam("auctionuuid") String auctionuuid,
-            @QueryParam("selleruuid") String selleruuid,
-            @QueryParam("flowertype") Flower flowertype,
-            @QueryParam("reserveprice") Double reserveprice,
-            @QueryParam("quantity") Long quantity
+    public Response addLotToAuction(@FormParam("auctionuuid") String auctionuuid,
+            @FormParam("selleruuid") String selleruuid,
+            @FormParam("flowertype") Flower flowertype,
+            @FormParam("reserveprice") Double reserveprice,
+            @FormParam("quantity") Long quantity
     ) {
         try {
             LOG.debug("addlottoauction called auctionuuid=" + auctionuuid
@@ -226,14 +227,15 @@ public class AuctionServiceRest {
 
     @POST
     @Path("/registerforauction")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.MULTIPART_FORM_DATA})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response registerForAuction(@QueryParam("auctionuuid") String auctionuuid,
-            @QueryParam("partyuuid") String partyUuid
-    ) {
-        try {
-            LOG.debug("registerforauction called auctionuuid=" + auctionuuid
+    public Response registerForAuction(@FormParam("auctionuuid") String auctionuuid,
+            @FormParam("partyuuid") String partyUuid) {
+        
+        LOG.debug("registerforauction called auctionuuid=" + auctionuuid
                     + " partyuuid=" + partyUuid);
+        
+        try {
             if (auctionuuid == null) {
                 throw new IllegalArgumentException("auctionuuid request parameter must be set");
             }

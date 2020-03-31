@@ -20,6 +20,7 @@ import javax.websocket.DeploymentException;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +36,8 @@ public class AuctionClientEndpoint {
 
     final static Logger LOG = LogManager.getLogger(AuctionClientEndpoint.class);
 
-    Session userSession = null;
-    MessageListener messageListener = null;
+    private Session userSession = null;
+    private MessageListener messageListener = null;
 
     public AuctionClientEndpoint(URI endpointURI, MessageListener messageListener) {
         try {
@@ -98,12 +99,20 @@ public class AuctionClientEndpoint {
      * @param message
      */
     public void sendMessage(Message message) {
-        this.userSession.getAsyncRemote().sendObject(message);
+        try {
+            RemoteEndpoint.Async asyncRemote = userSession.getAsyncRemote();
+            if (asyncRemote == null) {
+                throw new RuntimeException("asyncRemote is null");
+            }
+            asyncRemote.sendObject(message);
+        } catch (Exception ex) {
+            LOG.error("problem sending message ", ex);
+        }
     }
 
     public void close() {
         LOG.info("closing session");
-        if (userSession != null)  {
+        if (userSession != null) {
             try {
                 userSession.close();
             } catch (IOException ex) {
