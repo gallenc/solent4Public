@@ -36,26 +36,41 @@
             <scope>compile</scope>
         </dependency>
         
-        <!--        <dependency>
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-client</artifactId>
-            <version>1.1</version>
-        </dependency> -->
-        
         <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
             <artifactId>tyrus-standalone-client</artifactId>
             <version>1.9</version>
         </dependency>
-  
-
         
-        <!--        <dependency>
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-container-jdk-client</artifactId>
-            <version>1.13</version>
-            <scope>test</scope>
-        </dependency>-->
+        <!-- jersey dependencies -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- this library allows jaxb classes to unmarshal media type=application/xml -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-jaxb</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- this library allows jaxb classes to be treated as json -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <scope>compile</scope>
+        </dependency>
+          <!-- this library allows multipart post messages -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- Log4j API and Core implementation  -->
         <dependency>

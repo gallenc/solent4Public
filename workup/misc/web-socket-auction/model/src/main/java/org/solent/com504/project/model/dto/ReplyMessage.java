@@ -38,6 +38,8 @@ public class ReplyMessage {
     @XmlElementWrapper(name = "bidlist")
     @XmlElement(name = "bid")
     private List<Bid> bidList = null;
+    
+    private String authKey = null;
 
     public Integer getCode() {
         return code;
@@ -93,6 +95,14 @@ public class ReplyMessage {
 
     public void setBidList(List<Bid> bidList) {
         this.bidList = bidList;
+    }
+
+    public String getAuthKey() {
+        return authKey;
+    }
+
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
     }
     
     

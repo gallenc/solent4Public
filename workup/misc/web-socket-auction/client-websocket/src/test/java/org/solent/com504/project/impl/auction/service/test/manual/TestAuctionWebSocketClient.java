@@ -22,19 +22,19 @@ import org.solent.com504.project.model.auction.message.MessageListener;
  *
  * @author cgallen
  */
-public class TestWSClient implements MessageListener {
+public class TestAuctionWebSocketClient implements MessageListener {
 
-    final static Logger LOG = LogManager.getLogger(TestWSClient.class);
-
-    private static CountDownLatch latch;
+    final static Logger LOG = LogManager.getLogger(TestAuctionWebSocketClient.class);
 
     @Test
     public void testClient() {
 
+        AuctionClientEndpoint clientEndPoint = null;
+
         try {
             // open websocket
             String partyuuid = "xxxx";
-            final AuctionClientEndpoint clientEndPoint = new AuctionClientEndpoint(
+            clientEndPoint = new AuctionClientEndpoint(
                     new URI("ws://localhost:8084/auction-events/auctionwebsocket/" + partyuuid),
                     this);
 
@@ -44,14 +44,16 @@ public class TestWSClient implements MessageListener {
             clientEndPoint.sendMessage(message);
 
             // wait 60 seconds for messages from websocket
-            Thread.sleep(1000 * 60* 10);
-            
-            clientEndPoint.close();
+            Thread.sleep(1000 * 60 * 10);
 
         } catch (InterruptedException ex) {
             System.err.println("InterruptedException exception: " + ex.getMessage());
         } catch (URISyntaxException ex) {
             System.err.println("URISyntaxException exception: " + ex.getMessage());
+        } finally {
+            if (clientEndPoint != null) {
+                clientEndPoint.close();
+            }
         }
 
     }

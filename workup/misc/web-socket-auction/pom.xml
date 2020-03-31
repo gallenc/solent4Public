@@ -87,6 +87,12 @@
                 <artifactId>jersey-container-servlet</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
+            <!-- this library allows jaxb to be used for media type=application/xml -->
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-jaxb</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
             <!-- this library allows jaxb classes to be treated as json -->
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
