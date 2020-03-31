@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="jpaExampleClassDiagram">
+  <ClassDiagramComponents>
+    <Class name="Party" package="org.solent.com504.project.model.party.dto" visibility="public" xPosition="638.0" yPosition="1150.0">
+      <Fields>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="firstName" type="String" visibility="private"/>
+        <Field name="secondName" type="String" visibility="private"/>
+        <Field name="partyRole" type="PartyRole" visibility="private"/>
+        <Field name="address" type="Address" visibility="private"/>
+        <Field name="partyStatus" type="PartyStatus" visibility="private"/>
+        <Field name="uuid" type="String" visibility="private"/>
+        <Field name="represents" type="Party" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ReplyMessage" package="org.solent.com504.project.model.dto" visibility="public" xPosition="80.0" yPosition="858.0">
+      <Fields>
+        <Field name="code" type="Integer" visibility="private"/>
+        <Field name="debugMessage" type="String" visibility="private"/>
+        <Field name="stringList" type="List&lt;String&gt;" visibility="private"/>
+        <Field name="partyList" type="List&lt;Party&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ViewController" package="org.solent.com504.project.model.web" visibility="public" xPosition="824.0" yPosition="203.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Address" package="org.solent.com504.project.model.party.dto" visibility="public" xPosition="850.0" yPosition="843.0">
+      <Fields>
+        <Field name="number" type="String" visibility="private"/>
+        <Field name="addressLine1" type="String" visibility="private"/>
+        <Field name="addressLine2" type="String" visibility="private"/>
+        <Field name="County" type="String" visibility="private"/>
+        <Field name="Country" type="String" visibility="private"/>
+        <Field name="postcode" type="String" visibility="private"/>
+        <Field name="latitude" type="double" visibility="private"/>
+        <Field name="longitude" type="double" visibility="private"/>
+        <Field name="telephone" type="String" visibility="private"/>
+        <Field name="mobile" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="User" package="org.solent.com504.project.model.user.dto" visibility="public" xPosition="1145.0" yPosition="858.0">
+      <Fields>
+        <Field name="username" type="String" visibility="private"/>
+        <Field name="password" type="String" visibility="private"/>
+        <Field name="passwordConfirm" type="String" visibility="private"/>
+        <Field name="firstName" type="String" visibility="private"/>
+        <Field name="secondName" type="String" visibility="private"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="roles" type="Set&lt;Role&gt;" visibility="private"/>
+        <Field name="address" type="Address" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Role" package="org.solent.com504.project.model.user.dto" visibility="public" xPosition="1435.0" yPosition="843.0">
+      <Fields>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="name" type="String" visibility="private"/>
+        <Field name="users" type="Set&lt;User&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Auction" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="2188.0" yPosition="983.0">
+      <Fields>
+        <Field name="startTime" type="Date" visibility="private"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="lots" type="List&lt;Lot&gt;" visibility="private"/>
+        <Field name="description" type="String" visibility="private"/>
+        <Field name="registeredPartys" type="List&lt;Party&gt;" visibility="private"/>
+        <Field name="auctionuuid" type="String" visibility="private"/>
+        <Field name="auctionStatus" type="AuctionStatus" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Bid" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="2966.0" yPosition="1236.0">
+      <Fields>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="bidder" type="Party" visibility="private"/>
+        <Field name="lot" type="Lot" visibility="private"/>
+        <Field name="amount" type="Double" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Lot" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="2540.0" yPosition="1068.0">
+      <Fields>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="bids" type="List&lt;Bid&gt;" visibility="private"/>
+        <Field name="winningBid" type="Bid" visibility="private"/>
+        <Field name="flowerType" type="Flower" visibility="private"/>
+        <Field name="quantity" type="Long" visibility="private"/>
+        <Field name="reservePrice" type="Double" visibility="private"/>
+        <Field name="soldPrice" type="Double" visibility="private"/>
+        <Field name="seller" type="Party" visibility="private"/>
+        <Field name="buyer" type="Party" visibility="private"/>
+        <Field name="lotuuid" type="String" visibility="private"/>
+        <Field name="active" type="Boolean" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Message" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="1875.0" yPosition="577.0">
+      <Fields>
+        <Field name="lotuuid" type="String" visibility="private"/>
+        <Field name="auctionuuid" type="String" visibility="private"/>
+        <Field name="value" type="Double" visibility="private"/>
+        <Field name="bidderuuid" type="String" visibility="private"/>
+        <Field name="debugMessage" type="String" visibility="private"/>
+        <Field name="messageType" type="MessageType" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Flower" package="org.solent.com504.project.model.flower.dto" visibility="public" xPosition="2795.0" yPosition="983.0">
+      <Fields>
+        <Field name="symbol" type="String" visibility="private"/>
+        <Field name="synonymSymbol" type="String" visibility="private"/>
+        <Field name="scientificNamewithAuthor" type="String" visibility="private"/>
+        <Field name="commonName" type="String" visibility="private"/>
+        <Field name="family" type="String" visibility="private"/>
+        <Field name="dataUrl" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Interface name="PartyDAO" package="org.solent.com504.project.model.party.dao" visibility="public" xPosition="376.0" yPosition="485.0">
+      <Methods>
+        <Method name="findById" returnType="Long" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="save" returnType="Party" visibility="public">
+          <Argument type="Party" name="party"/>
+        </Method>
+        <Method name="findAll" returnType="List&lt;Party&gt;" visibility="public"/>
+        <Method name="deleteById" returnType="long" visibility="public">
+          <Argument type="long" name="id"/>
+        </Method>
+        <Method name="delete" returnType="Party" visibility="public">
+          <Argument type="Party" name="party"/>
+        </Method>
+        <Method name="deleteAll" returnType="void" visibility="public"/>
+        <Method name="findByRole" returnType="Role" visibility="public">
+          <Argument type="Role" name="role"/>
+        </Method>
+        <Method name="findByName" returnType="String" visibility="public">
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="secondName"/>
+        </Method>
+        <Method name="findByTemplate" returnType="Party" visibility="public">
+          <Argument type="Party" name="template"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="ServiceFacade" package="org.solent.com504.project.model.service" visibility="public" xPosition="447.0" yPosition="232.0">
+      <Methods>
+        <Method name="getHeartbeat" returnType="String" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="JSP_Pages_do_not_generate" package="org.solent.com504.project.model.web" visibility="public" xPosition="798.0" yPosition="61.0">
+      <Methods/>
+    </Interface>
+    <Interface name="RestService" package="org.solent.com504.project.model.rest" visibility="public" xPosition="117.0" yPosition="172.0">
+      <Methods>
+        <Method name="getHeartbeat" returnType="ReplyMessage" visibility="public"/>
+      </Methods>
+    </Interface>
+    <Interface name="RestClient" package="org.solent.com504.project.model.rest" visibility="public" xPosition="-8.0" yPosition="332.0">
+      <Methods/>
+    </Interface>
+    <Interface name="UserDAO" package="org.solent.com504.project.model.user.dao" visibility="public" xPosition="957.0" yPosition="569.0">
+      <Methods>
+        <Method name="findById" returnType="Long" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="save" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="findAll" returnType="List&lt;User&gt;" visibility="public"/>
+        <Method name="deleteById" returnType="long" visibility="public">
+          <Argument type="long" name="id"/>
+        </Method>
+        <Method name="delete" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="deleteAll" returnType="void" visibility="public"/>
+        <Method name="findByRoleName" returnType="String" visibility="public">
+          <Argument type="String" name="rolename"/>
+        </Method>
+        <Method name="findByNames" returnType="String" visibility="public">
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="secondName"/>
+        </Method>
+        <Method name="findByUsername" returnType="String" visibility="public">
+          <Argument type="String" name="username"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="RoleDAO" package="org.solent.com504.project.model.user.dao" visibility="public" xPosition="1371.0" yPosition="569.0">
+      <Methods>
+        <Method name="findById" returnType="Long" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="save" returnType="Role" visibility="public">
+          <Argument type="Role" name="role"/>
+        </Method>
+        <Method name="findAll" returnType="List&lt;Role&gt;" visibility="public"/>
+        <Method name="deleteById" returnType="long" visibility="public">
+          <Argument type="long" name="id"/>
+        </Method>
+        <Method name="delete" returnType="Role" visibility="public">
+          <Argument type="Role" name="role"/>
+        </Method>
+        <Method name="deleteAll" returnType="void" visibility="public"/>
+        <Method name="findByRoleName" returnType="String" visibility="public">
+          <Argument type="String" name="rolename"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="AuctionDAO" package="org.solent.com504.project.model.auction.dao" visibility="public" xPosition="2171.0" yPosition="625.0">
+      <Methods/>
+    </Interface>
+    <Interface name="BidDAO" package="org.solent.com504.project.model.auction.dao" visibility="public" xPosition="2953.0" yPosition="669.0">
+      <Methods/>
+    </Interface>
+    <Interface name="LotDAO" package="org.solent.com504.project.model.auction.dao" visibility="public" xPosition="2511.0" yPosition="669.0">
+      <Methods/>
+    </Interface>
+    <Interface name="AuctionService" package="org.solent.com504.project.model.auction.service" visibility="public" xPosition="2283.0" yPosition="241.0">
+      <Methods/>
+    </Interface>
+    <Interface name="AuctionWebSocketMessagingService" package="org.solent.com504.project.model.auction.message" visibility="public" xPosition="1904.0" yPosition="232.0">
+      <Methods/>
+    </Interface>
+    <Enum name="PartyRole" package="org.solent.com504.project.model.party.dto" visibility="public" xPosition="376.0" yPosition="1193.0">
+      <Literals>
+        <Literal name="GLOBALADMIN"/>
+        <Literal name="USER"/>
+        <Literal name="ANONYMOUS"/>
+        <Literal name="GROUPADMIN"/>
+      </Literals>
+    </Enum>
+    <Enum name="PartyStatus" package="org.solent.com504.project.model.party.dto" visibility="public" xPosition="376.0" yPosition="983.0">
+      <Literals>
+        <Literal name="ACTIVE"/>
+        <Literal name="DISABLED"/>
+      </Literals>
+    </Enum>
+    <Enum name="UserRoles" package="org.solent.com504.project.model.user.dto" visibility="public" xPosition="1677.0" yPosition="900.0">
+      <Literals>
+        <Literal name="ROLE_USER"/>
+        <Literal name="ROLE_REST"/>
+        <Literal name="ROLE_ADMIN"/>
+        <Literal name="ROLE_GLOBAL_ADMIN"/>
+        <Literal name="ROLE_VIEWONLY"/>
+      </Literals>
+    </Enum>
+    <Enum name="AuctionType" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="2283.0" yPosition="728.0">
+      <Literals>
+        <Literal name="NORMAL"/>
+        <Literal name="DUTCH"/>
+      </Literals>
+    </Enum>
+    <Enum name="MessageType" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="1876.0" yPosition="812.0">
+      <Literals>
+        <Literal name="START_OF_AUCTION"/>
+        <Literal name="START_OF_LOT"/>
+        <Literal name="END_OF_AUCTION"/>
+        <Literal name="LOT_WITHDRAWN"/>
+        <Literal name="NEW_HIGHEST_BID"/>
+        <Literal name="LOT_SOLD"/>
+        <Literal name="NEW_PARTICIPANT"/>
+        <Literal name="ERROR"/>
+        <Literal name="NOT_REGISTERED"/>
+        <Literal name="LOT_OR_AUCTION_CLOSED"/>
+        <Literal name="BID"/>
+      </Literals>
+    </Enum>
+    <Enum name="AuctionStatus" package="org.solent.com504.project.model.auction.dto" visibility="public" xPosition="2417.0" yPosition="858.0">
+      <Literals>
+        <Literal name="PLANNING"/>
+        <Literal name="ACTIVE"/>
+        <Literal name="FINISHED"/>
+        <Literal name="CANCELED"/>
+        <Literal name="SCHEDULED"/>
+      </Literals>
+    </Enum>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation name="useBid" source="org.solent.com504.project.model.auction.dao.BidDAO" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="bidHasPartyBidder" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="userHasRoles" source="org.solent.com504.project.model.user.dto.User" target="org.solent.com504.project.model.user.dto.Role" sourceCardinality="1..1" targetCardinality="1..*"/>
+    <UseRelation name="auctionHasType" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.AuctionType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="hasStatus" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.AuctionStatus" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasRole" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.PartyRole" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="controls" source="org.solent.com504.project.model.auction.service.AuctionService" target="org.solent.com504.project.model.auction.message.AuctionWebSocketMessagingService" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasFlowerType" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.flower.dto.Flower" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasWinningBid" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..1"/>
+    <UseRelation name="lotHasBids" source="org.solent.com504.project.model.auction.dto.Lot" target="org.solent.com504.project.model.auction.dto.Bid" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <HasRelation name="hasAddress" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.Address" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="usesParty" source="org.solent.com504.project.model.party.dao.PartyDAO" target="org.solent.com504.project.model.party.dto.Party" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="UserHasAddress" source="org.solent.com504.project.model.user.dto.User" target="org.solent.com504.project.model.party.dto.Address" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="messageHasMessageType" source="org.solent.com504.project.model.auction.dto.Message" target="org.solent.com504.project.model.auction.dto.MessageType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasSeller" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="auctionHasRegisteredParties" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.party.dto.Party" sourceCardinality="0..*" targetCardinality="0..*"/>
+    <UseRelation name="usesAuction" source="org.solent.com504.project.model.auction.dao.AuctionDAO" target="org.solent.com504.project.model.auction.dto.Auction" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hasStatus" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.party.dto.PartyStatus" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="AuctionHasLots" source="org.solent.com504.project.model.auction.dto.Auction" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="usesUser" source="org.solent.com504.project.model.user.dao.UserDAO" target="org.solent.com504.project.model.user.dto.User" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesRole" source="org.solent.com504.project.model.user.dao.RoleDAO" target="org.solent.com504.project.model.user.dto.Role" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="org.solent.com504.project.model.rest.RestClient" target="org.solent.com504.project.model.rest.RestService" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="lotHasBuyer" source="org.solent.com504.project.model.party.dto.Party" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="0..1" targetCardinality="0..*"/>
+    <UseRelation name="ViewController" source="org.solent.com504.project.model.web.ViewController" target="org.solent.com504.project.model.web.JSP_Pages_do_not_generate" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesServiceFacade" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.service.ServiceFacade" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesLot" source="org.solent.com504.project.model.auction.dao.LotDAO" target="org.solent.com504.project.model.auction.dto.Lot" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesPartyDAO" source="org.solent.com504.project.model.service.ServiceFacade" target="org.solent.com504.project.model.party.dao.PartyDAO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="roleHasUsers" source="org.solent.com504.project.model.user.dto.Role" target="org.solent.com504.project.model.user.dto.User" sourceCardinality="1..1" targetCardinality="0..*"/>
+    <UseRelation name="restInteraceUsesReplyMessage" source="org.solent.com504.project.model.rest.RestService" target="org.solent.com504.project.model.dto.ReplyMessage" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="useUserRoles" source="org.solent.com504.project.model.user.dto.Role" target="org.solent.com504.project.model.user.dto.UserRoles" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="usesMessages" source="org.solent.com504.project.model.auction.message.AuctionWebSocketMessagingService" target="org.solent.com504.project.model.auction.dto.Message" sourceCardinality="1..1" targetCardinality="0..*"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
