@@ -19,7 +19,9 @@ import org.solent.com600.example.journeyplanner.model.ServiceFacade;
 import org.solent.com600.example.journeyplanner.service.ServiceFacadeImpl;
 
 // possibly replace with https://stackoverflow.com/questions/35301409/migrating-from-sun-misc-base64-to-java-8-java-util-base64
-import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Decoder;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 
 public class AuthenticationService {
 
@@ -37,7 +39,8 @@ public class AuthenticationService {
         final String encodedUserPassword = credential.replaceFirst("Basic" + " ", "");
         String usernameAndPassword = null;
         try {
-            byte[] decodedBytes = new BASE64Decoder().decodeBuffer(encodedUserPassword);
+            //byte[] decodedBytes = new BASE64Decoder().decodeBuffer(encodedUserPassword);
+            byte[] decodedBytes = Base64.getDecoder().decode(encodedUserPassword);
             usernameAndPassword = new String(decodedBytes, "UTF-8");
         } catch (IOException e) {
             LOG.error("exception decoding basic authentication: ", e);

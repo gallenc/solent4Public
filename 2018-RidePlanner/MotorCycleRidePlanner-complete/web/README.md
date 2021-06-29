@@ -9,7 +9,11 @@ mvn jetty:run
 
 The application should be available at http://localhost:8680
 
-You can create,deleteand update entities using the app
+You can create,delete and update entities using the app
+
+On first run the username is admin and password is admin
+
+This will allow you to create and manage alternative accounts.
 
 ## ReST
 
