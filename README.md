@@ -23,3 +23,6 @@ The [examples](../master/examples) folder contains various examples, archetypes 
 
 # Workup
 The The [workup](../master/workup) folder contains misellaneous on going development end experiments in support of this project.
+
+#Changes
+Branch v0.2-java8-rideout - this is the original code without updates to run on Java 11
